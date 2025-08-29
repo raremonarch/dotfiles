@@ -1,37 +1,40 @@
 [user]
-	name = David McKee
-	email = daevski@gmail.com
-[diff]
-	tool = kdiff3
-	guitool = kdiff3
-[difftool "diffmerge"]
-	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
-[merge]
-	tool = diffmerge
-	tool = kdiff3
-	tool = kdiff3
-[mergetool "diffmerge"]
-	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-	trustExitCode = true
-[winUpdater]
-	recentlySeenVersion = 2.25.0.windows.1
-[difftool "kidff3"]
-	cmd = kidff3 \"$LOCAL\" \"$REMOTE\"
-[mergetool "kidff3"]
-	cmd = "kidff3 --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-	trustExitCode = true
-[mergetool "kdiff3"]
-	trustExitCode = true
-	path = C:/Program Files/KDiff3/kdiff3.exe
-	trustExitCode = false
-[difftool "kdiff3"]
-	cmd = kdiff3 \"$LOCAL\" \"$REMOTE\"
-	path = C:/Program Files/KDiff3/kdiff3.exe
-	trustExitCode = false
+    name = David McKee
+    email = git-author.n4t20@simplelogin.com
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[credential]
-	helper = wincred
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+# windows only below
+
+# [diff]
+#   tool = kdiff3
+#   guitool = kdiff3
+# [difftool "diffmerge"]
+#   cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+# [merge]
+#   tool = diffmerge
+#   tool = kdiff3
+#   tool = kdiff3
+# [mergetool "diffmerge"]
+#   cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+#   trustExitCode = true
+# [winUpdater]
+#   recentlySeenVersion = 2.25.0.windows.1
+# [difftool "kidff3"]
+#   cmd = kidff3 \"$LOCAL\" \"$REMOTE\"
+# [mergetool "kidff3"]
+#   cmd = "kidff3 --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+#   trustExitCode = true
+# [mergetool "kdiff3"]
+#   trustExitCode = true
+#   path = C:/Program Files/KDiff3/kdiff3.exe
+#   trustExitCode = false
+# [difftool "kdiff3"]
+#   cmd = kdiff3 \"$LOCAL\" \"$REMOTE\"
+#   path = C:/Program Files/KDiff3/kdiff3.exe
+#   trustExitCode = false
+# [credential]
+#   helper = wincred

@@ -1,15 +1,23 @@
-#Files
+# ignore everything by default
+# please sort sections below
 *
-# All except:
-!.gitignore
+
+# include files
+!.bashrc
 !.gitconfig
-!.bash_rc
+!.gitignore
 !.inputrc
 !.minttyrc
+!.vimrc
+!mypackages.txt
+!mysetupcommands.sh
 
-# Folders
-# All except:
-!.openstack/
-!.openstack/*
-!.ssh/
-!.ssh/*.pub
+# include folders
+!.bashrc.d/
+!.bashrc.d/**
+!.config/
+!.config/**
+!.icons/
+!.icons/**
+!.themes/
+!.themes/**
