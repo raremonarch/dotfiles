@@ -1,0 +1,14 @@
+[workspace]
+command=i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2
+interval=1
+separator_block_width=15
+markup=pango
+
+[time]
+command=date '+%H:%M %B %d'
+interval=1
+color=#cdd6f4
+
+[battery]
+command=acpi -b | grep -o '[0-9]*%'
+interval=30

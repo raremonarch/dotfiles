@@ -16,7 +16,14 @@
 !.bashrc.d/
 !.bashrc.d/**
 !.config/
-!.config/**
+!.config/alacritty/
+!.config/alacritty/**
+!.config/i3/
+!.config/i3/**
+!.config/i3blocks/
+!.config/i3blocks/**
+!.config/scripts/
+!.config/scripts/**
 !.icons/
 !.icons/**
 !.themes/

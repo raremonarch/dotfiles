@@ -35,11 +35,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && ~/.config/scripts/volume-indicator.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && ~/.config/scripts/volume-indicator.sh
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && ~/.config/scripts/volume-indicator.sh
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -179,32 +177,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# class                 border  bground text    indicator child_border
-client.focused          #83CAFA #51A2DA #FFFFFF #83CAFA   #51A2DA
-client.focused_inactive #8C8C8C #4C4C4C #FFFFFF #4C4C4C   #8C8C8C
-client.unfocused        #4C4C4C #222222 #888888 #292D2E   #222222
-client.urgent           #EC69A0 #DB3279 #FFFFFF #DB3279   #DB3279
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
-
-client.background       #FFFFFF
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-#bar {
-#  colors {
-#    background #000000
-#    statusline #FFFFFF
-#    separator  #666666
-#
-#    focused_workspace  #83CAFA #51A2DA #FFFFFF
-#    active_workspace   #3C6EB4 #294172 #FFFFFF
-#    inactive_workspace #8C8C8C #4C4C4C #888888
-#    urgent_workspace   #EC69A0 #DB3279 #FFFFFF
-#    binding_mode       #b691d3 #A07CBC #FFFFFF
-#  }
-#  status_command i3status
-#}
-
 
 ################
 ## theme stuff #
@@ -213,16 +185,47 @@ client.background       #FFFFFF
 # wallpaper
 exec_always --no-startup-id feh --bg-fill $HOME/Pictures/dusk-mountain.jpg
 
-# use polybar instead of default bar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# Catppuccin Mocha colors
+set $rosewater #f5e0dc
+set $flamingo  #f2cdcd
+set $pink      #f5c2e7
+set $mauve     #cba6f7
+set $red       #f38ba8
+set $maroon    #eba0ac
+set $peach     #fab387
+set $yellow    #f9e2af
+set $green     #a6e3a1
+set $teal      #94e2d5
+set $sky       #89dceb
+set $sapphire  #74c7ec
+set $blue      #89b4fa
+set $lavender  #b4befe
+set $text      #cdd6f4
+set $subtext1  #bac2de
+set $subtext0  #a6adc8
+set $overlay2  #9399b2
+set $overlay1  #7f849c
+set $overlay0  #6c7086
+set $surface2  #585b70
+set $surface1  #45475a
+set $surface0  #313244
+set $base      #1e1e2e
+set $mantle    #181825
+set $crust     #11111b
 
-# color theme
-client.background       #1d1f21
-client.focused          #707880 #1d1f21 #707880 #8c9440 #8c9440
-client.unfocused        #707880 #1d1f21 #707880 #5f819d #5f819d
-client.focused_inactive #707880 #1d1f21 #707880 #5f819d #5f819d
-client.urgent           #707880 #1d1f21 #707880 #a54242 #a54242
-client.placeholder      #707880 #1d1f21 #707880 #5f819d #5f819d
+# use i3blocks for the bar
+bar {
+    status_command i3blocks
+    colors {
+        background $base
+        statusline $text
+        separator $overlay0
+        focused_workspace  $lavender $lavender $base
+        active_workspace   $overlay0 $overlay0 $text
+        inactive_workspace $base $base $text
+        urgent_workspace   $red $red $base
+    }
+}
 
 # i3 gaps configuration
 gaps inner 10
