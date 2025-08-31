@@ -1,9 +1,0 @@
-BoldAsFont=yes
-Transparency=high
-Columns=128
-Rows=30
-ScrollMod=off
-MiddleClickAction=void
-RightClickAction=paste
-BoldAsColour=yes
-AllowBlinking=yes
