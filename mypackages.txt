@@ -1,1 +1,1 @@
-vim i3-gaps i3lock alacritty xinput light rofi remmina openssl git nmtui scrot flameshot copyq libnotify xev xdotool i3blocks
+vim i3-gaps i3lock alacritty xinput light rofi remmina openssl git nmtui scrot flameshot copyq libnotify xev xdotool i3blocks fastfetch
