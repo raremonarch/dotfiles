@@ -28,4 +28,9 @@ echo "$_step adding MS vscode package repository... "
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null && dnf check-update > /dev/null && echo "done"
 
+# install synology drive
+sudo dnf copr enable emixampp/synology-drive -y
+sudo dnf install synology-drive-noextra -y
+
+
 echo "allll done!"
