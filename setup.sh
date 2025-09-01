@@ -1,7 +1,6 @@
 #!/bin/sh
 
 _step='> '
-_hostname=ideapod3
 _lightdm_image=$HOME/Pictures/dusk-mountain.jpg
 
 ## CONFIG ABOVE; SCRIPT BELOW ##
@@ -14,10 +13,6 @@ sudo echo "ok"
 echo -n "$_step setting lightdm (login) background image... "
 sudo cp $_lightdm_image /usr/share/pixmaps/wallpaper.jpg && \
 sudo sed -i "/^\[greeter\]/, /^\[/ s|^background=.*|background=/usr/share/pixmaps/wallpaper.jpg|" /etc/lightdm/lightdm-gtk-greeter.conf && echo 'done'
-
-#set touchpad stuff
-echo -n "$_step setting hostname to $_hostname... "
-sudo hostnamectl set-hostname ideapod3 && echo "done"
 
 # add user to video group for 'light' (brightness) package usage
 echo -n "$_step adding user to 'video' gtroup for brightness controls... "
