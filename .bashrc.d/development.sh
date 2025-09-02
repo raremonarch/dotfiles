@@ -1,3 +1,25 @@
+#!/bin/bash
+# ~/.bashrc.d/development.sh
+
+# --------------------
+#         Git
+# --------------------
+alias gitaddcommit='git add -A . && git commit -m '
+
+function clone-eis () {
+    if [ -z ${1} ]; then
+        echo "Usage: clone-eis git@github.com:EBSCOIS/devex-gha-workflows.git"
+    else
+        git clone "${1//github.com/gh-eis}"
+    fi
+}
+function clone-daev () {
+    if [ -z ${1} ]; then
+        echo "Usage: clone-daev git@github.com:EBSCOIS/devex-gha-workflows.git"
+    else
+        git clone "${1//github.com/gh-daev}"
+    fi
+}
 # -----------------------
 #         Docker         
 # -----------------------

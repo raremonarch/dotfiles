@@ -11,7 +11,9 @@
 !packages.txt
 !setup.sh
 
-# include folders and folders from the depths
+# stuff from the depths
+!.ssh/
+!.ssh/config
 !.bashrc.d/
 !.bashrc.d/**
 !.config/
