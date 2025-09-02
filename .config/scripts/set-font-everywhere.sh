@@ -110,7 +110,7 @@ update_i3() {
 main() {
   check_args
   check_font_installed
-  echo "Setting font to: $FONT_NAME, size: $FONT_SIZE"
+  echo "Setting font to: $FONT_NAME ... "
   update_alacritty
   update_gtk3
   update_gtk2

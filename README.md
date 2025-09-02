@@ -30,11 +30,14 @@ Manually review and merge any files from the repository that you wish to include
 To track new files or folders in your home directory, add them to your `.gitignore` file. Be selective to avoid overburdening the repository. Only add files and folders that are important to track.
 
 **Note:**
+
 - To properly track a folder and all its contents, you need to list the folder twice in `.gitignore`: once as the folder name, and a second time with a trailing `/**` to include all files and subfolders. For example:
-  ```
+
+  ```plaintext
   myfolder
   myfolder/**
   ```
+
 - However, it is generally better to target specific files rather than entire folders, to keep the repository manageable.
 
 ## 5. Commit and Push Changes
