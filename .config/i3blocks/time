@@ -1,7 +1,0 @@
-#!/bin/bash
-
-date_str=$(date '+%H:%M')
-echo "$date_str"
-echo "$date_str"
-echo "#74c7ec"
-
