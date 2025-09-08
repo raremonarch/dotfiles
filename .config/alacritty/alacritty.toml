@@ -1,8 +1,8 @@
 [font]
-normal.family = "AudioLinkMono"
-bold.family = "AudioLinkMono"
-italic.family = "AudioLinkMono"
-size = 12.0
+normal.family = "AudioLink Mono"
+bold.family = "AudioLink Mono"
+italic.family = "AudioLink Mono"
+size = 11.0
 
 [general]
 import = [
