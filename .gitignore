@@ -28,6 +28,8 @@
 !.config/scripts/**
 !.config/xfce4/
 !.config/xfce4/helpers.rc
+!.vscode/
+!.vscode/argv.json
 
 # keep at the bottom
 *.bak.*
