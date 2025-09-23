@@ -20,6 +20,11 @@ function clone-daev () {
         git clone "${1//github.com/gh-daev}"
     fi
 }
+function git-del-branch() {
+  branch="$1"
+  git checkout main
+  git branch -D "$branch" && git push origin --delete "$branch" && git fetch --prune
+}
 # -----------------------
 #         Docker         
 # -----------------------

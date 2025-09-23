@@ -7,8 +7,7 @@
     process = git-lfs filter-process
     required = true
 
-# windows only below
-
+# windows only 
 # [diff]
 #   tool = kdiff3
 #   guitool = kdiff3
@@ -38,3 +37,4 @@
 #   trustExitCode = false
 # [credential]
 #   helper = wincred
+
