@@ -48,4 +48,8 @@ else
     echo "TerminalEmulator=/usr/bin/alacritty" >> ~/.config/xfce4/helpers.rc
 fi
 
+# # Synology NFS mounts
+# 192.168.1.206:/volume1/homes   /mnt/synology-nas/homes   nfs   defaults,_netdev   0 0
+# 192.168.1.206:/volume1/media   /mnt/synology-nas/media   nfs   defaults,_netdev   0 0
+
 echo "allll done!"
