@@ -1,0 +1,24 @@
+{
+    "height": 10, /* Match thinner height */
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["cpu", "memory", "network", "network#ip", "pulseaudio", "battery", "tray"],
+    "clock": {
+        "format": "{:%H:%M}"
+    },
+    "cpu": {
+        "format": "cpu[{usage}%]"
+    },
+    "memory": {
+        "format": "mem[{percentage}%]"
+    },
+    "pulseaudio": {
+        "format": "vol[{volume}%]"
+    },
+    "network": {
+        "format": "net[{ifname}]"
+    },
+    "network#ip": {
+        "format": "ip[{ipaddr}]"
+    }
+}

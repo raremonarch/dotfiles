@@ -1,35 +1,43 @@
-# ignore everything by default
-# please sort sections below
-*
+# please sort sections
 
-# root files
-!.bashrc
-!.gitconfig
-!.gitignore
-!.inputrc
-!.vimrc
-!packages.txt
-!setup.sh
-
-# stuff from the depths
-!.ssh/
+# Allow
 !.ssh/config
-!.bashrc.d/
-!.bashrc.d/**
-!.config/
-!.config/alacritty/
-!.config/alacritty/**
-!.config/i3/
-!.config/i3/**
-!.config/i3blocks/
-!.config/i3blocks/**
-!.config/redshift.conf
-!.config/scripts/
-!.config/scripts/**
-!.config/xfce4/
-!.config/xfce4/helpers.rc
-!.vscode/
 !.vscode/argv.json
 
-# keep at the bottom
-*.bak.*
+# Ignore
+
+## Default Folders
+Desktop
+Documents
+Downloads
+Music
+Pictures
+Public
+Templates
+Videos
+
+## Others
+.bash_*
+.cache
+.config/.gsd-keyboard.settings-ported
+.config/abrt
+.config/Code
+.config/copyq
+.config/dconf
+.config/evolution
+.config/gnome-initial-setup-done
+.config/gnome-session
+.config/goa-*
+.config/google-chrome*
+.config/ibus
+.config/org.gnome.*
+.config/pulse
+.config/Thunar
+.config/user-dirs*
+.local
+.mozilla
+.pki
+.ssh
+.vim
+.viminfo
+.vscode

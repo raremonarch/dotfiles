@@ -1,0 +1,30 @@
+* {
+    font-family: "AudioLink Mono";
+    font-size: 12px; /* Smaller font */
+    min-height: 12px; /* Reduce vertical padding */
+    padding: 1px 2px; /* Tighten horizontal padding */
+    margin: 1px;
+}
+#waybar {
+    min-height: 20px; /* Thinner bar (adjust as needed) */
+}
+
+#waybar {
+    background: #2e2e2e; /* Dark gray background */
+    color: #ffffff; /* White text */
+}
+#workspaces button {
+    background: transparent; /* No background for workspace buttons */
+    color: #ffffff; /* White text/icons */
+}
+#workspaces button.focused {
+    background: #4a4a4a; /* Slightly lighter gray for active workspace */
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray {
+    color: #ffffff; /* White text/icons */
+    padding: 0 8px;
+    background-color: black;
+}
+#clock {
+    background: transparent; /* No background for modules */
+}

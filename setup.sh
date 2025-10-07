@@ -1,7 +1,7 @@
 #!/bin/sh
 
 _step='> '
-_lightdm_image=$HOME/Pictures/dusk-mountain.jpg
+#_lightdm_image=$HOME/Pictures/dusk-mountain.jpg
 
 ## CONFIG ABOVE; SCRIPT BELOW ##
 
@@ -10,9 +10,9 @@ echo
 echo -n "we gonna be usin' sudo... "
 sudo echo "ok"
 
-echo -n "$_step setting lightdm (login) background image... "
-sudo cp $_lightdm_image /usr/share/pixmaps/wallpaper.jpg && \
-sudo sed -i "/^\[greeter\]/, /^\[/ s|^background=.*|background=/usr/share/pixmaps/wallpaper.jpg|" /etc/lightdm/lightdm-gtk-greeter.conf && echo 'done'
+#echo -n "$_step setting lightdm (login) background image... "
+#sudo cp $_lightdm_image /usr/share/pixmaps/wallpaper.jpg && \
+#sudo sed -i "/^\[greeter\]/, /^\[/ s|^background=.*|background=/usr/share/pixmaps/wallpaper.jpg|" /etc/lightdm/lightdm-gtk-greeter.conf && echo 'done'
 
 # add user to video group for 'light' (brightness) package usage
 echo -n "$_step adding user to 'video' gtroup for brightness controls... "
@@ -22,6 +22,7 @@ sudo usermod -a -G video $USER && echo 'done'
 echo "$_step adding MS vscode package repository... "
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null && dnf check-update > /dev/null && echo "done"
+code || echo 'NOTICE: code is not yet installed, but the repo has been setup.'
 
 # instal docker engine package repository
 sudo dnf config-manager addrepo --from-repofile="https://download.docker.com/linux/fedora/docker-ce.repo"
