@@ -6,6 +6,9 @@ x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 application/x-shellscript=code.desktop
 text/plain=code.desktop
+application/x-synology-drive-doc=synology-drive-open-file.desktop
+application/x-synology-drive-sheet=synology-drive-open-file.desktop
+application/x-synology-drive-slides=synology-drive-open-file.desktop
 
 [Added Associations]
 application/x-shellscript=code.desktop;
