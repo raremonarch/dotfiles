@@ -1,6 +1,8 @@
 # Dotfiles & Fedora Setup System
 
-This repository manages configuration files (dotfiles) and provides a modular setup system for fresh Fedora installations. The configuration files are version-controlled, while the setup scripts handle system configuration, package installation, and dynamic updates.
+This repository manages configuration files (dotfiles) and provides a modular setup system for fresh Fedora installations. The configuration files (i.e., `~/.config` and the like) are version-controlled, while the `setup.sh`/`setup.d/` scripts handle system configuration, package installation, and dynamic updates that are not captured in the configuration files. 
+
+This project is a work-in-progress and will likely change based on my personal preferences... but the modular `setup.sh` tool may be useful to other linux users! Read on to learn more!
 
 ## Quick Start
 
