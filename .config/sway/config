@@ -12,15 +12,8 @@ set {
     $opacity            0.85
     $menu               rofi -terminal '$term' -show combi -combi-modes drun#run -modes combi
     $clipboard_history  copyq toggle
-    $sys_idle           swayidle -w timeout 300 'swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg' timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg'
+    $sys_idle           swayidle -w timeout 300 'swaylock -f' timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f'
 }
-
-# Cursor configuration
-seat * xcursor_theme breeze_cursors 20
-
-# Cursor configuration
-
-# Cursor configuration
 
 default_border pixel $border_size
 gaps {
@@ -30,6 +23,7 @@ gaps {
     outer       $outer_gap
 }
 floating_modifier $mod normal
+seat * xcursor_theme breeze_cursors 20
 
 exec copyq
 exec flameshot
@@ -45,7 +39,7 @@ bindsym {
     $mod+r exec $menu
     $mod+Return exec $term
     $mod+e exec $fileManager
-    $mod+l exec swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg -s fill
+    $mod+l exec swaylock -f
     Ctrl+Alt+backslash exec $clipboard_history
 
     $mod+Up focus up
