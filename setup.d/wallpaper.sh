@@ -6,16 +6,16 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-_wallpaper="$1"
+_wallpaper_path="$1"
 
 # Check if wallpaper file exists
-if [ ! -f "$_wallpaper" ]; then
-    echo "ERROR: wallpaper file '$_wallpaper' not found"
+if [ ! -f "$_wallpaper_path" ]; then
+    echo "ERROR: wallpaper file '$_wallpaper_path' not found"
     exit 1
 fi
 
-_wallpaper_name=$(basename "$_wallpaper")
-_wallpaper_dir=$(dirname "$_wallpaper")
+_wallpaper_name=$(basename "$_wallpaper_path")
+_wallpaper_dir=$(dirname "$_wallpaper_path")
 _wallpaper_base="${_wallpaper_name%.*}"
 _wallpaper_ext="${_wallpaper_name##*.}"
 
@@ -35,9 +35,10 @@ if ! command -v magick >/dev/null 2>&1; then
 else
     # Get image dimensions using ImageMagick
     echo -n "detecting image dimensions ... "
-    _dimensions=$(magick identify -format "%wx%h" "$_wallpaper" 2>/dev/null)
+    _dimensions=$(magick identify -format "%wx%h" "$_wallpaper_path")
+    _exit_code=$?
     
-    if [ $? -eq 0 ] && [ -n "$_dimensions" ]; then
+    if [ $_exit_code -eq 0 ] && [ -n "$_dimensions" ]; then
         _width=$(echo "$_dimensions" | cut -d'x' -f1)
         _height=$(echo "$_dimensions" | cut -d'x' -f2)
         echo "done (${_width}x${_height})"
@@ -87,7 +88,7 @@ _system_split_1="$_system_wallpaper_dir/${_wallpaper_base}-1.${_wallpaper_ext}"
 
 # Copy original wallpaper to system directory (needed for all targets)
 echo -n "copying wallpaper to system directory ... "
-if sudo cp "$_wallpaper" "$_system_wallpaper" 2>/dev/null; then
+if sudo cp "$_wallpaper_path" "$_system_wallpaper"; then
     echo "done"
 else
     echo "failed to copy wallpaper to system directory"
@@ -109,7 +110,7 @@ if [ "$_is_dual_monitor" = true ] && [[ " ${_wallpaper_targets[*]} " == *" deskt
         fi
         
         echo -n "splitting wallpaper into dual monitor versions ... "
-        if sudo magick "$_system_wallpaper" -crop 50%x100% +repage +adjoin "${_system_wallpaper_dir}/${_wallpaper_base}-%d.${_wallpaper_ext}" 2>/dev/null; then
+        if sudo magick "$_system_wallpaper" -crop 50%x100% +repage +adjoin "${_system_wallpaper_dir}/${_wallpaper_base}-%d.${_wallpaper_ext}"; then
             echo "done"
         else
             echo "failed to split wallpaper"
