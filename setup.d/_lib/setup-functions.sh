@@ -37,7 +37,7 @@ setup_wallpaper() {
     if [ -n "$wallpaper_path" ]; then
         echo -n "> setting up wallpaper ... "
         wallpaper_expanded=$(eval echo "$wallpaper_path")
-        "${_scripts}wallpaper.sh" "$wallpaper_expanded"
+        source ${_scripts}wallpaper.sh "$wallpaper_expanded"
     else
         echo "> no wallpaper specified, skipping"
     fi
