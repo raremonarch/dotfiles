@@ -175,15 +175,15 @@ else
     echo "No network mount configurations defined in setup.conf"
 fi
 
-# Process local mounts
-if [ -n "${_local_mounts[*]}" ]; then
+# Process local media drives
+if [ -n "${_local_media[*]}" ]; then
     echo ""
-    echo "=== Processing Local Mounts ==="
-    for config in "${_local_mounts[@]}"; do
+    echo "=== Processing Local Media Drives ==="
+    for config in "${_local_media[@]}"; do
         process_mount_config "$config" "local"
     done
 else
-    echo "No local mount configurations defined in setup.conf"
+    echo "No local media drive configurations defined in setup.conf"
 fi
 
 echo ""
@@ -221,10 +221,10 @@ if [ -n "${_network_mounts[*]}" ]; then
     done
 fi
 
-# Show local mount results
-if [ -n "${_local_mounts[*]}" ]; then
-    echo "Local Mounts:"
-    for config in "${_local_mounts[@]}"; do
+# Show local media drive results
+if [ -n "${_local_media[*]}" ]; then
+    echo "Local Media Drives:"
+    for config in "${_local_media[@]}"; do
         # Skip comments
         [[ "$config" =~ ^[[:space:]]*# ]] && continue
         
@@ -252,3 +252,60 @@ if [ -n "${_local_mounts[*]}" ]; then
         fi
     done
 fi
+
+# Function to organize fstab entries into logical groups
+organize_fstab() {
+    echo ""
+    echo "=== Organizing /etc/fstab ==="
+    
+    local temp_fstab="/tmp/fstab.organized"
+    local original_fstab="/etc/fstab"
+    
+    # Extract the header comments
+    echo -n "  organizing fstab entries ... "
+    {
+        # Header section
+        grep "^#" "$original_fstab"
+        echo ""
+        
+        # System mounts (/, /boot, /home, swap)
+        echo "# System mounts"
+        grep -E "^[^#].*[[:space:]]/(boot|home)?[[:space:]]" "$original_fstab" | grep -v "_netdev"
+        echo ""
+        
+        # Network mounts (anything with _netdev)
+        if grep -q "_netdev" "$original_fstab"; then
+            echo "# Network mounts"
+            grep "_netdev" "$original_fstab" | grep -v "^#"
+            echo ""
+        fi
+        
+        # Local media drives (exFAT, NTFS, etc. mounted to /media/)
+        if grep -E "^UUID=.*[[:space:]]/media/" "$original_fstab" > /dev/null; then
+            echo "# Local media drives"
+            grep -E "^UUID=.*[[:space:]]/media/" "$original_fstab"
+        fi
+        
+    } > "$temp_fstab"
+    
+    # Replace the original fstab with organized version
+    if sudo cp "$temp_fstab" "$original_fstab"; then
+        echo "done"
+        sudo rm -f "$temp_fstab"
+    else
+        echo "failed"
+        rm -f "$temp_fstab"
+        return 1
+    fi
+    
+    # Reload systemd after fstab reorganization
+    echo -n "  reloading systemd after organization ... "
+    if sudo systemctl daemon-reload 2>/dev/null; then
+        echo "done"
+    else
+        echo "failed (continuing anyway)"
+    fi
+}
+
+# Organize fstab entries after all mounts are configured
+organize_fstab
