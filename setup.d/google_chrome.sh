@@ -1,0 +1,2 @@
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager addrepo --id=google-chrome --set=baseurl=https://dl.google.com/linux/chrome/rpm/stable/x86_64 --set=name=google-chrome --set=enabled=1 --set=gpgcheck=1 --set=gpgkey=https://dl.google.com/linux/linux_signing_key.pub

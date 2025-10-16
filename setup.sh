@@ -1,56 +1,90 @@
-#!/bin/sh
+#!/bin/bash
 
-_step='> '
-#_lightdm_image=$HOME/Pictures/dusk-mountain.jpg
+_scripts="$HOME/setup.d/"
+_packages="$HOME/packages.txt"
+_desktop=$(echo $XDG_CURRENT_DESKTOP)
 
-## CONFIG ABOVE; SCRIPT BELOW ##
-
-# ask user to do the sudo
-echo
-echo -n "we gonna be usin' sudo... "
-sudo echo "ok"
-
-#echo -n "$_step setting lightdm (login) background image... "
-#sudo cp $_lightdm_image /usr/share/pixmaps/wallpaper.jpg && \
-#sudo sed -i "/^\[greeter\]/, /^\[/ s|^background=.*|background=/usr/share/pixmaps/wallpaper.jpg|" /etc/lightdm/lightdm-gtk-greeter.conf && echo 'done'
-
-# add user to video group for 'light' (brightness) package usage
-echo -n "$_step adding user to 'video' gtroup for brightness controls... "
-sudo usermod -a -G video $USER && echo 'done'
-
-# add vscode via package repository
-echo "$_step adding MS vscode package repository... "
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null && dnf check-update > /dev/null && echo "done"
-code || echo 'NOTICE: code is not yet installed, but the repo has been setup.'
-
-# instal docker engine package repository
-sudo dnf config-manager addrepo --from-repofile="https://download.docker.com/linux/fedora/docker-ce.repo"
-sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo groupadd docker 
-sudo gpasswd -a ${USER} docker
-sudo systemctl restart docker
-newgrp docker
-# NOTE: ^ This change usually requires the user to 
-# log out of their desktop session and then back in again.
-
-# install synology drive
-sudo dnf copr enable emixampp/synology-drive -y
-sudo dnf install synology-drive-noextra -y
-
-# set alacritty as the default terminal system-wide
-sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 50
-sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty
-if grep -q "^TerminalEmulator=" ~/.config/xfce4/helpers.rc 2>/dev/null; then
-    sed -i 's|^TerminalEmulator=.*|TerminalEmulator=/usr/bin/alacritty|' ~/.config/xfce4/helpers.rc
+# Load configuration from setup.conf
+if [ -f "$HOME/setup.conf" ]; then
+    source "$HOME/setup.conf"
 else
-    echo "TerminalEmulator=/usr/bin/alacritty" >> ~/.config/xfce4/helpers.rc
+    echo "ERROR: Configuration file '$HOME/setup.conf' not found"
+    echo "Please create setup.conf with your preferences"
+    exit 1
 fi
 
-# # Synology NFS mounts
-# 192.168.1.206:/volume1/homes   /mnt/synology-nas/homes   nfs   defaults,_netdev   0 0
-# 192.168.1.206:/volume1/media   /mnt/synology-nas/media   nfs   defaults,_netdev   0 0
+# Required non-boolean preferences (script will fail if not set)
+# Only include preferences that have corresponding scripts in setup.d/
+_required_prefs=("_hostname" "_wallpaper" "_cursor" "_editor")
 
-echo "allll done!"
+# Load library functions
+source "${_scripts}_lib/validation.sh"
+source "${_scripts}_lib/module-runner.sh"
+source "${_scripts}_lib/setup-functions.sh"
+
+# Validate preferences before any execution
+validate_preferences "$1"
+
+# Check if first argument matches a module name
+requested_module="$1"
+
+if [ -n "$requested_module" ] && [ "$requested_module" != "help" ] && [ "$requested_module" != "-h" ] && [ "$requested_module" != "--help" ]; then
+    # Check if it's a valid module (script exists)
+    script_file="$_scripts${requested_module}.sh"
+    if [ -f "$script_file" ]; then
+        echo 'Initializing...'
+        sudo -n true 2>/dev/null || sudo -v || exit 1
+        
+        # Use the same logic as module discovery - pass any additional arguments
+        process_module "$script_file" "${@:2}"
+        exit 0
+    fi
+fi
+
+# Handle special cases and fallbacks
+case "$requested_module" in
+    "help"|"-h"|"--help")
+        show_usage
+        exit 0
+        ;;
+    "repos")
+        echo 'Initializing...'
+        sudo -n true 2>/dev/null || sudo -v || exit 1
+        setup_repos
+        ;;
+    "packages")
+        echo 'Initializing...'
+        sudo -n true 2>/dev/null || sudo -v || exit 1
+        setup_packages
+        ;;
+    "")
+        # Run full setup with module discovery
+        echo 'Initializing...'
+        sudo -n true 2>/dev/null || sudo -v || exit 1
+
+        # First run core system setup
+        setup_repos
+        setup_packages
+        
+        # Then run discovered modules
+        run_discovered_modules
+        ;;
+    *)
+        if [ -n "$requested_module" ]; then
+            echo "Error: Unknown module '$requested_module'"
+            echo ""
+            echo "Available modules:"
+            for script_file in "$_scripts"*.sh; do
+                if [ -f "$script_file" ]; then
+                    module_name=$(basename "$script_file" .sh)
+                    echo "  - $module_name"
+                fi
+            done
+            echo ""
+            echo "Use '$0 help' for more information."
+            exit 1
+        fi
+        ;;
+esac
+
+

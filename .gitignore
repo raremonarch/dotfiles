@@ -1,12 +1,40 @@
-# please sort sections
+# please sort entries
 
-# Allow
 !.ssh/config
 !.vscode/argv.json
-
-# Ignore
-
-## Default Folders
+.bash_*
+.cache
+.config/.gsd-keyboard.settings-ported
+.config/abrt
+.config/autostart
+.config/Code
+.config/copyq
+.config/dconf
+.config/evolution
+.config/flameshot
+.config/freerdp
+.config/gnome-initial-setup-done
+.config/gnome-session
+.config/goa-*
+.config/google-chrome*
+.config/ibus
+.config/lxqt
+.config/org.gnome.*
+.config/pulse
+.config/remmina
+.config/Thunar
+.config/user-dirs*
+.config/xarchiver
+.dotnet
+.local
+.mozilla
+.ollama
+.pki
+.smbcredentials
+.ssh
+.vim
+.viminfo
+.vscode
 Desktop
 Documents
 Downloads
@@ -15,29 +43,4 @@ Pictures
 Public
 Templates
 Videos
-
-## Others
-.bash_*
-.cache
-.config/.gsd-keyboard.settings-ported
-.config/abrt
-.config/Code
-.config/copyq
-.config/dconf
-.config/evolution
-.config/gnome-initial-setup-done
-.config/gnome-session
-.config/goa-*
-.config/google-chrome*
-.config/ibus
-.config/org.gnome.*
-.config/pulse
-.config/Thunar
-.config/user-dirs*
-.local
-.mozilla
-.pki
-.ssh
-.vim
-.viminfo
-.vscode
+*.bak*
