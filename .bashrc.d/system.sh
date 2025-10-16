@@ -2,6 +2,8 @@ fastfetch # displays system details when terminal loads
 alias calc='galculator'
 alias pwdsize='du -sh .'
 alias tstamp='~/Scripts/timestamp-to-clipboard.sh'
+alias fproc='ps aux | grep -i'
+alias psg='ps aux | grep -i'
 alias llama='ollama run llama3'
 
 function confi3() {
