@@ -44,3 +44,5 @@ Public
 Templates
 Videos
 *.bak*
+*todo.md
+*.swp

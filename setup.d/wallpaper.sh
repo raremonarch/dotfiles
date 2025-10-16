@@ -165,20 +165,37 @@ configure_sway_desktop() {
 
 # Function to configure swaylock wallpaper
 configure_swaylock() {
+    SWAYLOCK_CONFIG="$HOME/.config/swaylock/config"
     SWAY_CONFIG="$HOME/.config/sway/config"
-    if [ ! -f "$SWAY_CONFIG" ]; then
-        echo "note: Sway config not found at $SWAY_CONFIG"
+    
+    if [ ! -f "$SWAYLOCK_CONFIG" ]; then
+        echo "note: Swaylock config not found at $SWAYLOCK_CONFIG"
         return 1
+    fi
+    
+    # Choose appropriate wallpaper for lock screen
+    local lock_wallpaper
+    if [ "$_is_dual_monitor" = true ]; then
+        # Use first half of split image for lock screen (looks better than full-width stretched)
+        lock_wallpaper="$_system_split_0"
+    else
+        lock_wallpaper="$_system_wallpaper"
     fi
     
     echo -n "updating swaylock wallpaper configuration ... "
     
-    # Update swayidle configuration
-    sed -i "s|swaylock -f -i [^']*|swaylock -f -i $_system_wallpaper|g" "$SWAY_CONFIG"
-    sed -i "s|swaylock -f -c [^']*|swaylock -f -i $_system_wallpaper -s fill|g" "$SWAY_CONFIG"
-    
-    # Update manual lock keybinding
-    sed -i "s|\$mod+l exec swaylock[^\"]*|\$mod+l exec swaylock -f -i $_system_wallpaper -s fill|" "$SWAY_CONFIG"
+    # Update only the image path in existing swaylock config
+    sed -i "s|^image=.*|image=$lock_wallpaper|" "$SWAYLOCK_CONFIG"
+
+    # Update Sway config to use simple swaylock commands (swaylock will read its own config)
+    if [ -f "$SWAY_CONFIG" ]; then
+        # Update swayidle configuration to use simple swaylock command
+        sed -i "s|swaylock -f -i [^']*|swaylock -f|g" "$SWAY_CONFIG"
+        sed -i "s|swaylock -f -c [^']*|swaylock -f|g" "$SWAY_CONFIG"
+        
+        # Update manual lock keybinding to use simple swaylock command
+        sed -i "s|\$mod+l exec swaylock[^\"]*|\$mod+l exec swaylock -f|" "$SWAY_CONFIG"
+    fi
     
     echo "done"
 }
@@ -191,8 +208,17 @@ configure_sddm() {
         return 1
     fi
     
+    # Choose appropriate wallpaper for login screen
+    local login_wallpaper
+    if [ "$_is_dual_monitor" = true ]; then
+        # Use first half of split image for login screen (looks better than full-width stretched)
+        login_wallpaper="$_system_split_0"
+    else
+        login_wallpaper="$_system_wallpaper"
+    fi
+    
     echo -n "updating SDDM theme wallpaper configuration ... "
-    if sudo sed -i "s|^background=.*|background=$_system_wallpaper|" "$SDDM_THEME_CONFIG"; then
+    if sudo sed -i "s|^background=.*|background=$login_wallpaper|" "$SDDM_THEME_CONFIG"; then
         echo "done"
     else
         echo "failed (insufficient permissions)"

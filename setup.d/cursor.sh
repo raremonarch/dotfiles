@@ -61,14 +61,6 @@ done
 echo "export XCURSOR_THEME=$CURSOR_THEME" >> "$PROFILE_FILE"
 echo "export XCURSOR_SIZE=$CURSOR_SIZE" >> "$PROFILE_FILE"
 
-# Create systemd user environment file for better integration
-SYSTEMD_ENV_DIR="$HOME/.config/environment.d"
-mkdir -p "$SYSTEMD_ENV_DIR"
-cat > "$SYSTEMD_ENV_DIR/cursor.conf" << EOF
-XCURSOR_THEME=$CURSOR_THEME
-XCURSOR_SIZE=$CURSOR_SIZE
-EOF
-
 # Set for current session
 export XCURSOR_THEME="$CURSOR_THEME"
 export XCURSOR_SIZE="$CURSOR_SIZE"
@@ -77,26 +69,27 @@ echo "done"
 
 # Update GTK settings file for additional compatibility
 GTK3_SETTINGS="$HOME/.config/gtk-3.0/settings.ini"
-if [ ! -d "$(dirname "$GTK3_SETTINGS")" ]; then
-    mkdir -p "$(dirname "$GTK3_SETTINGS")"
-fi
-
 echo -n "updating GTK3 cursor settings ... "
 if [ -f "$GTK3_SETTINGS" ]; then
     # Update existing file
     sed -i '/^gtk-cursor-theme-name=/d' "$GTK3_SETTINGS"
     sed -i '/^gtk-cursor-theme-size=/d' "$GTK3_SETTINGS"
-    echo "gtk-cursor-theme-name=$CURSOR_THEME" >> "$GTK3_SETTINGS"
-    echo "gtk-cursor-theme-size=$CURSOR_SIZE" >> "$GTK3_SETTINGS"
+    sed -i '/^\[Settings\]/a gtk-cursor-theme-name='"$CURSOR_THEME"'\ngtk-cursor-theme-size='"$CURSOR_SIZE" "$GTK3_SETTINGS"
+    echo "done"
 else
-    # Create new file
-    cat > "$GTK3_SETTINGS" << EOF
-[Settings]
-gtk-cursor-theme-name=$CURSOR_THEME
-gtk-cursor-theme-size=$CURSOR_SIZE
-EOF
+    echo "failed (GTK3 settings file not found)"
 fi
-echo "done"
+
+# Update systemd environment file
+SYSTEMD_ENV_FILE="$HOME/.config/environment.d/cursor.conf"
+echo -n "updating systemd cursor environment ... "
+if [ -f "$SYSTEMD_ENV_FILE" ]; then
+    sed -i "s|^XCURSOR_THEME=.*|XCURSOR_THEME=$CURSOR_THEME|" "$SYSTEMD_ENV_FILE"
+    sed -i "s|^XCURSOR_SIZE=.*|XCURSOR_SIZE=$CURSOR_SIZE|" "$SYSTEMD_ENV_FILE"
+    echo "done"
+else
+    echo "failed (systemd environment file not found)"
+fi
 
 # Configure for Sway if config exists
 SWAY_CONFIG="$HOME/.config/sway/config"

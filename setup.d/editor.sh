@@ -18,26 +18,15 @@ fi
 
 echo "Setting default editor to '$EDITOR_CHOICE'..."
 
-# Set EDITOR and VISUAL in .bashrc if not already set
-BASHRC="$HOME/.bashrc"
-if [ -f "$BASHRC" ]; then
-    echo -n "updating .bashrc environment variables ... "
-    
-    # Remove any existing EDITOR/VISUAL exports to avoid duplicates
-    sed -i '/^export EDITOR=/d' "$BASHRC"
-    sed -i '/^export VISUAL=/d' "$BASHRC"
-    
-    # Add new EDITOR and VISUAL exports
-    cat >> "$BASHRC" << EOF
-
-# Default editor configuration (set by setup system)
-export EDITOR="$EDITOR_CHOICE"
-export VISUAL="$EDITOR_CHOICE"
-EOF
-    
+# Update systemd user environment file
+EDITOR_ENV_FILE="$HOME/.config/environment.d/editor.conf"
+echo -n "updating editor environment configuration ... "
+if [ -f "$EDITOR_ENV_FILE" ]; then
+    sed -i "s|^EDITOR=.*|EDITOR=$EDITOR_CHOICE|" "$EDITOR_ENV_FILE"
+    sed -i "s|^VISUAL=.*|VISUAL=$EDITOR_CHOICE|" "$EDITOR_ENV_FILE"
     echo "done"
 else
-    echo "Warning: .bashrc not found, skipping shell configuration"
+    echo "failed (editor environment file not found)"
 fi
 
 # Set for current session
