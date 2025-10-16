@@ -1,0 +1,2 @@
+export XCURSOR_THEME=breeze_cursors
+export XCURSOR_SIZE=20

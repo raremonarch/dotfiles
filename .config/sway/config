@@ -1,0 +1,100 @@
+set {
+    $mod                Mod4
+    $term               alacritty
+    $fileManager        thunar
+    $browser            google-chrome
+    $editor             code
+    $border_size        1
+    $horizontal_gap     5
+    $vertical_gap       5
+    $inner_gap          5
+    $outer_gap          5 
+    $opacity            0.85
+    $menu               rofi -terminal '$term' -show combi -combi-modes drun#run -modes combi
+    $clipboard_history  copyq toggle
+    $sys_idle           swayidle -w timeout 300 'swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg' timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg'
+}
+
+# Cursor configuration
+seat * xcursor_theme breeze_cursors 20
+
+# Cursor configuration
+
+# Cursor configuration
+
+default_border pixel $border_size
+gaps {
+    horizontal  $horizontal_gap
+    vertical    $vertical_gap
+    inner       $inner_gap
+    outer       $outer_gap
+}
+floating_modifier $mod normal
+
+exec copyq
+exec flameshot
+# systemctl commands needed to import environment variables into systemd for desktop portals and services
+exec systemctl --user import-environment XDG_CURRENT_DESKTOP XDG_SESSION_TYPE WAYLAND_DISPLAY
+exec systemctl --user start graphical-session.target
+exec_always $sys_idle
+exec_always --no-startup-id sh -c 'sleep 1; killall waybar; waybar'
+
+workspace 1 output HDMI-A-1
+
+bindsym {
+    $mod+r exec $menu
+    $mod+Return exec $term
+    $mod+e exec $fileManager
+    $mod+l exec swaylock -f -i /usr/share/backgrounds/current_wallpaper.jpg -s fill
+    Ctrl+Alt+backslash exec $clipboard_history
+
+    $mod+Up focus up
+    $mod+Down focus down
+    $mod+Left focus left
+    $mod+Right focus right
+    $mod+Shift+Up move up
+    $mod+Shift+Down move down
+    $mod+Shift+Left move left
+    $mod+Shift+Right move right
+
+    $mod+Print exec flameshot gui
+    $mod+1 workspace number 1
+    $mod+2 workspace number 2
+    $mod+3 workspace number 3
+    $mod+4 workspace number 4
+    $mod+5 workspace number 5
+    $mod+6 workspace number 6
+    $mod+7 workspace number 7
+    $mod+8 workspace number 8
+    $mod+9 workspace number 9
+    $mod+0 workspace number 10
+    $mod+Shift+1 move container to workspace number 1
+    $mod+Shift+2 move container to workspace number 2
+    $mod+Shift+3 move container to workspace number 3
+    $mod+Shift+4 move container to workspace number 4
+    $mod+Shift+5 move container to workspace number 5
+    $mod+Shift+6 move container to workspace number 6
+    $mod+Shift+7 move container to workspace number 7
+    $mod+Shift+8 move container to workspace number 8
+    $mod+Shift+9 move container to workspace number 9
+    $mod+Shift+0 move container to workspace number 10
+    $mod+b splith
+    $mod+v splitv
+    $mod+s layout stacking
+    $mod+w layout tabbed
+    $mod+t layout toggle split
+    $mod+f fullscreen
+    $mod+Shift+space floating toggle
+    $mod+space focus mode_toggle
+    $mod+a focus parent
+    $mod+Shift+minus move scratchpad
+    $mod+minus scratchpad show
+    $mod+c kill
+    $mod+Shift+c reload
+    $mod+Escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+}
+
+input type:keyboard xkb_numlock enabled
+# to split a widescreen image: `magick convert input.jpg -crop 50%x100% +repage +adjoin output-%d.jpg`
+output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/current_wallpaper-0.jpg fill
+output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/current_wallpaper-1.jpg fill

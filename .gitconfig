@@ -38,3 +38,5 @@
 # [credential]
 #   helper = wincred
 
+[core]
+	editor = vim

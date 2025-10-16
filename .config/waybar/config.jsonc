@@ -1,24 +1,44 @@
 {
-    "height": 10, /* Match thinner height */
-    "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["clock"],
-    "modules-right": ["cpu", "memory", "network", "network#ip", "pulseaudio", "battery", "tray"],
+    "height": 10,
+    "modules-left": [
+        "sway/workspaces"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "pulseaudio",
+        "network",
+        "tray"
+    ],
     "clock": {
         "format": "{:%H:%M}"
     },
     "cpu": {
-        "format": "cpu[{usage}%]"
+        "format": "cpu [ {usage}% ]"
     },
     "memory": {
-        "format": "mem[{percentage}%]"
+        "format": "mem [ {percentage}% ]"
     },
     "pulseaudio": {
-        "format": "vol[{volume}%]"
+        "format": "vol [ {volume}% ]"
     },
     "network": {
-        "format": "net[{ifname}]"
+        "interval": 2,
+        "format-wifi": "wifi [ {essid} {signalStrength}% ]",
+        "format-ethernet": "eth [ {ifname} ]",
+        "format-linked": "eth [ {ifname} (no ip) ]",
+        "format-disconnected": "net [ disconnected ]",
+        "format-alt": "net [ {ifname}: {ipaddr}/{cidr} ]",
+        "tooltip-format": "Network: {ifname}\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}",
+        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)\nIP: {ipaddr}/{cidr}\nFrequency: {frequency}MHz",
+        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\nSpeed: {bandwidthUpBits}/{bandwidthDownBits}",
+        "tooltip-format-disconnected": "Network disconnected",
+        "on-click-right": "nm-connection-editor"
     },
     "network#ip": {
-        "format": "ip[{ipaddr}]"
+        "format": "ip [ {ipaddr} ]"
     }
 }

@@ -23,3 +23,7 @@ if [ -d ~/.bashrc.d ]; then
     done
 fi
 unset rc
+
+# Default editor configuration (set by setup system)
+export EDITOR="vim"
+export VISUAL="vim"
