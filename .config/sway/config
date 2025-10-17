@@ -90,5 +90,5 @@ bindsym {
 
 input type:keyboard xkb_numlock enabled
 # to split a widescreen image: `magick convert input.jpg -crop 50%x100% +repage +adjoin output-%d.jpg`
-output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/current_wallpaper-0.jpg fill
-output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/current_wallpaper-1.jpg fill
+output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/wallpaper-0.jpg fill
+output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/wallpaper-1.jpg fill
