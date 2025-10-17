@@ -573,8 +573,23 @@ if is_dotfiles_environment && [ $# -gt 0 ] && [[ "$1" != "-"* ]]; then
                 main_setup "$@"
                 exit $?
             else
-                # Not a valid module, continue with bootstrap logic
-                log_warning "Module '$1' not found, proceeding with bootstrap..."
+                # Not a valid module, show error and exit
+                log_warning "Module '$1' not found"
+                echo ""
+                echo "Available modules:"
+                if [ -d "$HOME/setup.d" ]; then
+                    for script in "$HOME/setup.d"/*.sh; do
+                        if [ -f "$script" ] && [[ "$(basename "$script")" != "_"* ]]; then
+                            echo "  - $(basename "$script" .sh)"
+                        fi
+                    done
+                else
+                    echo "  (no modules found - setup.d directory missing)"
+                fi
+                echo ""
+                echo "Usage: ./setup.sh <module> [arguments]"
+                echo "       ./setup.sh help              # Show all options"
+                exit 1
             fi
             ;;
     esac
