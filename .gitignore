@@ -2,6 +2,8 @@
 
 !.ssh/config
 !.vscode/argv.json
+.aws/cli/
+.aws/sso/
 .bash_*
 .cache
 .icons
