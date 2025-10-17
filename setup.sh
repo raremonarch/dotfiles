@@ -147,6 +147,28 @@ customize_setup_config() {
         new_editor=$(prompt_with_default "Preferred editor" "${current_editor:-vim}")
         sed -i "s/^_editor=.*/_editor='$new_editor'/" "$setup_conf"
         
+        # Wallpaper
+        current_wallpaper=$(grep "^_wallpaper=" "$setup_conf" | cut -d"'" -f2)
+        echo ""
+        echo "Available predefined wallpapers:"
+        
+        # Extract wallpaper names from _wallpaper_definitions
+        if grep -q "_wallpaper_definitions" "$setup_conf"; then
+            # Show available wallpapers
+            grep "_wallpaper_definitions" -A 20 "$setup_conf" | grep '".*:.*"' | while read line; do
+                if [[ "$line" =~ \"([^:]+): ]]; then
+                    echo "  - ${BASH_REMATCH[1]}"
+                fi
+            done
+            echo "  - (or enter a file path)"
+        else
+            echo "  - fractal-colors, mountain-lake, forest-mist, city-lights, abstract-waves"
+            echo "  - (or enter a file path)"
+        fi
+        
+        new_wallpaper=$(prompt_with_default "Wallpaper choice" "${current_wallpaper:-fractal-colors}")
+        sed -i "s/^_wallpaper=.*/_wallpaper='$new_wallpaper'/" "$setup_conf"
+        
         # Optional modules
         echo ""
         log_info "Optional Modules (you can enable/disable these):"
