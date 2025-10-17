@@ -6,27 +6,36 @@ This project is a work-in-progress and will likely change based on my personal p
 
 ## Quick Start
 
+### 🚀 One-Line Installation (Recommended)
+
+```bash
+# Interactive setup (will prompt for repository and preferences)
+curl -fsSL https://raw.githubusercontent.com/daevski/dotfiles/main/setup.sh | bash
+
+# Use defaults (no prompts)
+curl -fsSL https://raw.githubusercontent.com/daevski/dotfiles/main/setup.sh | bash -s -- --defaults
+
+# Use your own fork
+curl -fsSL https://raw.githubusercontent.com/daevski/dotfiles/main/setup.sh | bash -s -- --repo yourusername/dotfiles
+```
+
+### 📋 Manual Installation
+
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/daevski/dotfiles.git
    cd dotfiles
    ```
 
-2. **Configure your preferences:**
-   ```bash
-   # Edit setup.conf to match your preferences
-   vim setup.conf
-   ```
-
-3. **Run the setup:**
+2. **Run the setup:**
    ```bash
    # Run all configured modules
-   ./setup.sh
+   ./run-setup.sh
 
    # Or run specific modules
-   ./setup.sh wallpaper
-   ./setup.sh vscode
-   ./setup.sh help  # See all available options
+   ./run-setup.sh wallpaper
+   ./run-setup.sh vscode
+   ./run-setup.sh help  # See all available options
    ```
 
 ## Setup System Architecture
@@ -60,19 +69,18 @@ Each feature has its own script in `setup.d/`:
 ### Usage Examples
 
 ```bash
-# Run everything configured in setup.conf
-./setup.sh
+# Bootstrap script (for fresh systems)
+curl -fsSL https://raw.githubusercontent.com/daevski/dotfiles/main/setup.sh | bash
 
-# Run specific modules
-./setup.sh wallpaper
-./setup.sh vscode docker
+# After bootstrap, use run-setup.sh for management:
+~/run-setup.sh                    # Run everything configured in setup.conf
+~/run-setup.sh wallpaper          # Run specific modules
+~/run-setup.sh vscode docker      # Multiple modules
+~/run-setup.sh help               # Get help
 
 # Override preferences for one-time use
-./setup.sh wallpaper ~/Pictures/new-wallpaper.jpg
-./setup.sh editor code
-
-# Get help
-./setup.sh help
+~/run-setup.sh wallpaper ~/Pictures/new-wallpaper.jpg
+~/run-setup.sh editor code
 ```
 
 ### Dynamic Wallpaper Features
