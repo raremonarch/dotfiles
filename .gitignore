@@ -30,6 +30,7 @@
 .config/user-dirs*
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+.config/Yubico
 .dotnet
 .local
 .mozilla
