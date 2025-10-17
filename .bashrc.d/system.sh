@@ -1,4 +1,5 @@
 fastfetch # displays system details when terminal loads
+alias lsp="ls -lahp"
 alias calc='galculator'
 alias pwdsize='du -sh .'
 alias tstamp='~/Scripts/timestamp-to-clipboard.sh'
