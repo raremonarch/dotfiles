@@ -117,7 +117,7 @@ process_module() {
     execution_info=($(get_module_execution_info "$module_name" "$pref_value"))
     
     # Execute the module
-    execute_module "$module_name" "$script_file" "${execution_info[@]}"
+    execute_module "$module_name" "$script_file" "${execution_info[@]}" "$pref_value"
 }
 
 # Function to discover and run available modules
