@@ -1,48 +1,41 @@
 #!/bin/bash
 #
-# Dotfiles Bootstra# Logging functions
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+
+
+
+# Require interactive terminal
+require_interactive() {
+    if [ ! -t 0 ] || [ ! -t 1 ]; then
+        echo "[ERROR] This script must be run in an interactive terminal (not piped or redirected)." >&2
+        exit 1
+    fi
 }
 
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
 
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-# Prompt user for input with default value
+# Prompt user for input with default value (interactive only)
 prompt_with_default() {
     local prompt="$1"
     local default="$2"
-    local result
-    
-    echo -n "$prompt [$default]: "
+    printf "%s [%s]: " "$prompt" "$default"
     read -r result
-    echo "${result:-$default}"
+    if [ -z "$result" ]; then
+        result="$default"
+    fi
 }
 
-# Prompt user for yes/no with default
+# Prompt user for yes/no with default (interactive only)
 prompt_yes_no() {
     local prompt="$1"
     local default="$2"
-    local result
-    
     if [ "$default" = "y" ]; then
-        echo -n "$prompt [Y/n]: "
+        printf "%s [Y/n]: " "$prompt"
     else
-        echo -n "$prompt [y/N]: "
+        printf "%s [y/N]: " "$prompt"
     fi
-    
     read -r result
-    result="${result:-$default}"
-    
+    if [ -z "$result" ]; then
+        result="$default"
+    fi
     if [[ "$result" =~ ^[Yy]$ ]]; then
         return 0
     else
@@ -58,7 +51,7 @@ prompt_yes_no() {
 #   chmod +x setup.sh
 #   ./setup.sh
 
-set -euo pipefail  # Exit on error, undefined vars, pipe failures
+set -eo pipefail  # Exit on error, pipe failures (nounset disabled for debugging)
 
 # Default configuration (can be overridden by user input)
 DEFAULT_REPO_OWNER="daevski"
@@ -100,13 +93,17 @@ log_error() {
 gather_repo_info() {
     log_info "Repository Configuration"
     echo ""
-    
-    REPO_OWNER=$(prompt_with_default "GitHub username/organization" "$DEFAULT_REPO_OWNER")
-    REPO_NAME=$(prompt_with_default "Repository name" "$DEFAULT_REPO_NAME")
-    BRANCH=$(prompt_with_default "Branch to use" "$DEFAULT_BRANCH")
-    
+    echo "[DEBUG] About to prompt for GitHub username/organization" >&2
+    prompt_with_default "GitHub username/organization" "$DEFAULT_REPO_OWNER"
+    REPO_OWNER="$result"
+    echo "[DEBUG] Got REPO_OWNER: $REPO_OWNER" >&2
+    prompt_with_default "Repository name" "$DEFAULT_REPO_NAME"
+    REPO_NAME="$result"
+    echo "[DEBUG] Got REPO_NAME: $REPO_NAME" >&2
+    prompt_with_default "Branch to use" "$DEFAULT_BRANCH"
+    BRANCH="$result"
+    echo "[DEBUG] Got BRANCH: $BRANCH" >&2
     REPO_URL="https://github.com/$REPO_OWNER/$REPO_NAME.git"
-    
     echo ""
     log_info "Will clone: $REPO_URL (branch: $BRANCH)"
     echo ""
@@ -503,11 +500,14 @@ main() {
         esac
     done
     
+    # Require interactive terminal
+    require_interactive
+
     # Gather repository info if not provided via arguments
     if [ "$SKIP_PROMPTS" = false ]; then
         gather_repo_info
     fi
-    
+
     # Confirmation prompt
     if [ "$SKIP_CONFIRMATION" = false ]; then
         echo ""
