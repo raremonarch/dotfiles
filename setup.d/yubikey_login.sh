@@ -50,7 +50,17 @@ if [ "$override_arg" = "false" ]; then
         # Remove the U2F line from PAM config
         sudo sed -i '/pam_u2f.so/d' "$SDDM_PAM"
         
+        # Also remove keyring lines that were added for U2F
+        sudo sed -i '/pam_gnome_keyring.so/d' "$SDDM_PAM"
+        
         echo "  > U2F authentication disabled for SDDM"
+        
+        # Remove SDDM auto-submit configuration
+        SDDM_AUTO_CONF="/etc/sddm.conf.d/auto-submit.conf"
+        if [ -f "$SDDM_AUTO_CONF" ]; then
+            echo "  > removing SDDM auto-submit configuration..."
+            sudo rm -f "$SDDM_AUTO_CONF"
+        fi
         echo ""
         echo "✅ PAM U2F disabled!"
         echo ""
@@ -117,8 +127,6 @@ if sudo grep -q "pam_u2f.so" "$SDDM_PAM"; then
 else
     echo ""
     echo "  > configuring PAM U2F for SDDM..."
-    
-    # Create a temporary file with the new configuration
     TEMP_PAM="/tmp/sddm_pam_new"
     
     # Add U2F auth line after the first auth line but before substack password-auth
