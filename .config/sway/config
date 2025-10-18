@@ -15,6 +15,9 @@ set {
     $sys_idle           swayidle -w timeout 300 'swaylock -f' timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f'
 }
 
+# Cursor configuration
+seat * xcursor_theme breeze_cursors 20
+
 default_border pixel $border_size
 gaps {
     horizontal  $horizontal_gap
@@ -23,7 +26,6 @@ gaps {
     outer       $outer_gap
 }
 floating_modifier $mod normal
-seat * xcursor_theme breeze_cursors 20
 
 exec copyq
 exec flameshot
@@ -90,5 +92,5 @@ bindsym {
 
 input type:keyboard xkb_numlock enabled
 # to split a widescreen image: `magick convert input.jpg -crop 50%x100% +repage +adjoin output-%d.jpg`
-output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/wallpaper-0.jpg fill
-output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/wallpaper-1.jpg fill
+output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/462618-background-0.jpg fill
+output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/462618-background-1.jpg fill

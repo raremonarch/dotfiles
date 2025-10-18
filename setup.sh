@@ -1,7 +1,4 @@
 #!/bin/bash
-#
-
-
 
 # Require interactive terminal
 require_interactive() {
@@ -21,6 +18,7 @@ prompt_with_default() {
     if [ -z "$result" ]; then
         result="$default"
     fi
+    PROMPT_RESULT="$result"
 }
 
 # Prompt user for yes/no with default (interactive only)
@@ -36,7 +34,8 @@ prompt_yes_no() {
     if [ -z "$result" ]; then
         result="$default"
     fi
-    if [[ "$result" =~ ^[Yy]$ ]]; then
+    PROMPT_RESULT="$result"
+    if [[ "$PROMPT_RESULT" =~ ^[Yy]$ ]]; then
         return 0
     else
         return 1
@@ -95,13 +94,13 @@ gather_repo_info() {
     echo ""
     echo "[DEBUG] About to prompt for GitHub username/organization" >&2
     prompt_with_default "GitHub username/organization" "$DEFAULT_REPO_OWNER"
-    REPO_OWNER="$result"
+    REPO_OWNER="$PROMPT_RESULT"
     echo "[DEBUG] Got REPO_OWNER: $REPO_OWNER" >&2
     prompt_with_default "Repository name" "$DEFAULT_REPO_NAME"
-    REPO_NAME="$result"
+    REPO_NAME="$PROMPT_RESULT"
     echo "[DEBUG] Got REPO_NAME: $REPO_NAME" >&2
     prompt_with_default "Branch to use" "$DEFAULT_BRANCH"
-    BRANCH="$result"
+    BRANCH="$PROMPT_RESULT"
     echo "[DEBUG] Got BRANCH: $BRANCH" >&2
     REPO_URL="https://github.com/$REPO_OWNER/$REPO_NAME.git"
     echo ""
@@ -127,21 +126,24 @@ customize_setup_config() {
         
         # Hostname
         current_hostname=$(grep "^_hostname=" "$setup_conf" | cut -d"'" -f2)
-        new_hostname=$(prompt_with_default "System hostname" "${current_hostname:-$(hostname)}")
+        prompt_with_default "System hostname" "${current_hostname:-$(hostname)}"
+        new_hostname="$PROMPT_RESULT"
         sed -i "s/^_hostname=.*/_hostname='$new_hostname'/" "$setup_conf"
         
         # Terminal
         current_terminal=$(grep "^_terminal=" "$setup_conf" | cut -d"'" -f2)
         echo ""
         echo "Available terminals: alacritty, gnome-terminal, kitty, wezterm"
-        new_terminal=$(prompt_with_default "Preferred terminal" "${current_terminal:-alacritty}")
+        prompt_with_default "Preferred terminal" "${current_terminal:-alacritty}"
+        new_terminal="$PROMPT_RESULT"
         sed -i "s/^_terminal=.*/_terminal='$new_terminal'/" "$setup_conf"
         
         # Editor
         current_editor=$(grep "^_editor=" "$setup_conf" | cut -d"'" -f2)
         echo ""
         echo "Available editors: vim, nvim, nano, code"
-        new_editor=$(prompt_with_default "Preferred editor" "${current_editor:-vim}")
+        prompt_with_default "Preferred editor" "${current_editor:-vim}"
+        new_editor="$PROMPT_RESULT"
         sed -i "s/^_editor=.*/_editor='$new_editor'/" "$setup_conf"
         
         # Wallpaper
@@ -163,7 +165,8 @@ customize_setup_config() {
             echo "  - (or enter a file path)"
         fi
         
-        new_wallpaper=$(prompt_with_default "Wallpaper choice" "${current_wallpaper:-fractal-colors}")
+        prompt_with_default "Wallpaper choice" "${current_wallpaper:-fractal-colors}"
+        new_wallpaper="$PROMPT_RESULT"
         sed -i "s/^_wallpaper=.*/_wallpaper='$new_wallpaper'/" "$setup_conf"
         
         # Optional modules
@@ -171,35 +174,45 @@ customize_setup_config() {
         log_info "Optional Modules (you can enable/disable these):"
         
         # Docker
-        if prompt_yes_no "Enable Docker?" "n"; then
+        docker_pref=$(grep "^_docker=" "$setup_conf" | cut -d= -f2)
+        docker_default="n"; [ "$docker_pref" = "true" ] && docker_default="y"
+        if prompt_yes_no "Enable Docker?" "$docker_default"; then
             sed -i "s/^_docker=.*/_docker=true/" "$setup_conf"
         else
             sed -i "s/^_docker=.*/_docker=false/" "$setup_conf"
         fi
-        
+
         # Google Chrome
-        if prompt_yes_no "Install Google Chrome?" "y"; then
+        chrome_pref=$(grep "^_google_chrome=" "$setup_conf" | cut -d= -f2)
+        chrome_default="n"; [ "$chrome_pref" = "true" ] && chrome_default="y"
+        if prompt_yes_no "Install Google Chrome?" "$chrome_default"; then
             sed -i "s/^_google_chrome=.*/_google_chrome=true/" "$setup_conf"
         else
             sed -i "s/^_google_chrome=.*/_google_chrome=false/" "$setup_conf"
         fi
-        
+
         # VS Code
-        if prompt_yes_no "Install VS Code?" "y"; then
+        vscode_pref=$(grep "^_vscode=" "$setup_conf" | cut -d= -f2)
+        vscode_default="n"; [ "$vscode_pref" = "true" ] && vscode_default="y"
+        if prompt_yes_no "Install VS Code?" "$vscode_default"; then
             sed -i "s/^_vscode=.*/_vscode=true/" "$setup_conf"
         else
             sed -i "s/^_vscode=.*/_vscode=false/" "$setup_conf"
         fi
-        
+
         # Ollama
-        if prompt_yes_no "Install Ollama (AI models)?" "n"; then
+        ollama_pref=$(grep "^_ollama=" "$setup_conf" | cut -d= -f2)
+        ollama_default="n"; [ "$ollama_pref" = "true" ] && ollama_default="y"
+        if prompt_yes_no "Install Ollama (AI models)?" "$ollama_default"; then
             sed -i "s/^_ollama=.*/_ollama=true/" "$setup_conf"
         else
             sed -i "s/^_ollama=.*/_ollama=false/" "$setup_conf"
         fi
-        
+
         # Synology
-        if prompt_yes_no "Install Synology Drive?" "n"; then
+        synology_pref=$(grep "^_synology=" "$setup_conf" | cut -d= -f2)
+        synology_default="n"; [ "$synology_pref" = "true" ] && synology_default="y"
+        if prompt_yes_no "Install Synology Drive?" "$synology_default"; then
             sed -i "s/^_synology=.*/_synology=true/" "$setup_conf"
         else
             sed -i "s/^_synology=.*/_synology=false/" "$setup_conf"
@@ -212,7 +225,7 @@ customize_setup_config() {
         echo ""
         log_info "Configuration Summary:"
         echo "  Hostname: $new_hostname"
-        echo "  Terminal: $new_terminal" 
+        echo "  Terminal: $new_terminal"
         echo "  Editor: $new_editor"
         echo "  Docker: $(grep "^_docker=" "$setup_conf" | cut -d= -f2)"
         echo "  Chrome: $(grep "^_google_chrome=" "$setup_conf" | cut -d= -f2)"
@@ -223,6 +236,8 @@ customize_setup_config() {
         
         if ! prompt_yes_no "Does this look correct?" "y"; then
             log_warning "You can manually edit ~/setup.conf later to make changes"
+            echo "Aborting setup as requested."
+            exit 1
         fi
         
     else
