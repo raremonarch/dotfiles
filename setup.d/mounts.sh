@@ -4,7 +4,7 @@
 # Configures network and local mount points and creates convenience symlinks
 # This version includes safety checks to prevent boot failures
 
-echo "Setting up mounts and symlinks..."
+log_info "Setting up mounts and symlinks"
 
 # Function to check if a device UUID exists
 check_device_exists() {
@@ -53,21 +53,19 @@ process_mount_config() {
     
     # Expand tilde in home_symlink and credential files
     home_symlink=$(eval echo "$home_symlink")
-    
-    echo ""
-    echo "Processing ($mount_type): $source -> $mount_point -> $home_symlink"
-    
+
+    log_debug ""
+    log_debug "Processing ($mount_type): $source -> $mount_point -> $home_symlink"
+
     # SAFETY CHECK: Verify device/network availability
     if [ "$mount_type" = "local" ]; then
         if ! check_device_exists "$source"; then
-            echo "  ⚠️  SKIPPING: Device $source not found on this system"
-            echo "     This is normal when running on different hardware"
+            log_warning "SKIPPING: Device $source not found on this system (normal when running on different hardware)"
             return 0
         fi
     elif [ "$mount_type" = "network" ]; then
         if ! check_network_available "$source"; then
-            echo "  ⚠️  SKIPPING: Network host for $source not reachable"
-            echo "     This is normal when running on different networks"
+            log_warning "SKIPPING: Network host for $source not reachable (normal when running on different networks)"
             return 0
         fi
     fi
@@ -89,8 +87,7 @@ process_mount_config() {
                         credpath=$(eval echo "$credpath")
                         # Check if credential file exists
                         if [ ! -f "$credpath" ]; then
-                            echo "  ⚠️  WARNING: Credential file $credpath not found"
-                            echo "     Mount will be added to fstab but may fail until credentials are provided"
+                            log_warning "Credential file $credpath not found - mount will be added to fstab but may fail until credentials are provided"
                         fi
                         processed_options="${processed_options},credentials=$credpath"
                     else
@@ -122,20 +119,13 @@ process_mount_config() {
     fi
     
     # Create mount point directory
-    echo -n "  creating mount point '$mount_point' ... "
-    if sudo mkdir -p "$mount_point"; then
-        echo "done"
-    else
-        echo "failed"
+    if ! run_with_progress "creating mount point '$mount_point'" sudo mkdir -p "$mount_point"; then
         return 1
     fi
-    
+
     # Set proper ownership for mount point
-    echo -n "  setting ownership of '$mount_point' ... "
-    if sudo chown "$USER:$USER" "$mount_point"; then
-        echo "done"
-    else
-        echo "failed (continuing anyway)"
+    if ! run_with_progress "setting ownership of '$mount_point'" sudo chown "$USER:$USER" "$mount_point"; then
+        log_warning "failed to set ownership (continuing anyway)"
     fi
     
     # Create home symlink if specified
@@ -143,241 +133,225 @@ process_mount_config() {
         # Create home symlink directory if it doesn't exist
         symlink_dir=$(dirname "$home_symlink")
         if [ ! -d "$symlink_dir" ]; then
-            echo -n "  creating symlink directory '$symlink_dir' ... "
-            if mkdir -p "$symlink_dir"; then
-                echo "done"
-            else
-                echo "failed"
+            if ! run_with_progress "creating symlink directory '$symlink_dir'" mkdir -p "$symlink_dir"; then
                 return 1
             fi
         fi
-        
+
         # Create or update symlink
-        echo -n "  creating symlink '$home_symlink' -> '$mount_point' ... "
         if [ -L "$home_symlink" ]; then
             # Remove existing symlink
             rm "$home_symlink"
         elif [ -e "$home_symlink" ]; then
-            echo "failed (target exists and is not a symlink)"
+            log_error "Cannot create symlink - target exists and is not a symlink: $home_symlink"
             return 1
         fi
-        
-        if ln -s "$mount_point" "$home_symlink"; then
-            echo "done"
-        else
-            echo "failed"
+
+        if ! run_with_progress "creating symlink '$home_symlink' -> '$mount_point'" ln -s "$mount_point" "$home_symlink"; then
             return 1
         fi
     else
-        echo "  skipping symlink creation (none specified)"
+        log_debug "skipping symlink creation (none specified)"
     fi
     
-    
+
     # Check if fstab entry exists and update it
-    echo -n "  checking /etc/fstab entry ... "
+    log_step "checking /etc/fstab entry"
     if grep -q "^[[:space:]]*$source " /etc/fstab 2>/dev/null; then
-        echo "found, updating with current options"
+        log_debug "found existing entry, updating with current options"
         # Remove existing entry and add new one
         sudo sed -i "\|^[[:space:]]*$source |d" /etc/fstab
         echo "$source $mount_point $mount_options 0 0" | sudo tee -a /etc/fstab > /dev/null
-        echo "    updated fstab entry (with noauto for safety)"
+        log_debug "updated fstab entry (with noauto for safety)"
     elif grep -q "^[[:space:]]*#.*$source " /etc/fstab 2>/dev/null; then
-        echo "found commented, updating and enabling"
+        log_debug "found commented entry, updating and enabling"
         # Remove commented entry and add new active one
         sudo sed -i "\|^[[:space:]]*#.*$source |d" /etc/fstab
         echo "$source $mount_point $mount_options 0 0" | sudo tee -a /etc/fstab > /dev/null
-        echo "    added active fstab entry (with noauto for safety)"
+        log_debug "added active fstab entry (with noauto for safety)"
     else
-        echo "missing, adding new entry"
+        log_debug "no existing entry, adding new entry"
         echo "$source $mount_point $mount_options 0 0" | sudo tee -a /etc/fstab > /dev/null
-        echo "    added to fstab (with noauto for safety)"
+        log_debug "added to fstab (with noauto for safety)"
     fi
-    
+
     # Reload systemd after fstab changes
-    echo -n "  reloading systemd units ... "
-    if sudo systemctl daemon-reload 2>/dev/null; then
-        echo "done"
-    else
-        echo "failed (continuing anyway)"
+    if ! run_with_progress "reloading systemd units" sudo systemctl daemon-reload 2>/dev/null; then
+        log_warning "failed to reload systemd (continuing anyway)"
     fi
-    
+
     # Try to mount if possible (but don't fail if it doesn't work)
-    echo -n "  attempting to mount ... "
+    log_step "attempting to mount"
     if sudo mount "$mount_point" 2>/dev/null; then
-        echo "successfully mounted"
+        log_debug "successfully mounted"
     else
-        echo "mount failed (but fstab entry created for manual mounting)"
-        echo "    Use: sudo mount $mount_point"
+        log_debug "mount failed (but fstab entry created for manual mounting)"
+        log_debug "Use: sudo mount $mount_point"
     fi
 }
 
 # Process network mounts
 if [ -n "${_network_mounts[*]}" ]; then
-    echo ""
-    echo "=== Processing Network Mounts ==="
+    log_debug ""
+    log_info "Processing Network Mounts"
     for config in "${_network_mounts[@]}"; do
         process_mount_config "$config" "network"
     done
 else
-    echo "No network mount configurations defined in setup.conf"
+    log_debug "No network mount configurations defined in setup.conf"
 fi
 
 # Process local media drives
 if [ -n "${_local_media[*]}" ]; then
-    echo ""
-    echo "=== Processing Local Media Drives ==="
+    log_debug ""
+    log_info "Processing Local Media Drives"
     for config in "${_local_media[@]}"; do
         process_mount_config "$config" "local"
     done
 else
-    echo "No local media drive configurations defined in setup.conf"
+    log_debug "No local media drive configurations defined in setup.conf"
 fi
 
-echo ""
-echo "=== Mount Setup Results ==="
-echo "ℹ️  All mounts configured with 'noauto' for system safety"
-echo "ℹ️  Use 'sudo mount <mount_point>' to manually mount when needed"
+log_debug ""
+log_info "Mount Setup Results"
+log_step "All mounts configured with 'noauto' for system safety"
+log_step "Use 'sudo mount <mount_point>' to manually mount when needed"
 
 # Show network mount results
 if [ -n "${_network_mounts[*]}" ]; then
-    echo ""
-    echo "Network Mounts:"
+    log_debug ""
+    log_debug "Network Mounts:"
     for config in "${_network_mounts[@]}"; do
         # Skip comments
         [[ "$config" =~ ^[[:space:]]*# ]] && continue
-        
+
         # Parse configuration to get mount point and symlink
         IFS=':' read -r source mount_point symlink_and_options <<< "$config"
         IFS=',' read -r home_symlink options <<< "$symlink_and_options"
         home_symlink=$(eval echo "$home_symlink")
-        
+
         # Check availability first
         if ! check_network_available "$source"; then
-            echo "  $source -> ⚠️  SKIPPED (network unreachable)"
+            log_debug "  $source -> SKIPPED (network unreachable)"
             continue
         fi
-        
+
         # Check final status
         if mountpoint -q "$mount_point" 2>/dev/null; then
-            mount_status="✅ mounted: $mount_point"
+            mount_status="mounted: $mount_point"
         else
-            mount_status="📋 ready: $mount_point (use: sudo mount $mount_point)"
+            mount_status="ready: $mount_point (use: sudo mount $mount_point)"
         fi
-        
+
         if [ -n "$home_symlink" ]; then
             if [ -L "$home_symlink" ]; then
-                symlink_status="✅ linked: $home_symlink"
+                symlink_status="linked: $home_symlink"
             else
-                symlink_status="❌ no link: $home_symlink"
+                symlink_status="no link: $home_symlink"
             fi
-            echo "  $source -> $mount_status, $symlink_status"
+            log_debug "  $source -> $mount_status, $symlink_status"
         else
-            echo "  $source -> $mount_status"
+            log_debug "  $source -> $mount_status"
         fi
     done
 fi
 
 # Show local media drive results
 if [ -n "${_local_media[*]}" ]; then
-    echo ""
-    echo "Local Media Drives:"
+    log_debug ""
+    log_debug "Local Media Drives:"
     for config in "${_local_media[@]}"; do
         # Skip comments
         [[ "$config" =~ ^[[:space:]]*# ]] && continue
-        
+
         # Parse configuration to get mount point and symlink
         IFS=':' read -r source mount_point symlink_and_options <<< "$config"
         IFS=',' read -r home_symlink options <<< "$symlink_and_options"
         home_symlink=$(eval echo "$home_symlink")
-        
+
         # Check device availability first
         if ! check_device_exists "$source"; then
-            echo "  $source -> ⚠️  SKIPPED (device not found on this system)"
+            log_debug "  $source -> SKIPPED (device not found on this system)"
             continue
         fi
-        
+
         # Check final status
         if mountpoint -q "$mount_point" 2>/dev/null; then
-            mount_status="✅ mounted: $mount_point"
+            mount_status="mounted: $mount_point"
         else
-            mount_status="📋 ready: $mount_point (use: sudo mount $mount_point)"
+            mount_status="ready: $mount_point (use: sudo mount $mount_point)"
         fi
-        
+
         if [ -n "$home_symlink" ]; then
             if [ -L "$home_symlink" ]; then
-                symlink_status="✅ linked: $home_symlink"
+                symlink_status="linked: $home_symlink"
             else
-                symlink_status="❌ no link: $home_symlink"
+                symlink_status="no link: $home_symlink"
             fi
-            echo "  $source -> $mount_status, $symlink_status"
+            log_debug "  $source -> $mount_status, $symlink_status"
         else
-            echo "  $source -> $mount_status"
+            log_debug "  $source -> $mount_status"
         fi
     done
 fi
 
 # Function to organize fstab entries into logical groups
 organize_fstab() {
-    echo ""
-    echo "=== Organizing /etc/fstab ==="
-    
+    log_debug ""
+    log_info "Organizing /etc/fstab"
+
     local temp_fstab="/tmp/fstab.organized"
     local original_fstab="/etc/fstab"
-    
+
     # Extract the header comments
-    echo -n "  organizing fstab entries ... "
+    log_step "organizing fstab entries"
     {
         # Header section
         grep "^#" "$original_fstab"
         echo ""
-        
+
         # System mounts (/, /boot, /home, swap)
         echo "# System mounts"
         grep -E "^[^#].*[[:space:]]/(boot|home)?[[:space:]]" "$original_fstab" | grep -v "_netdev"
         echo ""
-        
+
         # Network mounts (anything with _netdev)
         if grep -q "_netdev" "$original_fstab"; then
             echo "# Network mounts (noauto for safety)"
             grep "_netdev" "$original_fstab" | grep -v "^#"
             echo ""
         fi
-        
+
         # Local media drives (exFAT, NTFS, etc. mounted to /media/)
         if grep -E "^UUID=.*[[:space:]]/media/" "$original_fstab" > /dev/null; then
             echo "# Local media drives (noauto for safety)"
             grep -E "^UUID=.*[[:space:]]/media/" "$original_fstab"
         fi
-        
+
     } > "$temp_fstab"
-    
+
     # Replace the original fstab with organized version
-    if sudo cp "$temp_fstab" "$original_fstab"; then
-        echo "done"
-        sudo rm -f "$temp_fstab"
-    else
-        echo "failed"
+    if ! sudo cp "$temp_fstab" "$original_fstab"; then
+        log_error "failed to organize fstab"
         rm -f "$temp_fstab"
         return 1
     fi
-    
+    sudo rm -f "$temp_fstab"
+
     # Reload systemd after fstab reorganization
-    echo -n "  reloading systemd after organization ... "
-    if sudo systemctl daemon-reload 2>/dev/null; then
-        echo "done"
-    else
-        echo "failed (continuing anyway)"
+    if ! run_with_progress "reloading systemd after organization" sudo systemctl daemon-reload 2>/dev/null; then
+        log_warning "failed to reload systemd (continuing anyway)"
     fi
 }
 
 # Organize fstab entries after all mounts are configured
 organize_fstab
 
-echo ""
-echo "🔒 SAFETY FEATURES ENABLED:"
-echo "   • Device existence checks prevent non-existent UUID errors"
-echo "   • Network connectivity checks prevent unreachable mount failures"  
-echo "   • All mounts use 'noauto' to prevent boot blocking"
-echo "   • Failed mounts are gracefully skipped with informative messages"
-echo ""
-echo "💡 To enable automatic mounting, remove 'noauto' from /etc/fstab entries"
+log_debug ""
+log_info "SAFETY FEATURES ENABLED"
+log_step "Device existence checks prevent non-existent UUID errors"
+log_step "Network connectivity checks prevent unreachable mount failures"
+log_step "All mounts use 'noauto' to prevent boot blocking"
+log_step "Failed mounts are gracefully skipped with informative messages"
+log_debug ""
+log_step "To enable automatic mounting, remove 'noauto' from /etc/fstab entries"

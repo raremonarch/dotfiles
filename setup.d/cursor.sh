@@ -8,43 +8,39 @@ CURSOR_SIZE="${2:-24}"
 
 # Check if cursor theme exists, if not try to install it
 if [ ! -d "/usr/share/icons/$CURSOR_THEME" ] && [ ! -d "$HOME/.local/share/icons/$CURSOR_THEME" ]; then
-    echo "Cursor theme '$CURSOR_THEME' not found, attempting to install..."
-    
+    log_step "cursor theme '$CURSOR_THEME' not found, installing"
+    log_debug "Checking paths: /usr/share/icons/$CURSOR_THEME and $HOME/.local/share/icons/$CURSOR_THEME"
+
     # Install breeze cursor theme package
-    echo -n "installing breeze cursor theme ... "
-    if sudo dnf install -y breeze-cursor-theme 2>/dev/null; then
-        echo "installed successfully"
-    else
-        echo "failed to install via dnf"
-        echo "Available cursor themes in /usr/share/icons/:"
-        ls /usr/share/icons/ | grep -i cursor || echo "No cursor themes found"
+    if ! run_with_progress "installing breeze cursor theme" sudo dnf install -y breeze-cursor-theme; then
+        log_error "Failed to install breeze cursor theme via dnf"
+        log_error "Available cursor themes in /usr/share/icons/:"
+        ls /usr/share/icons/ | grep -i cursor || log_error "No cursor themes found"
         exit 1
     fi
-    
+
     # Verify installation worked
     if [ ! -d "/usr/share/icons/$CURSOR_THEME" ] && [ ! -d "$HOME/.local/share/icons/$CURSOR_THEME" ]; then
-        echo "ERROR: Cursor theme '$CURSOR_THEME' still not found after installation attempt"
+        log_error "Cursor theme '$CURSOR_THEME' still not found after installation attempt"
         exit 1
     fi
 fi
 
 # Set cursor theme using gsettings
-echo -n "setting cursor theme via gsettings ... "
-if gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME" 2>/dev/null; then
-    echo "done"
+if run_with_progress "setting cursor theme via gsettings" gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME"; then
+    log_debug "Cursor theme set via gsettings"
 else
-    echo "failed (gsettings not available)"
+    log_debug "Failed to set cursor theme (gsettings not available)"
 fi
 
-echo -n "setting cursor size via gsettings ... "
-if gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE" 2>/dev/null; then
-    echo "done"
+if run_with_progress "setting cursor size via gsettings" gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE"; then
+    log_debug "Cursor size set via gsettings"
 else
-    echo "failed (gsettings not available)"
+    log_debug "Failed to set cursor size (gsettings not available)"
 fi
 
 # Set environment variables for Electron/Chrome-based apps like VS Code
-echo -n "configuring cursor environment variables ... "
+log_step "configuring cursor environment variables"
 
 # Add to .profile for session-wide environment variables (better than .bashrc)
 PROFILE_FILE="$HOME/.profile"
@@ -65,76 +61,68 @@ echo "export XCURSOR_SIZE=$CURSOR_SIZE" >> "$PROFILE_FILE"
 export XCURSOR_THEME="$CURSOR_THEME"
 export XCURSOR_SIZE="$CURSOR_SIZE"
 
-echo "done"
+log_debug "Environment variables set in $PROFILE_FILE"
 
 # Update GTK settings file for additional compatibility
 GTK3_SETTINGS="$HOME/.config/gtk-3.0/settings.ini"
-echo -n "updating GTK3 cursor settings ... "
 if [ -f "$GTK3_SETTINGS" ]; then
+    log_step "updating GTK3 cursor settings"
     # Update existing file
     sed -i '/^gtk-cursor-theme-name=/d' "$GTK3_SETTINGS"
     sed -i '/^gtk-cursor-theme-size=/d' "$GTK3_SETTINGS"
     sed -i '/^\[Settings\]/a gtk-cursor-theme-name='"$CURSOR_THEME"'\ngtk-cursor-theme-size='"$CURSOR_SIZE" "$GTK3_SETTINGS"
-    echo "done"
+    log_debug "Updated $GTK3_SETTINGS"
 else
-    echo "failed (GTK3 settings file not found)"
+    log_debug "GTK3 settings file not found: $GTK3_SETTINGS"
 fi
 
 # Update systemd environment file
 SYSTEMD_ENV_FILE="$HOME/.config/environment.d/cursor.conf"
-echo -n "updating systemd cursor environment ... "
 if [ -f "$SYSTEMD_ENV_FILE" ]; then
+    log_step "updating systemd cursor environment"
     sed -i "s|^XCURSOR_THEME=.*|XCURSOR_THEME=$CURSOR_THEME|" "$SYSTEMD_ENV_FILE"
     sed -i "s|^XCURSOR_SIZE=.*|XCURSOR_SIZE=$CURSOR_SIZE|" "$SYSTEMD_ENV_FILE"
-    echo "done"
+    log_debug "Updated $SYSTEMD_ENV_FILE"
 else
-    echo "failed (systemd environment file not found)"
+    log_debug "Systemd environment file not found: $SYSTEMD_ENV_FILE"
 fi
 
 # Configure for Sway if config exists
 SWAY_CONFIG="$HOME/.config/sway/config"
 if [ -f "$SWAY_CONFIG" ]; then
-    echo -n "configuring cursor for Sway ... "
-    
+    log_step "configuring cursor for Sway"
+
     # Remove any existing cursor configuration
     sed -i '/^seat \* xcursor_theme/d' "$SWAY_CONFIG"
-    
+
     # Find the line after the closing brace of the set block and add cursor config
     if grep -q "^}" "$SWAY_CONFIG"; then
         # Insert cursor configuration after the first closing brace
         sed -i '0,/^}$/s/^}$/&\n\n# Cursor configuration\nseat * xcursor_theme '"$CURSOR_THEME"' '"$CURSOR_SIZE"'/' "$SWAY_CONFIG"
-        echo "added to Sway config"
-        
+        log_debug "Added cursor config to Sway config"
+
         # Reload Sway configuration if we're in a Sway session
         if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
-            echo -n "reloading Sway configuration ... "
-            if swaymsg reload 2>/dev/null; then
-                echo "done"
+            if run_with_progress "reloading Sway configuration" swaymsg reload; then
+                log_debug "Sway configuration reloaded"
             else
-                echo "failed (not in Sway session)"
+                log_debug "Failed to reload Sway (not in Sway session)"
             fi
         fi
     else
-        echo "failed (could not find insertion point in Sway config)"
+        log_warning "Could not find insertion point in Sway config"
     fi
 else
-    echo "Sway config not found, skipping Sway configuration"
+    log_debug "Sway config not found, skipping Sway configuration"
 fi
 
 # Verify configuration
-echo -n "verifying cursor configuration ... "
+log_step "verifying cursor configuration"
 CURRENT_THEME=$(gsettings get org.gnome.desktop.interface cursor-theme 2>/dev/null | tr -d "'")
 CURRENT_SIZE=$(gsettings get org.gnome.desktop.interface cursor-size 2>/dev/null)
 
 if [ "$CURRENT_THEME" = "$CURSOR_THEME" ] && [ "$CURRENT_SIZE" = "$CURSOR_SIZE" ]; then
-    echo "cursor theme '$CURSOR_THEME' (size $CURSOR_SIZE) configured successfully"
+    log_debug "Cursor theme '$CURSOR_THEME' (size $CURSOR_SIZE) verified successfully"
 else
-    echo "verification failed, but configuration may still work"
+    log_debug "Verification failed, but configuration may still work"
 fi
-
-echo ""
-echo "Notes for cursor theme changes:"
-echo "  - Most applications will use the new cursor theme immediately"
-echo "  - VS Code and other Electron apps may need to be restarted"
-echo "  - If VS Code still shows old cursor, try: code --no-sandbox"
-echo "  - Environment variables are set in ~/.profile and ~/.config/environment.d/"

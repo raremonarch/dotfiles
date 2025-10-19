@@ -3,41 +3,36 @@
 # Ollama manual installation script
 # Based on: https://github.com/ollama/ollama/blob/main/docs/linux.md
 
-echo "Installing Ollama manually..."
+log_info "Installing Ollama manually"
 
 # Check if upgrading from prior version and remove old libraries
 if [ -d "/usr/lib/ollama" ]; then
-    echo "Removing old Ollama libraries..."
+    log_step "removing old Ollama libraries"
     sudo rm -rf /usr/lib/ollama
 fi
 
 # Download and extract the package
-echo "Downloading Ollama for Linux AMD64..."
-curl -LO https://ollama.com/download/ollama-linux-amd64.tgz
-
-if [ $? -ne 0 ]; then
-    echo "ERROR: Failed to download Ollama package"
+if ! run_with_progress "downloading Ollama for Linux AMD64" curl -LO https://ollama.com/download/ollama-linux-amd64.tgz; then
+    log_error "Failed to download Ollama package"
     exit 1
 fi
 
-echo "Extracting Ollama package..."
-sudo tar -C /usr -xzf ollama-linux-amd64.tgz
-
-if [ $? -ne 0 ]; then
-    echo "ERROR: Failed to extract Ollama package"
+if ! run_with_progress "extracting Ollama package" sudo tar -C /usr -xzf ollama-linux-amd64.tgz; then
+    log_error "Failed to extract Ollama package"
     exit 1
 fi
 
 # Clean up downloaded archive
+log_step "cleaning up downloaded archive"
 rm ollama-linux-amd64.tgz
 
 # Create ollama user and group for the service
-echo "Creating ollama user and group..."
+log_step "creating ollama user and group"
 sudo useradd -r -s /bin/false -U -m -d /usr/share/ollama ollama 2>/dev/null || true
 sudo usermod -a -G ollama $(whoami)
 
 # Create systemd service file
-echo "Creating systemd service file..."
+log_step "creating systemd service file"
 sudo tee /etc/systemd/system/ollama.service > /dev/null << 'EOF'
 [Unit]
 Description=Ollama Service
@@ -56,36 +51,33 @@ WantedBy=multi-user.target
 EOF
 
 # Reload systemd and enable the service
-echo "Enabling Ollama service..."
-sudo systemctl daemon-reload
-sudo systemctl enable ollama
+run_with_progress "reloading systemd daemon" sudo systemctl daemon-reload
+run_with_progress "enabling Ollama service" sudo systemctl enable ollama
 
 # Start the service
-echo "Starting Ollama service..."
-sudo systemctl start ollama
+run_with_progress "starting Ollama service" sudo systemctl start ollama
 
 # Wait a moment for service to start
+log_step "waiting for service to start"
 sleep 3
 
 # Verify installation
-echo "Verifying Ollama installation..."
+log_step "verifying Ollama installation"
 if sudo systemctl is-active --quiet ollama; then
-    echo "Ollama service is running successfully"
-    
+    log_debug "Ollama service is running successfully"
+
     # Test ollama command
     if command -v ollama >/dev/null 2>&1; then
-        echo "Ollama binary is accessible"
-        ollama --version
-        echo ""
-        echo "Ollama installation completed successfully!"
-        echo "You can now run 'ollama pull <model>' to download models"
-        echo "Example: ollama pull llama3.2"
+        log_debug "Ollama binary is accessible"
+        ollama --version >> "$LOG_FILE" 2>&1
+        log_success "Ollama installation completed successfully"
+        log_debug "You can now run 'ollama pull <model>' to download models"
+        log_debug "Example: ollama pull llama3.2"
     else
-        echo "WARNING: Ollama binary not found in PATH"
+        log_error "Ollama binary not found in PATH"
         exit 1
     fi
 else
-    echo "ERROR: Ollama service failed to start"
-    echo "Check logs with: sudo journalctl -e -u ollama"
+    log_error "Ollama service failed to start - check logs with: sudo journalctl -e -u ollama"
     exit 1
 fi

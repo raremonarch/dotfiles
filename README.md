@@ -124,10 +124,19 @@ To integrate this repository with your existing home directory:
 
 - **Modular Design**: Each feature is self-contained and can be run independently
 - **Configuration-Driven**: All preferences centralized in `setup.conf`
+- **Clean Console Output**: Minimal, progress-focused console messages with detailed logging to `~/setup.log`
 - **Dynamic Discovery**: Scripts automatically discover and validate available modules
 - **Dual Monitor Support**: Intelligent wallpaper handling for multiple displays
 - **Version-Controlled Configs**: All dotfiles tracked in git, scripts only update dynamic values
 - **Fedora Optimized**: Designed specifically for Fedora Linux installations
+
+### Logging System
+
+The setup system uses a dual-output logging approach:
+- **Console**: Clean, minimal progress indicators showing what's happening
+- **Log File** (`~/setup.log`): Detailed timestamped logs with full command output, debug information, and error details
+
+When troubleshooting issues, always check `~/setup.log` for complete details about what happened during setup.
 
 ## Advanced Usage
 

@@ -6,55 +6,48 @@
 EDITOR_CHOICE="${1:-$_editor}"
 
 if [ -z "$EDITOR_CHOICE" ]; then
-    echo "Error: No editor specified. Usage: $0 <editor>"
+    log_error "No editor specified. Usage: $0 <editor>"
     exit 1
 fi
 
 # Verify the editor is available
 if ! command -v "$EDITOR_CHOICE" >/dev/null 2>&1; then
-    echo "Warning: Editor '$EDITOR_CHOICE' not found in PATH"
-    echo "Proceeding anyway (it may be installed later)"
+    log_warning "Editor '$EDITOR_CHOICE' not found in PATH"
+    log_warning "Proceeding anyway (it may be installed later)"
 fi
 
-echo "Setting default editor to '$EDITOR_CHOICE'..."
+log_step "setting default editor to '$EDITOR_CHOICE'"
+log_debug "Editor choice: $EDITOR_CHOICE"
 
 # Update systemd user environment file
 EDITOR_ENV_FILE="$HOME/.config/environment.d/editor.conf"
-echo -n "updating editor environment configuration ... "
 if [ -f "$EDITOR_ENV_FILE" ]; then
+    log_step "updating editor environment configuration"
     sed -i "s|^EDITOR=.*|EDITOR=$EDITOR_CHOICE|" "$EDITOR_ENV_FILE"
     sed -i "s|^VISUAL=.*|VISUAL=$EDITOR_CHOICE|" "$EDITOR_ENV_FILE"
-    echo "done"
+    log_debug "Updated $EDITOR_ENV_FILE"
 else
-    echo "failed (editor environment file not found)"
+    log_debug "Editor environment file not found: $EDITOR_ENV_FILE"
 fi
 
 # Set for current session
 export EDITOR="$EDITOR_CHOICE"
 export VISUAL="$EDITOR_CHOICE"
+log_debug "Set environment variables for current session"
 
 # Set git default editor (useful even if rarely used)
-echo -n "configuring git default editor ... "
 if command -v git >/dev/null 2>&1; then
-    git config --global core.editor "$EDITOR_CHOICE"
-    echo "done"
+    run_with_progress "configuring git default editor" git config --global core.editor "$EDITOR_CHOICE"
 else
-    echo "skipped (git not available)"
+    log_debug "Skipped git configuration (git not available)"
 fi
 
 # Set systemd user environment for consistency
-echo -n "setting systemd user environment ... "
 if command -v systemctl >/dev/null 2>&1; then
+    log_step "setting systemd user environment"
     systemctl --user set-environment EDITOR="$EDITOR_CHOICE" 2>/dev/null || true
     systemctl --user set-environment VISUAL="$EDITOR_CHOICE" 2>/dev/null || true
-    echo "done"
+    log_debug "Systemd user environment updated"
 else
-    echo "skipped (systemctl not available)"
+    log_debug "Skipped systemd configuration (systemctl not available)"
 fi
-
-echo ""
-echo "✅ Editor configuration completed!"
-echo "   Default editor: $EDITOR_CHOICE"
-echo "   Current \$EDITOR: $EDITOR"
-echo ""
-echo "Note: You may need to start a new shell session for changes to take full effect."

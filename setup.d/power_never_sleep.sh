@@ -3,10 +3,10 @@
 # Power Management Configuration
 # Ensures system never auto-sleeps while allowing screen lock and monitor power-off
 
-echo "Configuring power management to prevent system sleep..."
+log_info "Configuring power management to prevent system sleep"
 
 # Create logind configuration to prevent auto-sleep
-echo -n "disabling automatic system sleep ... "
+log_step "disabling automatic system sleep"
 sudo mkdir -p /etc/systemd/logind.conf.d
 sudo tee /etc/systemd/logind.conf.d/no-auto-sleep.conf > /dev/null << 'EOF'
 # Prevent automatic system sleep while allowing screen lock and monitor power-off
@@ -28,15 +28,13 @@ HandlePowerKey=suspend
 # HandleLidSwitchDocked=ignore
 EOF
 
-if [ $? -eq 0 ]; then
-    echo "done"
-else
-    echo "failed"
+if [ $? -ne 0 ]; then
+    log_error "Failed to create logind configuration"
     exit 1
 fi
 
 # Create sleep configuration to disable auto-sleep mechanisms
-echo -n "disabling systemd auto-sleep mechanisms ... "
+log_step "disabling systemd auto-sleep mechanisms"
 sudo mkdir -p /etc/systemd/sleep.conf.d
 sudo tee /etc/systemd/sleep.conf.d/no-auto-sleep.conf > /dev/null << 'EOF'
 # Disable automatic sleep mechanisms
@@ -50,30 +48,21 @@ AllowSuspendThenHibernate=no
 AllowHybridSleep=no
 EOF
 
-if [ $? -eq 0 ]; then
-    echo "done"
-else
-    echo "failed"
+if [ $? -ne 0 ]; then
+    log_error "Failed to create sleep configuration"
     exit 1
 fi
 
 # Mask sleep targets to prevent accidental sleep (optional, might be too aggressive)
-# echo -n "masking sleep targets ... "
+# log_step "masking sleep targets"
 # sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-# echo "done"
 
-# Configuration applied - restart required for full effect
-echo -n "configuration files created successfully ... "
-echo "done"
-
-echo ""
-echo "✅ Power management configured successfully!"
-echo ""
-echo "Current configuration:"
-echo "  ✅ Screen will lock after 5 minutes (swayidle)"
-echo "  ✅ Monitors will turn off after 10 minutes (swayidle)"  
-echo "  ✅ System will NEVER auto-sleep or hibernate"
-echo "  ⚠️  Manual sleep via 'systemctl suspend' still works"
-echo ""
-echo "⚠️  IMPORTANT: You need to log out and back in for changes to take full effect."
-echo "    (Configuration files have been updated, but logind needs to reload them)"
+log_success "Power management configured successfully"
+log_debug ""
+log_debug "Current configuration:"
+log_debug "  Screen will lock after 5 minutes (swayidle)"
+log_debug "  Monitors will turn off after 10 minutes (swayidle)"
+log_debug "  System will NEVER auto-sleep or hibernate"
+log_debug "  Manual sleep via 'systemctl suspend' still works"
+log_debug ""
+log_warning "You need to log out and back in for changes to take full effect (logind needs to reload configuration)"
