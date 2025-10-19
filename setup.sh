@@ -583,7 +583,6 @@ if is_dotfiles_environment && [ $# -gt 0 ] && [[ "$1" != "-"* ]]; then
         *)
             # Check if it's a module file
             if [ -f "$HOME/setup.d/$1.sh" ]; then
-                log_info "Running module '$1' from existing environment..."
                 source "$HOME/setup.d/_lib/run-setup.sh"
                 main_setup "$@"
                 exit $?

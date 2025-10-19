@@ -20,9 +20,13 @@ main_setup() {
     _required_prefs=("_hostname" "_wallpaper" "_cursor" "_editor")
 
     # Load library functions
+    source "${_scripts}_lib/logging.sh"
     source "${_scripts}_lib/validation.sh"
     source "${_scripts}_lib/module-runner.sh"
     source "${_scripts}_lib/setup-functions.sh"
+
+    # Initialize logging
+    log_init
 
     # Validate preferences before any execution
     validate_preferences "$1"
@@ -34,9 +38,10 @@ main_setup() {
         # Check if it's a valid module (script exists)
         script_file="$_scripts${requested_module}.sh"
         if [ -f "$script_file" ]; then
-            echo 'Initializing...'
+            log_info "Initializing..."
+            log_debug "Requested module: $requested_module"
             sudo -n true 2>/dev/null || sudo -v || return 1
-            
+
             # Use the same logic as module discovery - pass any additional arguments
             process_module "$script_file" "${@:2}"
             return 0
@@ -50,30 +55,30 @@ main_setup() {
             return 0
             ;;
         "repos")
-            echo 'Initializing...'
+            log_info "Initializing..."
             sudo -n true 2>/dev/null || sudo -v || return 1
             setup_repos
             ;;
         "packages")
-            echo 'Initializing...'
+            log_info "Initializing..."
             sudo -n true 2>/dev/null || sudo -v || return 1
             setup_packages
             ;;
         "")
             # Run full setup with module discovery
-            echo 'Initializing...'
+            log_info "Initializing..."
             sudo -n true 2>/dev/null || sudo -v || return 1
 
             # First run core system setup
             setup_repos
             setup_packages
-            
+
             # Then run discovered modules
             run_discovered_modules
             ;;
         *)
             if [ -n "$requested_module" ]; then
-                echo "Error: Unknown module '$requested_module'"
+                log_error "Unknown module '$requested_module'"
                 echo ""
                 echo "Available modules:"
                 for script_file in "$_scripts"*.sh; do

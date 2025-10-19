@@ -1,6 +1,10 @@
 #!/bin/bash
 # Module discovery and execution functions for setupv2.sh
 
+# Source logging library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/logging.sh"
+
 # Helper function to determine if a preference value should run a module
 should_run_module() {
     local pref_value="$1"
@@ -32,15 +36,15 @@ execute_module() {
     
     case "$execution_type" in
         "boolean_true")
-            echo "enabled, running"
+            log_debug "Module '$module_name': enabled, running with defaults"
             run_module_with_defaults "$module_name" "$script_file"
             ;;
         "configured")
-            echo "configured, running"
+            log_debug "Module '$module_name': configured with value '$pref_value', running"
             run_module_with_value "$module_name" "$script_file" "$pref_value"
             ;;
         "skip")
-            echo "disabled, skipping"
+            log_debug "Module '$module_name': disabled, skipping"
             ;;
     esac
 }
@@ -54,9 +58,11 @@ run_module_with_defaults() {
         "hostname") setup_hostname ;;
         "wallpaper") setup_wallpaper ;;
         "cursor") setup_cursor ;;
+        "font") setup_font ;;
         *)
-            echo -n "    > running $module_name module ... "
+            log_info "Running module: $module_name"
             source "$script_file"
+            log_success "Module '$module_name' completed"
             ;;
     esac
 }
@@ -71,9 +77,11 @@ run_module_with_value() {
         "hostname") setup_hostname "$pref_value" ;;
         "wallpaper") setup_wallpaper "$pref_value" ;;
         "cursor") setup_cursor "$pref_value" "$_cursor_size" ;;
+        "font") setup_font "$pref_value" ;;
         *)
-            echo -n "    > running $module_name module with value '$pref_value' ... "
+            log_info "Running module: $module_name (configured: $pref_value)"
             source "$script_file" "$pref_value"
+            log_success "Module '$module_name' completed"
             ;;
     esac
 }
@@ -89,19 +97,21 @@ process_module() {
     
     module_name=$(basename "$script_file" .sh)
     pref_var="_${module_name}"
-    
-    echo -n "  > checking module '$module_name' ... "
-    
+
+    log_debug "Checking module '$module_name' (pref: $pref_var)"
+
     # If override arguments provided, use them instead of preferences
     if [ ${#override_args[@]} -gt 0 ]; then
-        echo "with provided arguments, running"
+        log_debug "Module '$module_name': using provided arguments: ${override_args[*]}"
         case "$module_name" in
             "hostname") setup_hostname "${override_args[0]}" ;;
             "wallpaper") setup_wallpaper "${override_args[0]}" ;;
             "cursor") setup_cursor "${override_args[0]}" "${override_args[1]:-$_cursor_size}" ;;
+            "font") setup_font "${override_args[0]}" ;;
             *)
-                echo -n "    > running $module_name module with arguments ... "
+                log_info "Running module: $module_name (args: ${override_args[*]})"
                 source "$script_file" "${override_args[@]}"
+                log_success "Module '$module_name' completed"
                 ;;
         esac
         return 0
@@ -109,7 +119,7 @@ process_module() {
     
     # Check if preference variable exists
     if ! declare -p "$pref_var" >/dev/null 2>&1; then
-        echo "no preference variable found, skipping"
+        log_debug "Module '$module_name': no preference variable '$pref_var' found, skipping"
         return 0
     fi
     
@@ -124,11 +134,14 @@ process_module() {
 # Function to discover and run available modules
 run_discovered_modules() {
     validate_required_prefs
-    
-    echo "> discovering available modules in $_scripts"
-    
+
+    log_info "Discovering available modules in $_scripts"
+    log_debug "Scripts directory: $_scripts"
+
     # Find all .sh files in the scripts directory (excluding _lib)
     for script_file in "$_scripts"*.sh; do
         [ -f "$script_file" ] && process_module "$script_file"
     done
+
+    log_success "All modules completed"
 }

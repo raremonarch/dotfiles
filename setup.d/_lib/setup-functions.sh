@@ -1,11 +1,16 @@
 #!/bin/bash
 # Individual setup functions for setupv2.sh
 
+# Source logging library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/logging.sh"
+
 # Functions for individual steps
 setup_hostname() {
     local hostname="${1:-$_hostname}"
-    echo -n "> setting hostname to '$hostname' ... "
+    log_info "Running module: hostname (value: $hostname)"
     source ${_scripts}hostname.sh "$hostname"
+    log_success "Module 'hostname' completed"
 }
 
 setup_repos() {
@@ -35,11 +40,23 @@ setup_dotfiles() {
 setup_wallpaper() {
     local wallpaper_path="${1:-$_wallpaper}"
     if [ -n "$wallpaper_path" ]; then
-        echo -n "> setting up wallpaper ... "
+        log_info "Running module: wallpaper (value: $wallpaper_path)"
         wallpaper_expanded=$(eval echo "$wallpaper_path")
         source ${_scripts}wallpaper.sh "$wallpaper_expanded"
+        log_success "Module 'wallpaper' completed"
     else
-        echo "> no wallpaper specified, skipping"
+        log_debug "Module 'wallpaper': no wallpaper specified, skipping"
+    fi
+}
+
+setup_font() {
+    local font_name="${1:-$_font}"
+    if [ -n "$font_name" ]; then
+        log_info "Running module: font (value: $font_name)"
+        source ${_scripts}font.sh "$font_name"
+        log_success "Module 'font' completed"
+    else
+        log_debug "Module 'font': no font specified, skipping"
     fi
 }
 
@@ -51,8 +68,9 @@ setup_ollama() {
 setup_cursor() {
     local cursor_theme="${1:-$_cursor}"
     local cursor_size="${2:-$_cursor_size}"
-    echo "> setting up cursor theme '$cursor_theme' (size $cursor_size) ... "
+    log_info "Running module: cursor (theme: $cursor_theme, size: $cursor_size)"
     source ${_scripts}cursor.sh "$cursor_theme" "$cursor_size"
+    log_success "Module 'cursor' completed"
 }
 
 show_usage() {

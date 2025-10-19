@@ -4,27 +4,27 @@
 # Function to validate required preferences
 validate_required_prefs() {
     local missing_prefs=()
-    
+
     for pref in "${_required_prefs[@]}"; do
         if [ -z "${!pref}" ]; then
             missing_prefs+=("$pref")
         fi
     done
-    
+
     if [ ${#missing_prefs[@]} -gt 0 ]; then
-        echo "ERROR: Required preferences not set:"
+        log_error "Required preferences not set:"
         for pref in "${missing_prefs[@]}"; do
-            echo "  - $pref"
+            log_error "  - $pref"
         done
-        echo ""
-        echo "Please set these variables in setup.conf and try again."
+        log_error ""
+        log_error "Please set these variables in setup.conf and try again."
         exit 1
     fi
 }
 
 # Function to check for orphaned preference variables
 check_orphaned_preferences() {
-    echo "> checking for orphaned preference variables..."
+    log_debug "Checking for orphaned preference variables"
     local orphaned_prefs=()
     
     # Check all non-boolean preference variables that start with underscore
@@ -48,16 +48,16 @@ check_orphaned_preferences() {
     done < <(declare -p | grep "^declare -.*_.*=")
     
     if [ ${#orphaned_prefs[@]} -gt 0 ]; then
-        echo "ERROR: Found preference variables without corresponding scripts:"
+        log_error "Found preference variables without corresponding scripts:"
         for pref in "${orphaned_prefs[@]}"; do
-            echo "  - $pref"
+            log_error "  - $pref"
         done
-        echo ""
-        echo "This indicates an invalid configuration. Please either:"
-        echo "  1. Remove unused preference variables from setup.conf, or"
-        echo "  2. Create corresponding scripts in $_scripts"
-        echo ""
-        echo "Configuration must be fixed before running setup."
+        log_error ""
+        log_error "This indicates an invalid configuration. Please either:"
+        log_error "  1. Remove unused preference variables from setup.conf, or"
+        log_error "  2. Create corresponding scripts in $_scripts"
+        log_error ""
+        log_error "Configuration must be fixed before running setup."
         exit 1
     fi
 }
