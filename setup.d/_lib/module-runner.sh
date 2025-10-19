@@ -11,14 +11,15 @@ should_run_module() {
 get_module_execution_info() {
     local module_name="$1"
     local pref_value="$2"
-    
+
     # Determine execution type and arguments
     if [ "$pref_value" = "true" ]; then
         echo "boolean_true"
     elif [ "$pref_value" = "false" ]; then
         echo "skip"
     else
-        echo "configured" "$pref_value"
+        echo "configured"
+        echo "$pref_value"
     fi
 }
 
@@ -114,8 +115,8 @@ process_module() {
     
     # Get preference value and execution info
     pref_value="${!pref_var}"
-    execution_info=($(get_module_execution_info "$module_name" "$pref_value"))
-    
+    mapfile -t execution_info < <(get_module_execution_info "$module_name" "$pref_value")
+
     # Execute the module
     execute_module "$module_name" "$script_file" "${execution_info[@]}"
 }
