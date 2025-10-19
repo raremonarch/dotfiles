@@ -62,13 +62,14 @@ download_wallpaper() {
     fi
 }
 
-# Resolve wallpaper input to actual file path
+# Resolve wallpaper input to actual file path and normalize to ~/wallpaper.(ext)
+_wallpaper_source=""
 if [[ "$_wallpaper_input" == *"/"* ]] && [ -f "$_wallpaper_input" ]; then
     # It's a file path that exists
-    _wallpaper_path="$_wallpaper_input"
+    _wallpaper_source="$_wallpaper_input"
 elif [ -f "$_wallpaper_input" ]; then
     # It's a file in current directory
-    _wallpaper_path="$_wallpaper_input"
+    _wallpaper_source="$_wallpaper_input"
 else
     # Try to resolve as predefined wallpaper name
     wallpaper_url=$(resolve_wallpaper_name "$_wallpaper_input")
@@ -79,11 +80,11 @@ else
         download_exit_code=$?
         if [ $download_exit_code -eq 0 ]; then
             # Extract the file path from the last line of output
-            _wallpaper_path=$(echo "$download_output" | tail -1)
-            if [ -f "$_wallpaper_path" ]; then
-                echo "downloaded to: $_wallpaper_path"
+            _wallpaper_source=$(echo "$download_output" | tail -1)
+            if [ -f "$_wallpaper_source" ]; then
+                echo "downloaded to: $_wallpaper_source"
             else
-                echo "ERROR: Download succeeded but file not found: $_wallpaper_path"
+                echo "ERROR: Download succeeded but file not found: $_wallpaper_source"
                 exit 1
             fi
         else
@@ -102,16 +103,31 @@ else
     fi
 fi
 
-# Final check if wallpaper file exists
-if [ ! -f "$_wallpaper_path" ]; then
-    echo "ERROR: wallpaper file '$_wallpaper_path' not found"
+# Final check if wallpaper source file exists
+if [ ! -f "$_wallpaper_source" ]; then
+    echo "ERROR: wallpaper file '$_wallpaper_source' not found"
     exit 1
 fi
 
-_wallpaper_name=$(basename "$_wallpaper_path")
-_wallpaper_dir=$(dirname "$_wallpaper_path")
-_wallpaper_base="${_wallpaper_name%.*}"
-_wallpaper_ext="${_wallpaper_name##*.}"
+# Normalize: Copy/move source to ~/wallpaper.(ext) for consistent naming
+_source_ext="${_wallpaper_source##*.}"
+_wallpaper_path="$HOME/wallpaper.$_source_ext"
+
+# Only copy if it's not already at the target location
+if [ "$_wallpaper_source" != "$_wallpaper_path" ]; then
+    echo -n "normalizing wallpaper to ~/wallpaper.$_source_ext ... "
+    if cp "$_wallpaper_source" "$_wallpaper_path"; then
+        echo "done"
+    else
+        echo "failed"
+        exit 1
+    fi
+fi
+
+# Use consistent naming for all operations
+_wallpaper_name="wallpaper.$_source_ext"
+_wallpaper_base="wallpaper"
+_wallpaper_ext="$_source_ext"
 
 # Source the configuration to get wallpaper targets and definitions
 # Try multiple paths to find setup.conf
