@@ -14,7 +14,7 @@
         "tray"
     ],
     "clock": {
-        "format": "{:%H:%M}"
+        "format": "{:%H:%M • %b-%d}"
     },
     "cpu": {
         "format": "cpu [ {usage}% ]"
