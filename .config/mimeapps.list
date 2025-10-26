@@ -10,8 +10,10 @@ application/x-synology-drive-doc=synology-drive-open-file.desktop
 application/x-synology-drive-sheet=synology-drive-open-file.desktop
 application/x-synology-drive-slides=synology-drive-open-file.desktop
 application/xml=code.desktop
+image/vnd.microsoft.icon=com.google.Chrome.desktop
 
 [Added Associations]
 application/x-shellscript=code.desktop;
 text/plain=code.desktop;
 application/xml=code.desktop;
+image/vnd.microsoft.icon=com.google.Chrome.desktop;
