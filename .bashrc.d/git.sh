@@ -6,20 +6,20 @@ alias gitaddcommit='git add -A . && git commit -m '
 function clone-eis () {
     if [ -z ${1} ]; then
         echo "Usage: clone-eis <repo-name>"
-        echo "Example: clone-eis platform.shared.bookjacket-image-resolver"
-        echo "         -> git@gh-eis:EBSCOIS/platform.shared.bookjacket-image-resolver.git"
+    echo "Example: clone-eis platform.shared.bookjacket-image-resolver"
+    echo "         -> git@eis:EBSCOIS/platform.shared.bookjacket-image-resolver.git"
     else
-        git clone "git@gh-eis:EBSCOIS/${1}.git"
+    git clone "git@eis:EBSCOIS/${1}.git" ~/development/eis/${1}
     fi
 }
 
 function clone-daev () {
     if [ -z ${1} ]; then
         echo "Usage: clone-daev <repo-name>"
-        echo "Example: clone-daev my-personal-project"
-        echo "         -> git@gh-daev:daevski/my-personal-project.git"
+    echo "Example: clone-daev my-personal-project"
+    echo "         -> git@daevski:daevski/my-personal-project.git"
     else
-        git clone "git@gh-daev:daevski/${1}.git"
+    git clone "git@daevski:daevski/${1}.git" ~/development/daevski/${1}
     fi
 }
 

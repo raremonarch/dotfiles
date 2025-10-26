@@ -47,11 +47,11 @@ get_git_ssh_key() {
             local repo_owner=$(echo "$remote_url" | sed -E 's|.*[:/]([^/]+)/[^/]+\.git.*|\1|')
             case "$repo_owner" in
                 daevski)
-                    ssh_host="gh-daev"
+                    ssh_host="daev"
                     ;;
                 *)
                     # Default to work account for other repos
-                    ssh_host="gh-eis"
+                    ssh_host="eis"
                     ;;
             esac
             ;;
