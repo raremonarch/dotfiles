@@ -29,6 +29,7 @@ floating_modifier $mod normal
 
 exec copyq
 exec flameshot
+exec_always sh -c 'killall wlsunset; wlsunset -T 5000 -t 4000 -l 35.7796 -L 78.6382 &'
 # systemctl commands needed to import environment variables into systemd for desktop portals and services
 exec systemctl --user import-environment XDG_CURRENT_DESKTOP XDG_SESSION_TYPE WAYLAND_DISPLAY
 exec systemctl --user start graphical-session.target
@@ -36,6 +37,12 @@ exec_always $sys_idle
 exec_always --no-startup-id sh -c 'sleep 1; killall waybar; waybar'
 
 workspace 1 output HDMI-A-1
+workspace 3 output HDMI-A-1
+workspace 5 output HDMI-A-1
+
+workspace 2 output HDMI-A-2
+workspace 4 output HDMI-A-2
+workspace 6 output HDMI-A-2
 
 bindsym {
     $mod+r exec $menu
