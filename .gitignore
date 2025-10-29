@@ -1,7 +1,5 @@
 # please sort entries
 
-!.ssh/config
-!.vscode/argv.json
 .aws/cli/
 .aws/sso/
 .bash_*
@@ -22,8 +20,10 @@
 .config/google-chrome*
 .config/ibus
 .config/lxqt
+.config/nordvpn
 .config/org.gnome.*
 .config/pulse
+.config/qBittorrent/*
 .config/QtProject.conf
 .config/remmina
 .config/Thunar
@@ -36,6 +36,7 @@
 .icons
 .local
 .mozilla
+.npm*
 .ollama
 .pki
 .pyenv/
@@ -60,3 +61,9 @@ SynologyDrive
 Templates
 Videos
 wallpaper.jpg
+
+# allow specific files
+
+!.config/qBittorrent/qBittorrent.conf
+!.ssh/config
+!.vscode/argv.json

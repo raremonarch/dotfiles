@@ -5,7 +5,7 @@ alias tstamp='~/Scripts/timestamp-to-clipboard.sh'
 alias fproc='ps aux | grep -i'
 alias psg='ps aux | grep -i'
 alias llama='ollama run llama3'
-alias kit='/home/david/development/gh-daev/kitbash/kit-start.sh'
+alias kit='/home/david/development/daevski/kitbash/kit-start.sh'
 
 function confi3() {
   vim ~/.config/i3/config

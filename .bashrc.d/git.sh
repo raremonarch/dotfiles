@@ -13,10 +13,10 @@ function clone-eis () {
     fi
 }
 
-function clone-daev () {
+function clone-daevski () {
     if [ -z ${1} ]; then
-        echo "Usage: clone-daev <repo-name>"
-    echo "Example: clone-daev my-personal-project"
+        echo "Usage: clone-daevski <repo-name>"
+    echo "Example: clone-daevski my-personal-project"
     echo "         -> git@daevski:daevski/my-personal-project.git"
     else
     git clone "git@daevski:daevski/${1}.git" ~/development/daevski/${1}

@@ -28,7 +28,9 @@ gaps {
 floating_modifier $mod normal
 
 exec copyq
-exec flameshot
+# exec flameshot
+# Screenshot region and annotate with swappy
+bindsym Print exec grim -g "$(slurp)" - | swappy -f -
 exec_always sh -c 'killall wlsunset; wlsunset -T 5000 -t 4000 -l 35.7796 -L 78.6382 &'
 # systemctl commands needed to import environment variables into systemd for desktop portals and services
 exec systemctl --user import-environment XDG_CURRENT_DESKTOP XDG_SESSION_TYPE WAYLAND_DISPLAY
@@ -60,7 +62,7 @@ bindsym {
     $mod+Shift+Left move left
     $mod+Shift+Right move right
 
-    $mod+Print exec flameshot gui
+    # $mod+Print exec flameshot gui
     $mod+1 workspace number 1
     $mod+2 workspace number 2
     $mod+3 workspace number 3
