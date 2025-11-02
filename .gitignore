@@ -11,6 +11,7 @@
 .config/Code
 .config/copyq
 .config/dconf
+.config/discord/
 .config/evolution
 .config/flameshot
 .config/freerdp
@@ -28,6 +29,7 @@
 .config/remmina
 .config/Thunar
 .config/user-dirs*
+.config/vscode-sqltools/*
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 .config/Yubico/
@@ -40,8 +42,10 @@
 .ollama
 .pki
 .pyenv/
+.rest-client/
 .smbcred*
 .ssh
+.steam*
 .SynologyDrive
 .terraform.d/
 .vim
