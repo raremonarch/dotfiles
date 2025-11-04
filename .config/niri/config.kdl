@@ -68,6 +68,12 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+// Cursor configuration
+cursor {
+    xcursor-theme "breeze_cursors"
+    xcursor-size 20
+}
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -269,6 +275,12 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 
+// Wallpaper background daemon
+spawn-sh-at-startup "pkill swaybg; swaybg -i /usr/share/backgrounds/wallpaper.jpg -m fill"
+
+// Night light / color temperature adjustment
+spawn-at-startup "wlsunset" "-T" "5000" "-t" "4000" "-l" "35.7796" "-L" "-78.6382"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -347,7 +359,7 @@ window-rule {
 
 // VS Code - full width
 window-rule {
-    match app-id=r#"^code"#
+    match app-id=r#"^Code$"#
     default-column-width { proportion 1.0; }
 }
 
@@ -382,7 +394,7 @@ binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+R hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -terminal 'alacritty' -show combi -combi-modes drun#run -modes combi"; }
     Mod+E hotkey-overlay-title="Open File Manager: thunar" { spawn "thunar"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -414,16 +426,25 @@ binds {
     Mod+Shift+C repeat=false { close-window; }
     Mod+Shift+R hotkey-overlay-title="Reload Configuration" { spawn-sh "niri msg action reload-config"; }
 
-    // Focus removed - using focus-follows-mouse instead
-    // Window movement simplified to Mod+HJKL/Arrow
-    Mod+Left  { move-column-left; }
-    Mod+Down  { move-window-down; }
-    Mod+Up    { move-window-up; }
-    Mod+Right { move-column-right; }
-    Mod+H     { move-column-left; }
-    Mod+J     { move-window-down; }
-    Mod+K     { move-window-up; }
-    Mod+L     { move-column-right; }
+    // Focus navigation with Mod+Direction
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { focus-window-up; }
+    Mod+L     { focus-column-right; }
+
+    // Window movement with Mod+Shift+Direction
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+J     { move-window-down; }
+    Mod+Shift+K     { move-window-up; }
+    Mod+Shift+L     { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
@@ -437,8 +458,17 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    // Monitor focus removed - using focus-follows-mouse instead
+    // Monitor focus (switch to other monitor)
+    Mod+Ctrl+Left  { focus-monitor-left; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Ctrl+H     { focus-monitor-left; }
+    Mod+Ctrl+J     { focus-monitor-down; }
+    Mod+Ctrl+K     { focus-monitor-up; }
+    Mod+Ctrl+L     { focus-monitor-right; }
 
+    // Move window/column to other monitor
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
     Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }

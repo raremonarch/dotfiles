@@ -53,7 +53,6 @@
 .vscode
 *.bak*
 *.swp
-*todo.md
 Desktop
 development
 Documents
