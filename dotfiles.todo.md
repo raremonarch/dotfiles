@@ -2,22 +2,14 @@
 
 ## Window Manager & Display Issues
 
-### 1. hyprlock and hypridle not triggering as expected
-
-- [ ] Verify hypridle configuration in [.config/hypr/hypridle.conf](.config/hypr/hypridle.conf)
-- [ ] Check if hypridle service is running
-- [ ] Review hyprlock configuration
-- [ ] Test lock timeout settings
-- [ ] Check for any conflicting idle/lock managers
-
-### 2. greetd login form split across dual monitors
+### 1. greetd login form split across dual monitors
 
 - [ ] Locate gtkgreet configuration in [.config/gtkgreet/](.config/gtkgreet/)
 - [ ] Configure gtkgreet to target specific monitor
 - [ ] Test centering on primary display
 - [ ] Alternative: Consider adjusting greeter position/geometry
 
-### 3. Set CapsLock as Mod key (or switch from SUPER)
+### 2. Set CapsLock as Mod key (or switch from SUPER)
 
 - [ ] For Hyprland: Update mod key binding in [.config/hypr/hyprland.conf](.config/hypr/hyprland.conf)
 - [ ] For Niri: Update mod key in [.config/niri/config.kdl](.config/niri/config.kdl)
