@@ -51,12 +51,23 @@ This system uses multiple Wayland compositors:
 - **Terminal**: Alacritty
 - **Launcher**: rofi
 - **Bar**: waybar
-- **Screen Lock**: hyprlock (with hypridle for idle management)
+- **Screen Lock**: hyprlock (works across all WMs)
+- **Idle Management**: hypridle (compositor-agnostic, enabled as systemd user service)
 - **Clipboard**: copyq
 - **File Manager**: thunar
 - **Wallpaper**: swaybg
 - **Color Temperature**: wlsunset
 - **Greeter**: greetd with gtkgreet
+
+### Idle and Lock Management
+
+- **hypridle** is configured to work across all three window managers (Hyprland, Niri, Sway)
+- Config location: [.config/hypr/hypridle.conf](.config/hypr/hypridle.conf)
+- Uses compositor-agnostic commands that auto-detect the running WM
+- Enabled as a systemd user service: `systemctl --user status hypridle`
+- Timeouts: Lock after 5 minutes idle, monitor off after 10 minutes
+- **Known behavior**: When running in Niri (not Hyprland), hypridle logs warnings about missing `hyprland-lock-notify-v1` protocol and `org.freedesktop.ScreenSaver` interface conflicts. These are non-fatal - the core idle detection and timeouts still work correctly.
+- Uses `loginctl lock-session` which triggers hyprlock regardless of compositor
 
 ## Task Management Approach
 
