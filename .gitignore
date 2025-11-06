@@ -1,7 +1,6 @@
 # please sort entries
 
-.aws/cli/
-.aws/sso/
+.aws/
 .bash_*
 .cache
 .claude*
