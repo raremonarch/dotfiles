@@ -68,6 +68,13 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+// Gestures configuration
+gestures {
+    hot-corners {
+        off
+    }
+}
+
 // Cursor configuration
 cursor {
     xcursor-theme "breeze_cursors"
