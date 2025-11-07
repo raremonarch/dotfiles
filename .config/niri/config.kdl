@@ -383,6 +383,13 @@ window-rule {
     default-window-height { proportion 0.5; }
 }
 
+// Remmina - full width for connection windows (exclude main launcher)
+window-rule {
+    match app-id=r#"^org\.remmina\.Remmina$"#
+    exclude title=r#"^Remmina Remote Desktop Client$"#
+    default-column-width { proportion 1.0; }
+}
+
 binds {
     // ===== KEYBINDING PHILOSOPHY =====
     // Mod          = Focus (fluid navigation across windows/workspaces/monitors)
