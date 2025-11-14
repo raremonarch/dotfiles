@@ -75,9 +75,9 @@ get_git_ssh_key() {
 is_key_loaded() {
     local key_file="$1"
     local key_fingerprint
-    
+
     [ -f "$key_file" ] || return 1
-    
+
     key_fingerprint=$(ssh-keygen -lf "$key_file" 2>/dev/null | awk '{print $2}')
     [ -n "$key_fingerprint" ] && ssh-add -l 2>/dev/null | grep -q "$key_fingerprint"
 }
@@ -85,40 +85,21 @@ is_key_loaded() {
 # Function to ensure the right SSH key is loaded for git operations
 ssh_load_git_key() {
     local key_file
-    
+
     # Get the SSH key needed for this git repository
     key_file=$(get_git_ssh_key)
-    
+
     if [ -z "$key_file" ]; then
         echo "Could not determine SSH key for this repository"
         return 1
     fi
-    
+
     # Check if the key is already loaded
     if is_key_loaded "$key_file"; then
         return 0
     fi
-    
+
     # Load the specific key
     echo "Loading SSH key: $(basename "$key_file")"
     ssh-add "$key_file"
-}
-
-# Enhanced git aliases that ensure SSH keys are loaded
-alias git-push='ssh_load_git_key && git push'
-alias git-pull='ssh_load_git_key && git pull'
-alias git-fetch='ssh_load_git_key && git fetch'
-alias git-clone='ssh_load_git_key && git clone'
-
-# Optional: Override the git command itself for push/pull/fetch operations
-git() {
-    case "$1" in
-        push|pull|fetch|clone)
-            ssh_load_git_key
-            command git "$@"
-            ;;
-        *)
-            command git "$@"
-            ;;
-    esac
 }
