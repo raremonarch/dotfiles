@@ -103,3 +103,19 @@ ssh_load_git_key() {
     echo "Loading SSH key: $(basename "$key_file")"
     ssh-add "$key_file"
 }
+
+# Override git command to auto-load SSH keys for remote operations
+git() {
+    case "$1" in
+        push|pull|fetch)
+            # Only try to load key if we're in a git repo
+            if git rev-parse --git-dir &>/dev/null; then
+                ssh_load_git_key || true  # Continue even if key loading fails
+            fi
+            command git "$@"
+            ;;
+        *)
+            command git "$@"
+            ;;
+    esac
+}
