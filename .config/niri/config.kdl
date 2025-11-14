@@ -289,6 +289,9 @@ spawn-sh-at-startup "pkill swaybg; swaybg -i /usr/share/backgrounds/wallpaper.jp
 // Night light / color temperature adjustment
 spawn-at-startup "wlsunset" "-T" "5000" "-t" "4000" "-l" "35.7796" "-L" "-78.6382"
 
+// Clipboard manager daemon
+spawn-at-startup "copyq"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -388,6 +391,12 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.remmina\.Remmina$"#
     exclude title=r#"^Remmina Remote Desktop Client$"#
+    default-column-width { proportion 1.0; }
+}
+
+// GNOME Boxes - full width for VM windows
+window-rule {
+    match app-id=r#"^org\.gnome\.Boxes$"#
     default-column-width { proportion 1.0; }
 }
 
