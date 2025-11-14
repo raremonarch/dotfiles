@@ -14,13 +14,16 @@
 .config/evolution
 .config/flameshot
 .config/freerdp
+.config/gnome-boxes/
 .config/gnome-initial-setup-done
 .config/gnome-session
 .config/goa-*
 .config/google-chrome*
 .config/ibus
+.config/libvirt/
 .config/lxqt
 .config/nordvpn
+.config/obsidian/
 .config/org.gnome.*
 .config/pulse
 .config/qBittorrent/*
