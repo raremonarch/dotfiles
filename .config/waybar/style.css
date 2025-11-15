@@ -1,25 +1,37 @@
+/* Neon Flow Theme for Waybar */
+
 * {
     font-family: "chivo";
     font-size: 12px;
     min-height: 12px;
     padding: 1px 2px;
     margin: 1px;
-    background-color: #2e2e2e;
+    background-color: #161b22;
 }
 
 #waybar {
     min-height: 20px;
-    background: black;
-    color: #ffffff;
+    background: #161b22;
+    color: #e6edf3;
+    border-bottom: 1px solid #30363d;
 }
 
 #workspaces button {
     background: transparent;
-    color: #ffffff;
+    color: #7d8590;
+    padding: 0 8px;
+    border-radius: 4px;
 }
 
 #workspaces button.focused {
-    border: 1px solid black;
+    background: #30363d;
+    color: #80c8ff;
+    border: 1px solid #58a6ff;
+}
+
+#workspaces button:hover {
+    background: #21262d;
+    color: #c7ff7f;
 }
 
 #clock,
@@ -29,28 +41,74 @@
 #network,
 #pulseaudio,
 #tray {
-    color: #ffffff;
+    color: #e6edf3;
     padding: 0 8px;
-    border: 1px solid black;
+    background: #21262d;
+    border-radius: 4px;
+    margin: 2px;
 }
 
 #clock {
     background: transparent;
     font-family: "bedstead";
+    color: #80c8ff;
     border: none;
 }
 
-#network.wifi,
+#cpu {
+    color: #bc8cff;
+    border: 1px solid #484f58;
+}
+
+#memory {
+    color: #ff6ec7;
+    border: 1px solid #484f58;
+}
+
+#battery {
+    color: #7ee787;
+    border: 1px solid #484f58;
+}
+
+#battery.warning {
+    color: #f0e68c;
+    border-color: #f0e68c;
+}
+
+#battery.critical {
+    color: #ff7b72;
+    border-color: #ff7b72;
+}
+
+#network {
+    color: #56d4dd;
+    border: 1px solid #484f58;
+}
+
+#network.wifi {
+    color: #7ee787;
+}
+
 #network.ethernet {
-    color: #4caf50;
+    color: #80c8ff;
 }
 
 #network.linked {
-    color: #ff9800;
+    color: #f0e68c;
 }
 
 #network.disconnected {
-    color: #f44336;
+    color: #ff7b72;
+    border-color: #ff7b72;
+}
+
+#pulseaudio {
+    color: #c7ff7f;
+    border: 1px solid #484f58;
+}
+
+#pulseaudio.muted {
+    color: #484f58;
 }
 
 #battery {

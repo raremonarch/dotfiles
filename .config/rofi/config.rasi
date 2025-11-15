@@ -3,13 +3,13 @@
 
 * {
   selected-active-foreground:  @background;
-  lightfg:                     @lime;
-  separatorcolor:              @cyan;
+  lightfg:                     @cyan;
+  separatorcolor:              @lime;
   urgent-foreground:           @red;
   alternate-urgent-background: @lightbg;
   lightbg:                     @mantle;
   background-color:            transparent;
-  border-color:                @cyan;
+  border-color:                @lime;
   normal-background:           @background;
   selected-urgent-background:  @red;
   alternate-active-background: @lightbg;
@@ -17,17 +17,17 @@
   alternate-normal-foreground: @foreground;
   urgent-background:           @background;
   selected-normal-foreground:  @background;
-  active-foreground:           @cyan;
+  active-foreground:           @lime;
   background:                  @base;
-  selected-active-background:  @cyan;
+  selected-active-background:  @lime;
   active-background:           @background;
-  selected-normal-background:  @lime;
+  selected-normal-background:  @cyan;
   alternate-normal-background: @lightbg;
   foreground:                  @text;
   selected-urgent-foreground:  @background;
   normal-foreground:           @foreground;
   alternate-urgent-foreground: @red;
-  alternate-active-foreground: @cyan;
+  alternate-active-foreground: @lime;
 }
 
 element {
@@ -110,7 +110,7 @@ mainbox {
 message {
     padding:      1px;
     border-color: @separatorcolor;
-    border:       2px dash 0px 0px;
+    border:       1px dash 0px 0px;
 }
 
 textbox {
@@ -123,7 +123,7 @@ listview {
     border-color: @separatorcolor;
     spacing:      2px;
     fixed-height: 0;
-    border:       2px dash 0px 0px;
+    border:       1px dash 0px 0px;
 }
 
 scrollbar {
@@ -136,7 +136,7 @@ scrollbar {
 
 sidebar {
     border-color: @separatorcolor;
-    border:       2px dash 0px 0px;
+    border:       1px dash 0px 0px;
 }
 
 button {

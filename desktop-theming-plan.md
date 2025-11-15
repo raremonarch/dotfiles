@@ -1,24 +1,35 @@
-# Desktop Theming Plan - Catppuccin Macchiato
+# Desktop Theming Plan - Neon Flow
 
-Goal: Create a consistent Catppuccin Macchiato theme across all desktop components.
+Goal: Create a consistent "Neon Flow" custom theme across all desktop components.
+
+## Theme Philosophy
+
+**Neon Flow** is a custom theme built around vibrant lime-cyan gradient (#c7ff7f → #80c8ff) with:
+
+- High contrast, vibrant accent colors
+- Dark blue-gray backgrounds for comfort
+- Energetic, modern aesthetic
+- More saturated than Catppuccin, less extreme than pure cyberpunk
+
+Full palette documented in [custom-theme-palette.md](custom-theme-palette.md)
 
 ## Current Status
 
-### ✅ Already Themed
+### ✅ Already Themed (Neon Flow)
 
-- **Alacritty (Terminal)**: Using Catppuccin Macchiato theme
-- **Hyprlock (Screen Locker)**: Using Catppuccin Frappé colors (could update to Macchiato for consistency)
-- **GTK Apps (Thunar, etc.)**: Now using Adwaita-dark (functional dark mode)
+- **Mako (Notifications)**: Custom Neon Flow theme with electric blue borders
+- **Rofi (App Launcher)**: Custom theme with lime selection and cyan accents
+- **Niri Focus Ring**: Lime-to-cyan gradient (the theme's signature!)
+- **GTK Apps (Thunar, etc.)**: Using Adwaita-dark (functional dark mode)
 
 ### ❌ Not Themed (Default/Basic Styling)
 
 - **Waybar (Status Bar)**: Basic black/white theme, highly visible, HIGH IMPACT
-- **Mako (Notifications)**: No config file, using defaults, HIGH IMPACT
-- **Rofi (App Launcher)**: No config file, using defaults, HIGH IMPACT
-- **Niri Focus Ring**: Custom green-to-blue gradient, not Catppuccin, MEDIUM IMPACT
-- **Niri Window Borders**: Currently disabled, could enable with Catppuccin colors, MEDIUM IMPACT
-- **GTK Theme**: Using Adwaita-dark (works but not Catppuccin), MEDIUM IMPACT
-- **Cursor Theme**: Using breeze_cursors (works but not Catppuccin), LOW IMPACT
+- **Alacritty (Terminal)**: Still using Catppuccin Macchiato (inconsistent), MEDIUM IMPACT
+- **Hyprlock (Screen Locker)**: Using Catppuccin Frappé colors (inconsistent), MEDIUM IMPACT
+- **Niri Window Borders**: Currently disabled, could enable with Neon Flow colors, MEDIUM IMPACT
+- **GTK Theme**: Using Adwaita-dark (works but not Neon Flow), LOW IMPACT
+- **Cursor Theme**: Using breeze_cursors (works but not themed), LOW IMPACT
 
 ## Components Breakdown
 
@@ -33,110 +44,127 @@ Goal: Create a consistent Catppuccin Macchiato theme across all desktop componen
 **What to theme**: Background, text colors, module backgrounds, accent colors
 **Reload**: `pkill -SIGUSR2 waybar`
 
-### 2. Mako (Notification Daemon) - HIGH IMPACT
+### 2. Mako (Notification Daemon) - ✅ THEMED
 
-**Why**: Appears frequently, currently completely unstyled
-**Current**: Default theme (no config)
+**Why**: Appears frequently for system notifications
+**Current**: Neon Flow theme with electric blue borders
 **Files**:
 
-- `~/.config/mako/config` (doesn't exist yet, needs to be created)
-**What to theme**: Background, text, border colors, urgency levels
+- `~/.config/mako/config` (themed with Neon Flow colors)
+**What to theme**: Already themed - dark background (#161b22), bright text, electric blue borders (#58a6ff), red critical alerts
 **Reload**: `makoctl reload`
 
-### 3. Rofi (Application Launcher) - HIGH IMPACT
+### 3. Rofi (Application Launcher) - ✅ THEMED
 
 **Why**: Used every time you launch apps (Mod+R)
-**Current**: No configuration, using defaults
+**Current**: Neon Flow theme with lime selection highlights
 **Files**:
 
-- `~/.config/rofi/config.rasi` (doesn't exist yet)
-**What to theme**: Window background, text, selection colors, borders
-**Note**: Pre-made Catppuccin rofi themes are available
+- `~/.config/rofi/config.rasi` (themed with Neon Flow)
+- `~/.config/rofi/neon-flow.rasi` (color palette)
+**What to theme**: Already themed - dark background, bright text, vibrant lime (#c7ff7f) selection, cyan borders
 **Reload**: Automatic on next launch
 
-### 4. Niri Focus Ring & Borders - MEDIUM IMPACT
+### 4. Niri Focus Ring & Borders - ✅ THEMED
 
-**Why**: Visual indicator for active window
-**Current**: Green-to-blue gradient (lines 198-204 in config)
+**Why**: Visual indicator for active window - THE SIGNATURE ELEMENT!
+**Current**: Lime-to-cyan gradient (#c7ff7f → #80c8ff) - this is the theme's foundation!
 **Files**:
 
 - `~/.config/niri/config.kdl` (lines 170-226 for focus-ring and border)
-**What to theme**: Focus ring colors/gradient, optional window borders
+**What to theme**: Already themed - the iconic gradient that defines Neon Flow
 **Reload**: `niri msg action reload-config` (doesn't restart apps, safe to use)
 
-### 5. GTK Theme - MEDIUM IMPACT
+### 5. GTK Theme - LOW IMPACT
 
 **Why**: Affects file manager, settings apps, and login screen (gtkgreet)
-**Current**: Adwaita-dark (functional but not Catppuccin)
-**Option 1**: Install Catppuccin GTK theme
-**Option 2**: Keep Adwaita-dark (it works and looks fine)
+**Current**: Adwaita-dark (functional, good enough)
+**Consideration**: Could create custom GTK theme with Neon Flow colors, but low priority
 **Files**:
 
 - `~/.config/gtk-3.0/settings.ini`
 - gsettings via `gsettings set org.gnome.desktop.interface gtk-theme`
 **Reload**: Restart GTK apps
 
-### 6. Hyprlock - ALREADY THEMED (but inconsistent)
+### 6. Alacritty (Terminal) - MEDIUM IMPACT
 
-**Current**: Using Catppuccin Frappé colors
-**Consideration**: Update to Macchiato to match terminal
+**Why**: Used frequently for development and system tasks
+**Current**: Using Catppuccin Macchiato (inconsistent with Neon Flow)
+**Consideration**: Update to Neon Flow for consistency
+**Files**: `~/.config/alacritty/alacritty.toml` and color scheme file
+**Reload**: Automatic on config save
+
+### 7. Hyprlock (Screen Locker) - MEDIUM IMPACT
+
+**Why**: Seen every time screen locks
+**Current**: Using Catppuccin Frappé colors (inconsistent with Neon Flow)
+**Consideration**: Update to Neon Flow for consistency
 **Files**: `~/.config/hypr/hyprlock.conf`
+**Reload**: Automatic on next lock
 
-### 7. Cursor Theme - LOW IMPACT
+### 8. Cursor Theme - LOW IMPACT
 
-**Current**: breeze_cursors
-**Option**: Install Catppuccin cursor theme
+**Current**: breeze_cursors (works fine)
+**Consideration**: Could look for vibrant cursor theme, but low priority
 **Files**:
 
 - `~/.config/niri/config.kdl` (line 80)
 - `~/.config/gtk-3.0/settings.ini`
 
-## Catppuccin Macchiato Color Palette
+## Neon Flow Color Palette
+
+For complete color palette documentation, see [custom-theme-palette.md](custom-theme-palette.md)
+
+**Quick Reference:**
 
 ```plaintext
-Base (background):  #24273a
-Mantle (darker):    #1e2030
-Crust (darkest):    #181926
-Text:               #cad3f5
-Subtext1:           #b8c0e0
-Subtext0:           #a5adcb
-Overlay2:           #939ab7
-Overlay1:           #8087a2
-Overlay0:           #6e738d
-Surface2:           #5b6078
-Surface1:           #494d64
-Surface0:           #363a4f
+# Base Colors (Backgrounds & Neutrals)
+Darkest:            #0d1117  (very dark blue-gray)
+Dark:               #161b22  (dark blue-gray)
+Medium Dark:        #21262d  (medium dark blue-gray)
+Surface:            #30363d  (lighter surface)
+Border:             #484f58  (subtle borders)
+Muted:              #6e7681  (muted text/icons)
 
-# Catppuccin - Macchiato
-Lavender:           #b7bdf8
-Blue:               #8aadf4
-Sapphire:           #7dc4e4
-Sky:                #91d7e3
-Teal:               #8bd5ca
-Green:              #a6da95
-Yellow:             #eed49f
-Peach:              #f5a97f
-Maroon:             #ee99a0
-Red:                #ed8796
-Mauve:              #c6a0f6
-Pink:               #f5bde6
-Flamingo:           #f0c6c6
-Rosewater:          #f4dbd6
+# Text Colors
+Text Primary:       #e6edf3  (bright white-blue)
+Text Secondary:     #7d8590  (dimmed text)
+Text Muted:         #484f58  (very subtle text)
+
+# Core Accent Gradient (Theme Signature!)
+Lime Green:         #c7ff7f  (vibrant lime)
+Cyan:               #80c8ff  (bright cyan)
+
+# Extended Accent Colors
+Electric Blue:      #58a6ff  (vibrant blue - links, info)
+Bright Green:       #7ee787  (success, positive)
+Neon Yellow:        #f0e68c  (warnings, highlights)
+Vibrant Orange:     #ff9f68  (moderate warnings)
+Hot Pink:           #ff6ec7  (magenta, special)
+Bright Red:         #ff7b72  (errors, critical)
+Purple:             #bc8cff  (special states)
+Teal:               #56d4dd  (alternative accent)
 ```
 
 ## Recommended Order of Attack
 
-1. **Waybar** - Most visible, biggest impact
-2. **Mako** - Notifications appear frequently
-3. **Rofi** - Used constantly for launching apps
-4. **Niri focus ring** - Quick config change, nice visual improvement
-5. **GTK theme** - Optional, Adwaita-dark is fine for now
-6. **Hyprlock** - Update to Macchiato for consistency
-7. **Cursor** - Lowest priority, current one works fine
+**Already completed:**
+
+1. ✅ **Niri focus ring** - The signature gradient that started it all!
+2. ✅ **Mako** - Notifications themed with electric blue borders
+3. ✅ **Rofi** - App launcher themed with lime selection highlights
+
+**Next steps for full Neon Flow theme:**
+4. **Waybar** - Most visible, biggest impact (user previously tried but reverted)
+5. **Alacritty** - Update from Catppuccin Macchiato for consistency
+6. **Hyprlock** - Update from Catppuccin Frappé for consistency
+7. **GTK theme** - Optional, Adwaita-dark is fine for now
+8. **Cursor** - Lowest priority, current one works fine
 
 ## Notes
 
 - All theming is config-file based, no system changes needed
 - Changes are easily reversible via git
 - Most components reload without restarting the session
-- Focus on consistency: pick ONE Catppuccin variant (Macchiato) and use it everywhere
+- **Theme philosophy**: Vibrant, energetic, high-contrast - more saturated than Catppuccin, less extreme than pure cyberpunk
+- The lime-cyan gradient (#c7ff7f → #80c8ff) is the theme's signature element
