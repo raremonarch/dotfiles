@@ -1,0 +1,39 @@
+// Neon Flow color palette
+* {
+  // Base colors (matching old variable names for compatibility)
+  base:                 #0d1117;
+  mantle:               #161b22;
+  crust:                #21262d;
+  surface0:             #30363d;
+  surface1:             #484f58;
+  overlay0:             #6e7681;
+
+  // Text colors
+  text:                 #e6edf3;
+  subtext0:             #7d8590;
+  subtext1:             #484f58;
+
+  // Accent colors (matching expected variable names)
+  green:                #7ee787;
+  teal:                 #56d4dd;
+  sky:                  #80c8ff;
+  sapphire:             #58a6ff;
+  blue:                 #58a6ff;
+  lavender:             #bc8cff;
+  mauve:                #bc8cff;
+
+  red:                  #ff7b72;
+  maroon:               #ff6ec7;
+  peach:                #ff9f68;
+  yellow:               #f0e68c;
+
+  // Custom additions
+  lime:                 #c7ff7f;
+  cyan:                 #80c8ff;
+
+  // Semantic assignments
+  background:           @base;
+  foreground:           @text;
+  lightbg:              @mantle;
+  lightfg:              @text;
+}

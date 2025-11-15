@@ -1,11 +1,11 @@
-# Mako configuration - Catppuccin Macchiato theme
+# Mako configuration - Neon Flow custom theme
 
 # Appearance
 font=AudioLink Mono 11
-background-color=#24273a
-text-color=#cad3f5
-border-color=#8aadf4
-border-size=2
+background-color=#161b22
+text-color=#e6edf3
+border-color=#58a6ff
+border-size=1
 border-radius=8
 padding=12
 margin=10
@@ -28,15 +28,15 @@ layer=overlay
 
 # Urgency levels
 [urgency=low]
-border-color=#6e738d
-background-color=#1e2030
+border-color=#484f58
+background-color=#0d1117
 
 [urgency=normal]
-border-color=#8aadf4
-background-color=#24273a
+border-color=#58a6ff
+background-color=#161b22
 
 [urgency=critical]
-border-color=#ed8796
-background-color=#24273a
-text-color=#ed8796
+border-color=#ff7b72
+background-color=#161b22
+text-color=#ff7b72
 default-timeout=0
