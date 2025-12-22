@@ -17,6 +17,7 @@
 .config/gnome-boxes/
 .config/gnome-initial-setup-done
 .config/gnome-session
+.config/ghb/
 .config/goa-*
 .config/google-chrome*
 .config/ibus
@@ -30,13 +31,18 @@
 .config/QtProject.conf
 .config/remmina
 .config/Thunar
+.config/transmission/
+.config/vlc/
 .config/user-dirs*
 .config/vscode-sqltools/*
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 .config/Yubico/
+.config/zoom.conf
+.config/zoomus.conf
 .docker
 .dotnet
+.guard/
 .icons
 .local
 .mozilla
@@ -53,8 +59,10 @@
 .vim
 .viminfo
 .vscode
+.zoom/
 *.bak*
 *.swp
+code/
 Desktop
 development
 Documents
@@ -63,9 +71,11 @@ Music
 Pictures
 Public
 SynologyDrive
+temp/
 Templates
 Videos
 wallpaper.jpg
+.ubuntu24.04--2.draft.txt
 
 # allow specific files
 
