@@ -53,6 +53,22 @@
     color: #f44336;
 }
 
+#battery {
+    color: #4caf50;
+}
+
+#battery.charging {
+    color: #2196f3;
+}
+
+#battery.warning:not(.charging) {
+    color: #ff9800;
+}
+
+#battery.critical:not(.charging) {
+    color: #f44336;
+}
+
 #tray {
     background: transparent;
     border: none;

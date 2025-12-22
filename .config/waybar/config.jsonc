@@ -9,6 +9,7 @@
     "modules-right": [
         "cpu",
         "memory",
+        "battery",
         "pulseaudio",
         "network",
         "tray"
@@ -21,6 +22,16 @@
     },
     "memory": {
         "format": "mem [ {percentage}% ]"
+    },
+    "battery": {
+        "format": "bat [ {capacity}% ]",
+        "format-charging": "bat [ {capacity}% ⚡ ]",
+        "format-plugged": "bat [ {capacity}% 🔌 ]",
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
     },
     "pulseaudio": {
         "format": "vol [ {volume}% ]"
