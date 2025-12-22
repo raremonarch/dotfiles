@@ -1,0 +1,7 @@
+{
+  "watch_directories": [
+    "/home/david/code"
+  ],
+  "refresh_interval": 5,
+  "max_depth": 5
+}
