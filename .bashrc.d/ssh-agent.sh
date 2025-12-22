@@ -1,3 +1,9 @@
+#!/bin/bash
+# Module: ssh-agent
+# Version: 0.2.0
+# Description: SSH agent management with automatic key loading for ssh and git
+# BashMod Dependencies: none
+
 # SSH Agent Management
 # Ensures SSH agent is running and available for the session
 # Keys are loaded on-demand when first needed
@@ -102,6 +108,83 @@ ssh_load_git_key() {
     # Load the specific key
     echo "Loading SSH key: $(basename "$key_file")"
     ssh-add "$key_file"
+}
+
+# Function to get SSH key for a given host
+get_ssh_key_for_host() {
+    local ssh_host="$1"
+    local identity_file
+
+    [ -z "$ssh_host" ] && return 1
+
+    # Look up the identity file for this host in SSH config
+    # Use 'command ssh' to avoid calling our wrapper function
+    identity_file=$(command ssh -G "$ssh_host" 2>/dev/null | grep -E '^identityfile ' | head -1 | awk '{print $2}')
+
+    # Expand tilde to home directory
+    identity_file="${identity_file/#\~/$HOME}"
+
+    if [ -f "$identity_file" ]; then
+        echo "$identity_file"
+        return 0
+    elif [ -n "$identity_file" ]; then
+        # Key is configured but file doesn't exist
+        echo "Warning: SSH key configured for '$ssh_host' but not found: $identity_file" >&2
+    fi
+
+    return 1
+}
+
+# Override ssh command to auto-load SSH keys
+ssh() {
+    local key_file=""
+    local host_arg=""
+    local args=()
+
+    # Parse arguments to find -i flag and host
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -i)
+                key_file="$2"
+                args+=("$1" "$2")
+                shift 2
+                ;;
+            -*)
+                args+=("$1")
+                shift
+                ;;
+            *)
+                # First non-option argument is typically user@host or host
+                if [ -z "$host_arg" ]; then
+                    host_arg="$1"
+                fi
+                args+=("$1")
+                shift
+                ;;
+        esac
+    done
+
+    # If -i was specified, use that key
+    if [ -n "$key_file" ]; then
+        # Expand tilde if present
+        key_file="${key_file/#\~/$HOME}"
+    # Otherwise, try to get key from SSH config based on host
+    elif [ -n "$host_arg" ]; then
+        # Extract just the hostname part (remove user@ prefix if present)
+        local hostname="${host_arg##*@}"
+        key_file=$(get_ssh_key_for_host "$hostname")
+    fi
+
+    # Load the key if we found one and it's not already loaded
+    if [ -n "$key_file" ] && [ -f "$key_file" ]; then
+        if ! is_key_loaded "$key_file"; then
+            echo "Loading SSH key: $(basename "$key_file")"
+            ssh-add "$key_file"
+        fi
+    fi
+
+    # Execute the actual ssh command
+    command ssh "${args[@]}"
 }
 
 # Override git command to auto-load SSH keys for remote operations

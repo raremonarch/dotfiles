@@ -1,67 +1,37 @@
+#!/bin/bash
+# Module: system-aliases
+# Version: 0.1.0
+# Description: Common system aliases and helper discovery function
+# BashMod Dependencies: none
+
 alias lsp="ls -lahp"
-alias calc='galculator'
+alias calc='gnome-calculator'
 alias pwdsize='du -sh .'
-alias tstamp='~/Scripts/timestamp-to-clipboard.sh'
-alias fproc='ps aux | grep -i'
-alias psg='ps aux | grep -i'
 alias llama='ollama run llama3'
-alias kit='~/Downloads/kitbash/kit-start.sh'
-
-function confi3() {
-  vim ~/.config/i3/config
-}
-
-# custom package add/rm (fedora)
-mypackages_file=~/packages.txt
-function addpack() {
-  local appname=$1
-  echo "$appname" >> "$mypackages_file" && sudo dnf install "$appname" -y
-}
-function rmpack() {
-  local appname=$1
-  if grep -q "$appname" "$mypackages_file"; then 
-    echo "package '$appname' found in $mypackages_file; removing"
-    sed -i "/$appname/d" "$mypackages_file"
-    sudo dnf remove "$appname" -y
-  else 
-    echo "package '$appname' NOT found in $mypackages_file, exiting"
-  fi 
-}
-function format-usb() {
-  if [ -z "$1" ]; then
-    echo "Usage: format-usb /dev/sdX"
-    return 1
-  fi
-  if [ ! -b "$1" ]; then
-    echo "Error: $1 is not a valid block device."
-    return 1
-  fi
-  echo "Device info for $1:"
-  echo "---------------------"
-  lsblk -o Fare -o NAME,SIZE,FSTYPE,LABEL,MOUNTPOINT,MODEL "$1" | awk 'NR>1 {print "NAME: "$1"\nSIZE: "$2"\nFSTYPE: "$3"\nLABEL: "($4 ? $4 : "None")"\nMOUNTPOINT: "($5 ? $5 : "Not mounted")"\nMODEL: "$6}'
-  echo "---------------------"
-  echo "WARNING: Formatting $1 will erase all data. Confirm? (y/n)"
-  read -r confirm
-  if [ "$confirm" != "y" ]; then
-    echo "Aborted."
-    return 1
-  fi
-  sudo umount "$1"* 2>/dev/null
-  sudo parted "$1" --script mklabel msdos
-  sudo mkfs.vfat -F 32 "$1"
-  echo "Formatted $1 as FAT32."
-}
+alias kit='~/code/daevski/kitbash/kit-start.sh'
+alias ssh-macmini='ssh -i ~/.ssh/id_ed25519 debian@192.168.0.128'
 
 function aliases() {
+  local filter="$1"
+
   echo "=== Aliases and Functions in ~/.bashrc.d/ ==="
+  if [[ -n "$filter" ]]; then
+    echo "=== Filtering for: $filter ==="
+  fi
   echo ""
-  
+
   for script in ~/.bashrc.d/*.sh; do
     if [ -f "$script" ]; then
       filename=$(basename "$script")
+
+      # Skip files that don't match the filter
+      if [[ -n "$filter" ]] && [[ ! "$filename" =~ $filter ]]; then
+        continue
+      fi
+
       echo "📁 $filename"
       echo "$(printf '%.0s─' {1..40})"
-      
+
       # Find aliases and extract names
       grep "^alias " "$script" 2>/dev/null | sed 's/^alias \([^=]*\)=.*/\1/' | while read -r name; do
         case "$name" in
@@ -71,10 +41,10 @@ function aliases() {
           fproc|psg) echo "  $name - Search running processes" ;;
           llama) echo "  $name - Run Llama3 AI model" ;;
           gitaddcommit) echo "  $name - Git add all and commit with message" ;;
-          *) echo "  $name - Custom alias" ;;
+          *) echo "  $name" ;;
         esac
       done
-      
+
       # Find functions (both syntaxes) and extract names
       {
         grep "^function " "$script" 2>/dev/null | sed 's/^function \([^(]*\).*/\1/'
@@ -96,10 +66,10 @@ function aliases() {
           pycov) echo "  $name - Run pytest with coverage (skip covered)" ;;
           pycov-all) echo "  $name - Run pytest with full coverage report" ;;
           coverage-check) echo "  $name - Check coverage meets 80% threshold" ;;
-          *) echo "  $name - Custom function" ;;
+          *) echo "  $name" ;;
         esac
       done
-      
+
       echo ""
     fi
   done

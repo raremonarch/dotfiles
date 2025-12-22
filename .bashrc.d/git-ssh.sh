@@ -1,10 +1,8 @@
 #!/bin/bash
-# Module: git
-# Version: 0.2.0
-# Description: Git aliases and clone helpers for multiple remotes with SSH key management
+# Module: git-ssh
+# Version: 0.1.0
+# Description: SSH key management for Git operations
 # BashMod Dependencies: ssh-agent@0.2.0
-
-alias gitaddcommit='git add -A . && git commit -m '
 
 # Function to load SSH key based on a git URL (before cloning)
 ssh_load_key_for_url() {
@@ -56,32 +54,4 @@ ssh_load_key_for_url() {
     # Load the specific key
     echo "Loading SSH key for $ssh_host: $(basename "$key_file")"
     ssh-add "$key_file"
-}
-
-function clone-eis () {
-    if [ -z ${1} ]; then
-        echo "Usage: clone-eis <repo-name>"
-    echo "Example: clone-eis platform.shared.bookjacket-image-resolver"
-    echo "         -> git@eis:EBSCOIS/platform.shared.bookjacket-image-resolver.git"
-    else
-    local git_url="git@eis:EBSCOIS/${1}.git"
-    ssh_load_key_for_url "$git_url" && git clone "$git_url" ~/development/eis/${1}
-    fi
-}
-
-function clone-daevski () {
-    if [ -z ${1} ]; then
-        echo "Usage: clone-daevski <repo-name>"
-    echo "Example: clone-daevski my-personal-project"
-    echo "         -> git@daevski:daevski/my-personal-project.git"
-    else
-    local git_url="git@daevski:daevski/${1}.git"
-    ssh_load_key_for_url "$git_url" && git clone "$git_url" ~/development/daevski/${1}
-    fi
-}
-
-function git-del-branch() {
-    branch="$1"
-    git checkout main
-    git branch -D "$branch" && git push origin --delete "$branch" && git fetch --prune
 }
