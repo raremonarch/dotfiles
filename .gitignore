@@ -18,6 +18,7 @@
 .config/gnome-initial-setup-done
 .config/gnome-session
 .config/ghb/
+.config/gitmon/
 .config/goa-*
 .config/google-chrome*
 .config/ibus
@@ -80,5 +81,4 @@ wallpaper.jpg
 # allow specific files
 
 !.config/qBittorrent/qBittorrent.conf
-!.ssh/config
 !.vscode/argv.json
