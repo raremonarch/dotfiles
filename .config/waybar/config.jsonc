@@ -1,7 +1,9 @@
 {
     "height": 10,
     "modules-left": [
-        "sway/workspaces"
+        "custom/logout",
+        "custom/reboot",
+        "custom/shutdown"
     ],
     "modules-center": [
         "clock"
@@ -51,5 +53,23 @@
     },
     "network#ip": {
         "format": "ip [ {ipaddr} ]"
+    },
+    "custom/logout": {
+        "format": "logout",
+        "tooltip": true,
+        "tooltip-format": "Logout (loginctl terminate-session)",
+        "on-click": "loginctl terminate-session ''"
+    },
+    "custom/reboot": {
+        "format": "reboot",
+        "tooltip": true,
+        "tooltip-format": "Reboot system",
+        "on-click": "systemctl reboot"
+    },
+    "custom/shutdown": {
+        "format": "shutdown",
+        "tooltip": true,
+        "tooltip-format": "Shutdown system",
+        "on-click": "systemctl poweroff"
     }
 }

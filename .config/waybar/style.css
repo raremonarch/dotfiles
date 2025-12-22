@@ -131,3 +131,42 @@
     background: transparent;
     border: none;
 }
+
+/* Power buttons */
+#custom-logout,
+#custom-reboot,
+#custom-shutdown {
+    color: #e6edf3;
+    background: #21262d;
+    border: 1px solid #484f58;
+    border-radius: 4px;
+    padding: 0 8px;
+    margin: 2px;
+}
+
+#custom-logout {
+    color: #f0e68c;
+}
+
+#custom-logout:hover {
+    background: #30363d;
+    border-color: #f0e68c;
+}
+
+#custom-reboot {
+    color: #80c8ff;
+}
+
+#custom-reboot:hover {
+    background: #30363d;
+    border-color: #80c8ff;
+}
+
+#custom-shutdown {
+    color: #ff7b72;
+}
+
+#custom-shutdown:hover {
+    background: #30363d;
+    border-color: #ff7b72;
+}
