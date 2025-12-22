@@ -1,6 +1,6 @@
 {
   "watch_directories": [
-    "/home/david/code"
+    "/home/david/development"
   ],
   "refresh_interval": 5,
   "max_depth": 5
