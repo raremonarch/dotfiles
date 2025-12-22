@@ -48,6 +48,8 @@ seat * xcursor_theme breeze_cursors 20
 
 # Cursor configuration
 
+# Cursor configuration
+
 # target                 title     bg    text   indicator  border
 client.focused           $lavender $base $text  $rosewater $lavender
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
@@ -78,13 +80,13 @@ exec systemctl --user start graphical-session.target
 exec_always $sys_idle
 exec_always --no-startup-id sh -c 'sleep 1; killall waybar; waybar'
 
-workspace 1 output HDMI-A-1
-workspace 3 output HDMI-A-1
-workspace 5 output HDMI-A-1
-
-workspace 2 output HDMI-A-2
-workspace 4 output HDMI-A-2
-workspace 6 output HDMI-A-2
+#workspace 1 output HDMI-A-1
+#workspace 3 output HDMI-A-1
+#workspace 5 output HDMI-A-1
+#
+#workspace 2 output HDMI-A-2
+#workspace 4 output HDMI-A-2
+#workspace 6 output HDMI-A-2
 
 bindsym {
     $mod+r exec $menu
@@ -143,5 +145,5 @@ bindsym {
 
 input type:keyboard xkb_numlock enabled
 # to split a widescreen image: `magick convert input.jpg -crop 50%x100% +repage +adjoin output-%d.jpg`
-output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/wallpaper.jpg fill
-output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/wallpaper.jpg fill
+output HDMI-A-1 pos    0 0 bg /usr/share/backgrounds/wallpaper.jpeg fill
+#output HDMI-A-2 pos 1920 0 bg /usr/share/backgrounds/wallpaper.jpg fill
