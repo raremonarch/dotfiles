@@ -2,6 +2,7 @@
 
 .aws/
 .bash_*
+.bashrc.d/
 .cache
 .claude*
 .config/.gsd-keyboard.settings-ported
