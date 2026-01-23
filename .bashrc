@@ -27,3 +27,4 @@ unset rc
 # Default editor configuration (set by setup system)
 export EDITOR="vim"
 export VISUAL="vim"
+alias kit=/home/david/code/raremonarch/kitbash/kit-start.sh
