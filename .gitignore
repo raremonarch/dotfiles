@@ -5,8 +5,10 @@
 .bashrc.d/
 .cache
 .claude*
+.codex/
 .config/.gsd-keyboard.settings-ported
 .config/abrt
+.config/audacity
 .config/autostart
 .config/Code
 .config/copyq
