@@ -3,3 +3,6 @@
     email = git-author.n4t20@simplelogin.com
 [core]
 	editor = vim
+
+[includeIf "gitdir:~/code/ebscois/"]
+    path = ~/.gitconfig-ebscois
