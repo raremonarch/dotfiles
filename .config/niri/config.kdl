@@ -370,7 +370,7 @@ window-rule {
 
 // VS Code - full width
 window-rule {
-    match app-id=r#"^Code$"#
+    match app-id=r#"(?i)^code$"#
     default-column-width { proportion 1.0; }
 }
 
