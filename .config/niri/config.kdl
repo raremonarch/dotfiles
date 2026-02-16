@@ -400,6 +400,13 @@ window-rule {
     default-column-width { proportion 1.0; }
 }
 
+// Steam games - full width and height
+window-rule {
+    match app-id=r#"^steam_app_"#
+    default-column-width { proportion 1.0; }
+    default-window-height { proportion 1.0; }
+}
+
 binds {
     // ===== KEYBINDING PHILOSOPHY =====
     // Mod          = Focus (fluid navigation across windows/workspaces/monitors)
@@ -455,11 +462,11 @@ binds {
     Mod+Shift+R hotkey-overlay-title="Reload Configuration" { spawn-sh "niri msg action reload-config"; }
 
     // ===== FOCUS NAVIGATION (Mod only - fluid across windows/workspaces/monitors) =====
-    // Horizontal: navigate columns (left/right scrolls through workspace)
-    Mod+Left  { focus-column-left; }
-    Mod+Right { focus-column-right; }
-    Mod+H     { focus-column-left; }
-    Mod+L     { focus-column-right; }
+    // Horizontal: navigate columns with monitor spill-over
+    Mod+Left  { focus-column-or-monitor-left; }
+    Mod+Right { focus-column-or-monitor-right; }
+    Mod+H     { focus-column-or-monitor-left; }
+    Mod+L     { focus-column-or-monitor-right; }
 
     // Vertical: fluid focus across windows AND workspaces
     Mod+Down  { focus-window-or-workspace-down; }
@@ -468,11 +475,11 @@ binds {
     Mod+K     { focus-window-or-workspace-up; }
 
     // ===== MOVE WINDOWS (Mod+Shift - fluid movement everywhere) =====
-    // Horizontal: move columns (works across monitors via scrolling)
-    Mod+Shift+Left  { move-column-left; }
-    Mod+Shift+Right { move-column-right; }
-    Mod+Shift+H     { move-column-left; }
-    Mod+Shift+L     { move-column-right; }
+    // Horizontal: move columns with monitor spill-over
+    Mod+Shift+Left  { move-column-left-or-to-monitor-left; }
+    Mod+Shift+Right { move-column-right-or-to-monitor-right; }
+    Mod+Shift+H     { move-column-left-or-to-monitor-left; }
+    Mod+Shift+L     { move-column-right-or-to-monitor-right; }
 
     // Vertical: fluid movement across windows AND workspaces
     Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
