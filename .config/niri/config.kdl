@@ -400,11 +400,24 @@ window-rule {
     default-column-width { proportion 1.0; }
 }
 
+// Steam client - full width
+window-rule {
+    match app-id=r#"^steam$"#
+    default-column-width { proportion 1.0; }
+}
+
 // Steam games - full width and height
 window-rule {
     match app-id=r#"^steam_app_"#
     default-column-width { proportion 1.0; }
     default-window-height { proportion 1.0; }
+}
+
+// GNOME Calculator - fixed size
+window-rule {
+    match app-id=r#"^org\.gnome\.Calculator$"#
+    default-column-width { fixed 360; }
+    default-window-height { fixed 616; }
 }
 
 binds {
