@@ -6,7 +6,9 @@
 # Local modules will be prefixed with "local:" in the TUI
 registries = [
     "https://raw.githubusercontent.com/raremonarch/bashrc-modules/main/registry.json",
-    "~/Downloads/bak-file-registry.json"
+    # "~/code/bashrc-modules/registry.json",
+    # "https://example.com/team-registry.json",
+    # "/opt/company-modules/registry.json",
 ]
 
 # Installation directory for modules
