@@ -1,5 +1,8 @@
 {
-    "height": 10,
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 4,
     "modules-left": [
         "custom/logout",
         "custom/reboot",
@@ -36,7 +39,11 @@
         "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
     },
     "pulseaudio": {
-        "format": "vol [ {volume}% ]"
+        "format": "vol [ {volume}% ]",
+        "format-muted": "vol [ muted ]"
+    },
+    "tray": {
+        "spacing": 4
     },
     "network": {
         "interval": 2,
@@ -50,9 +57,6 @@
         "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\nSpeed: {bandwidthUpBits}/{bandwidthDownBits}",
         "tooltip-format-disconnected": "Network disconnected",
         "on-click-right": "nm-connection-editor"
-    },
-    "network#ip": {
-        "format": "ip [ {ipaddr} ]"
     },
     "custom/logout": {
         "format": "logout",

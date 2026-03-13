@@ -1,88 +1,134 @@
-/* Neon Flow Theme for Waybar */
+/* Neon Flow Theme for Waybar — floating sections
+ * Palette: github-dark-dimmed base + lime (#c7ff7f) / cyan (#80c8ff) gradient accents
+ */
 
 * {
-    font-family: "chivo";
+    font-family: "chivo", monospace;
     font-size: 12px;
-    min-height: 12px;
-    padding: 1px 2px;
-    margin: 1px;
-    background-color: #161b22;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
 }
+
+/* ── Bar (transparent background) ───────────────────────────────── */
 
 #waybar {
-    min-height: 20px;
-    background: #161b22;
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
     color: #e6edf3;
-    border-bottom: 1px solid #30363d;
 }
 
-#workspaces button {
-    background: transparent;
-    color: #7d8590;
-    padding: 0 8px;
-    border-radius: 4px;
-}
+/* ── Shared pill internals (no individual borders) ───────────────── */
 
-#workspaces button.focused {
-    background: #30363d;
-    color: #80c8ff;
-    border: 1px solid #58a6ff;
-}
-
-#workspaces button:hover {
-    background: #21262d;
-    color: #c7ff7f;
-}
-
-#clock,
-#battery,
+#custom-logout,
+#custom-reboot,
+#custom-shutdown,
 #cpu,
 #memory,
-#network,
+#battery,
 #pulseaudio,
-#tray {
-    color: #e6edf3;
-    padding: 0 8px;
+#network {
     background: #21262d;
-    border-radius: 4px;
-    margin: 2px;
+    padding: 2px 12px;
+    margin: 3px 0;
+    border-top: 1px solid #30363d;
+    border-bottom: 1px solid #30363d;
+    border-left: none;
+    border-right: none;
 }
 
-#clock {
-    background: transparent;
-    font-family: "bedstead";
-    color: #80c8ff;
-    border: none;
+/* ── Left section: power buttons ────────────────────────────────── */
+
+#custom-logout {
+    color: #f0e68c;
+    border-left: 1px solid #30363d;
+    border-radius: 8px 0 0 8px;
+    margin-left: 8px;
 }
+
+#custom-reboot {
+    color: #ff9f68;
+}
+
+#custom-shutdown {
+    color: #ff7b72;
+    border-right: 1px solid #30363d;
+    border-radius: 0 8px 8px 0;
+    margin-right: 4px;
+}
+
+#custom-logout:hover {
+    background: #252213;
+    border-color: #f0e68c;
+    color: #f0e68c;
+}
+
+#custom-reboot:hover {
+    background: #251a10;
+    color: #ff9f68;
+}
+
+#custom-shutdown:hover {
+    background: #251010;
+    border-color: #ff7b72;
+    color: #ff7b72;
+}
+
+/* ── Center section: clock ───────────────────────────────────────── */
+
+#clock {
+    font-family: "bedstead", monospace;
+    font-size: 13px;
+    color: #80c8ff;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 2px 18px;
+    margin: 3px 8px;
+}
+
+/* ── Right section: system info ──────────────────────────────────── */
 
 #cpu {
     color: #bc8cff;
-    border: 1px solid #484f58;
+    border-left: 1px solid #30363d;
+    border-radius: 8px 0 0 8px;
+    margin-left: 4px;
 }
 
 #memory {
     color: #ff6ec7;
-    border: 1px solid #484f58;
 }
 
 #battery {
     color: #7ee787;
-    border: 1px solid #484f58;
 }
 
-#battery.warning {
+#battery.charging {
+    color: #80c8ff;
+}
+
+#battery.warning:not(.charging) {
     color: #f0e68c;
-    border-color: #f0e68c;
 }
 
-#battery.critical {
+#battery.critical:not(.charging) {
     color: #ff7b72;
-    border-color: #ff7b72;
+}
+
+#pulseaudio {
+    color: #c7ff7f;
+}
+
+#pulseaudio.muted {
+    color: #484f58;
 }
 
 #network {
     color: #56d4dd;
-    border: 1px solid #484f58;
+    border-right: 1px solid #30363d;
+    border-radius: 0 8px 8px 0;
+    margin-right: 4px;
 }
 
 #network.wifi {
@@ -93,80 +139,16 @@
     color: #80c8ff;
 }
 
-#network.linked {
-    color: #f0e68c;
-}
-
 #network.disconnected {
     color: #ff7b72;
-    border-color: #ff7b72;
 }
 
-#pulseaudio {
-    color: #c7ff7f;
-    border: 1px solid #484f58;
-}
-
-#pulseaudio.muted {
-    color: #484f58;
-}
-
-#battery {
-    color: #4caf50;
-}
-
-#battery.charging {
-    color: #2196f3;
-}
-
-#battery.warning:not(.charging) {
-    color: #ff9800;
-}
-
-#battery.critical:not(.charging) {
-    color: #f44336;
-}
+/* ── Tray: its own small floating pill ───────────────────────────── */
 
 #tray {
-    background: transparent;
-    border: none;
-}
-
-/* Power buttons */
-#custom-logout,
-#custom-reboot,
-#custom-shutdown {
-    color: #e6edf3;
     background: #21262d;
-    border: 1px solid #484f58;
-    border-radius: 4px;
-    padding: 0 8px;
-    margin: 2px;
-}
-
-#custom-logout {
-    color: #f0e68c;
-}
-
-#custom-logout:hover {
-    background: #30363d;
-    border-color: #f0e68c;
-}
-
-#custom-reboot {
-    color: #80c8ff;
-}
-
-#custom-reboot:hover {
-    background: #30363d;
-    border-color: #80c8ff;
-}
-
-#custom-shutdown {
-    color: #ff7b72;
-}
-
-#custom-shutdown:hover {
-    background: #30363d;
-    border-color: #ff7b72;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 2px 6px;
+    margin: 3px 8px 3px 4px;
 }
