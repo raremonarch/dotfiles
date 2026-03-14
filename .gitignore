@@ -13,6 +13,7 @@
 .config/autostart
 .config/Code
 .config/copyq
+.copilot/
 .config/dconf
 .config/discord/
 .config/evolution
@@ -26,6 +27,7 @@
 .config/goa-*
 .config/google-chrome*
 .config/ibus
+.config/kdiff3rc
 .config/libvirt/
 .config/lxqt
 .config/nordvpn
@@ -35,6 +37,7 @@
 .config/qBittorrent/*
 .config/QtProject.conf
 .config/remmina
+.config/rncbc.org/
 .config/Thunar
 .config/transmission/
 .config/vlc/
