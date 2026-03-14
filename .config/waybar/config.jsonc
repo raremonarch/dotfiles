@@ -12,6 +12,7 @@
         "clock"
     ],
     "modules-right": [
+        "custom/updates",
         "cpu",
         "memory",
         "battery",
@@ -57,6 +58,14 @@
         "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\nSpeed: {bandwidthUpBits}/{bandwidthDownBits}",
         "tooltip-format-disconnected": "Network disconnected",
         "on-click-right": "nm-connection-editor"
+    },
+    "custom/updates": {
+        "exec": "~/.config/waybar/scripts/updates.sh",
+        "interval": 3600,
+        "format": "upd [ {} ]",
+        "tooltip": true,
+        "tooltip-format": "Pending package updates",
+        "hide-empty-text": true
     },
     "custom/logout": {
         "format": "logout",
