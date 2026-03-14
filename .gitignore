@@ -1,5 +1,6 @@
 # please sort entries
 
+.ansible/
 .aws/
 .bash_*
 .bashrc.d/
@@ -38,13 +39,18 @@
 .config/transmission/
 .config/vlc/
 .config/user-dirs*
+.config/uv/
 .config/vscode-sqltools/*
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 .config/Yubico/
 .config/zoom.conf
 .config/zoomus.conf
+.config/systemd/user/default.target.wants/
 .docker
+.dropbox/
+.dropbox-dist/
+Dropbox/
 .dotnet
 .guard/
 .icons
