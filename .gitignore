@@ -5,6 +5,7 @@
 .bash_*
 .bashrc.d/
 .cache
+.cargo/
 .claude*
 .codex/
 .config/.gsd-keyboard.settings-ported
@@ -57,6 +58,7 @@ Dropbox/
 .dotnet
 .guard/
 .icons
+.lesshst
 .local
 .mozilla
 .npm*
@@ -71,6 +73,7 @@ Dropbox/
 .terraform.d/
 .vim
 .viminfo
+.wget-hsts
 .vscode
 .zoom/
 *.bak*
