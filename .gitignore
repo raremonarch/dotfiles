@@ -31,6 +31,7 @@
 .config/kdiff3rc
 .config/libvirt/
 .config/lxqt
+.config/mozilla
 .config/nordvpn
 .config/obsidian/
 .config/org.gnome.*
@@ -97,3 +98,4 @@ wallpaper.jpg
 
 !.config/qBittorrent/qBittorrent.conf
 !.vscode/argv.json
+
