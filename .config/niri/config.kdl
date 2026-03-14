@@ -284,7 +284,7 @@ layout {
 spawn-at-startup "waybar"
 
 // Wallpaper background daemon
-spawn-sh-at-startup "pkill swaybg; swaybg -i /usr/share/backgrounds/wallpaper.jpg -m fill"
+spawn-sh-at-startup "pkill swaybg; swaybg -i /usr/share/backgrounds/wallpaper.jpeg -m fill"
 
 // Night light / color temperature adjustment
 spawn-at-startup "wlsunset" "-T" "5000" "-t" "4000" "-l" "35.7796" "-L" "-78.6382"
