@@ -46,10 +46,6 @@ set {
 # Cursor configuration
 seat * xcursor_theme breeze_cursors 20
 
-# Cursor configuration
-
-# Cursor configuration
-
 # target                 title     bg    text   indicator  border
 client.focused           $lavender $base $text  $rosewater $lavender
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
@@ -57,8 +53,6 @@ client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
-
-# Cursor configuration
 
 default_border pixel $border_size
 gaps {
