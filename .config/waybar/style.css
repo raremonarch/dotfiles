@@ -23,10 +23,11 @@
 #custom-logout,
 #custom-reboot,
 #custom-shutdown,
+#custom-updates,
 #cpu,
 #memory,
 #battery,
-#pulseaudio,
+#wireplumber,
 #network {
     background: #21262d;
     padding: 2px 12px;
@@ -116,16 +117,20 @@
     color: #ff7b72;
 }
 
-#pulseaudio {
+#wireplumber {
     color: #c7ff7f;
 }
 
-#pulseaudio.muted {
+#wireplumber.muted {
     color: #484f58;
 }
 
 #network {
     color: #56d4dd;
+}
+
+#custom-updates {
+    color: #c7ff7f;
     border-right: 1px solid #30363d;
     border-radius: 0 8px 8px 0;
     margin-right: 4px;

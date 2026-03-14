@@ -12,12 +12,12 @@
         "clock"
     ],
     "modules-right": [
-        "custom/updates",
         "cpu",
         "memory",
         "battery",
-        "pulseaudio",
+        "wireplumber",
         "network",
+        "custom/updates",
         "tray"
     ],
     "clock": {
@@ -39,7 +39,7 @@
         },
         "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
     },
-    "pulseaudio": {
+    "wireplumber": {
         "format": "vol [ {volume}% ]",
         "format-muted": "vol [ muted ]"
     },
