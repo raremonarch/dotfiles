@@ -292,6 +292,9 @@ spawn-at-startup "wlsunset" "-T" "5000" "-t" "4000" "-l" "35.7796" "-L" "-78.638
 // Clipboard manager daemon
 spawn-at-startup "copyq"
 
+// XWayland support for X11-only applications (e.g. Synology Drive)
+spawn-at-startup "xwayland-satellite"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
