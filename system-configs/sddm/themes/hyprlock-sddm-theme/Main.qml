@@ -1,6 +1,5 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Qt5Compat.GraphicalEffects 1.0
 import SddmComponents 2.0
 
 Rectangle {
@@ -33,22 +32,6 @@ Rectangle {
         anchors.fill: parent
         color: crustColor
         opacity: 0.4
-    }
-
-    // Additional blur layer using FastBlur if available
-    ShaderEffectSource {
-        id: blurSource
-        anchors.fill: parent
-        sourceItem: backgroundImage
-        sourceRect: Qt.rect(0, 0, width, height)
-        visible: false
-    }
-
-    FastBlur {
-        anchors.fill: parent
-        source: blurSource
-        radius: 64
-        opacity: 0.8
     }
 
     // Time display
