@@ -20,7 +20,7 @@
 
 /* ── Shared pill internals (no individual borders) ───────────────── */
 
-#custom-logout,
+#custom-hibernate,
 #custom-reboot,
 #custom-shutdown,
 #cpu,
@@ -39,11 +39,11 @@
 
 /* ── Left section: power buttons ────────────────────────────────── */
 
-#custom-logout {
-    color: #f0e68c;
-    border-left: 1px solid #30363d;
-    border-radius: 8px 0 0 8px;
-    margin-left: 8px;
+#custom-hibernate {
+    color: #80c8ff;
+    border-right: 1px solid #30363d;
+    border-radius: 0 8px 8px 0;
+    margin-right: 4px;
 }
 
 #custom-reboot {
@@ -52,15 +52,15 @@
 
 #custom-shutdown {
     color: #ff7b72;
-    border-right: 1px solid #30363d;
-    border-radius: 0 8px 8px 0;
-    margin-right: 4px;
+    border-left: 1px solid #30363d;
+    border-radius: 8px 0 0 8px;
+    margin-left: 8px;
 }
 
-#custom-logout:hover {
-    background: #252213;
-    border-color: #f0e68c;
-    color: #f0e68c;
+#custom-hibernate:hover {
+    background: #101e26;
+    border-color: #80c8ff;
+    color: #80c8ff;
 }
 
 #custom-reboot:hover {

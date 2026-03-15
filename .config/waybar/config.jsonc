@@ -4,9 +4,9 @@
     "height": 28,
     "spacing": 4,
     "modules-left": [
-        "custom/logout",
+        "custom/shutdown",
         "custom/reboot",
-        "custom/shutdown"
+        "custom/hibernate"
     ],
     "modules-center": [
         "clock",
@@ -62,16 +62,16 @@
     "custom/updates": {
         "exec": "~/.config/waybar/scripts/updates.sh",
         "interval": 3600,
-        "format": "upd [ {} ]",
+        "format": "pkgs [ {} ]",
         "tooltip": true,
         "tooltip-format": "Pending package updates",
         "hide-empty-text": true
     },
-    "custom/logout": {
-        "format": "logout",
+    "custom/hibernate": {
+        "format": "hibernate",
         "tooltip": true,
-        "tooltip-format": "Logout (loginctl terminate-session)",
-        "on-click": "loginctl terminate-session ''"
+        "tooltip-format": "Hibernate system",
+        "on-click": "systemctl hibernate"
     },
     "custom/reboot": {
         "format": "reboot",
