@@ -21,7 +21,7 @@ Rectangle {
     Image {
         id: backgroundImage
         anchors.fill: parent
-        source: "/usr/share/backgrounds/wallpaper.jpg"
+        source: config.background
         fillMode: Image.PreserveAspectCrop
         asynchronous: false
         cache: false
@@ -98,7 +98,7 @@ Rectangle {
         Text {
             id: usernameText
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: passwordField.top
+            anchors.bottom: passwordBg.top
             anchors.bottomMargin: 40
 
             text: userModel.lastUser
