@@ -4,3 +4,5 @@ Description=SDDM theme matching hyprlock design with Catppuccin Frappé colors
 Author=Claude
 Theme-Id=hyprlock-style
 Theme-API=2.0
+X-KitDependencies-pacman=qt6-declarative qt5compat
+X-KitDependencies-dnf=qt6-qtdeclarative qt6-qt5compat
