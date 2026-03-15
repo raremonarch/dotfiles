@@ -23,7 +23,6 @@
 #custom-logout,
 #custom-reboot,
 #custom-shutdown,
-#custom-updates,
 #cpu,
 #memory,
 #battery,
@@ -127,13 +126,18 @@
 
 #network {
     color: #56d4dd;
+    border-right: 1px solid #30363d;
+    border-radius: 0 8px 8px 0;
+    margin-right: 4px;
 }
 
 #custom-updates {
     color: #c7ff7f;
-    border-right: 1px solid #30363d;
-    border-radius: 0 8px 8px 0;
-    margin-right: 4px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 2px 12px;
+    margin: 3px 8px;
 }
 
 #network.wifi {

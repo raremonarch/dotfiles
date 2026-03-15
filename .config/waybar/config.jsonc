@@ -9,7 +9,8 @@
         "custom/shutdown"
     ],
     "modules-center": [
-        "clock"
+        "clock",
+        "custom/updates"
     ],
     "modules-right": [
         "cpu",
@@ -17,7 +18,6 @@
         "battery",
         "wireplumber",
         "network",
-        "custom/updates",
         "tray"
     ],
     "clock": {
