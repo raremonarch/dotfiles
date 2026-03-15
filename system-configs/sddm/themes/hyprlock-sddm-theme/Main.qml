@@ -10,7 +10,7 @@ Rectangle {
 
     // Catppuccin Frappé colors
     property string textColor: "#c6d0f5"
-    property string lavenderColor: "#ca9ee6"
+    property string lavenderColor: "#80c8ff"
     property string baseColor: "#303446"
     property string crustColor: "#232634"
     property string greenColor: "#a6d189"
