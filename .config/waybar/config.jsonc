@@ -71,18 +71,18 @@
         "format": "hibernate",
         "tooltip": true,
         "tooltip-format": "Hibernate system",
-        "on-click": "~/.config/waybar/scripts/hibernate.sh"
+        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Hibernate?' | grep -q '^yes$' && ~/.config/waybar/scripts/hibernate.sh"
     },
     "custom/reboot": {
         "format": "reboot",
         "tooltip": true,
         "tooltip-format": "Reboot system",
-        "on-click": "systemctl reboot"
+        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Reboot?' | grep -q '^yes$' && systemctl reboot"
     },
     "custom/shutdown": {
         "format": "shutdown",
         "tooltip": true,
         "tooltip-format": "Shutdown system",
-        "on-click": "systemctl poweroff"
+        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Shutdown?' | grep -q '^yes$' && systemctl poweroff"
     }
 }
