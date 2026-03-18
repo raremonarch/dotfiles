@@ -71,7 +71,7 @@
         "format": "hibernate",
         "tooltip": true,
         "tooltip-format": "Hibernate system",
-        "on-click": "systemctl hibernate"
+        "on-click": "~/.config/waybar/scripts/hibernate.sh"
     },
     "custom/reboot": {
         "format": "reboot",
