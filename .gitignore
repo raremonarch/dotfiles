@@ -13,6 +13,7 @@
 .config/audacity
 .config/autostart
 .config/Code
+.config/unity3d/
 .config/copyq
 .copilot/
 .config/dconf
@@ -93,6 +94,8 @@ Templates
 Videos
 wallpaper.jpg
 .ubuntu24.04--2.draft.txt
+.zcompdump
+.zsh_history
 
 # allow specific files
 
