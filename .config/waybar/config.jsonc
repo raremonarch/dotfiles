@@ -62,9 +62,11 @@
     "custom/updates": {
         "exec": "~/.config/waybar/scripts/updates.sh",
         "interval": 3600,
+        "signal": 8,
         "format": "pkgs [ {} ]",
         "tooltip": true,
         "tooltip-format": "Pending package updates",
+        "on-click": "~/.config/waybar/scripts/update-packages.sh",
         "hide-empty-text": true
     },
     "custom/hibernate": {
