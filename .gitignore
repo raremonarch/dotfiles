@@ -64,6 +64,7 @@ Dropbox/
 .local
 .mozilla
 .npm*
+.nvm/
 .ollama
 .pki
 .pyenv/
