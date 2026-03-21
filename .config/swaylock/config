@@ -1,5 +1,5 @@
 # Swaylock configuration
-image=/usr/share/backgrounds/wallpaper.jpg
+image=/usr/share/backgrounds/wallpaper.jpeg
 scaling=fill
 color=000000
 font-size=24
