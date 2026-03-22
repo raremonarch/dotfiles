@@ -42,6 +42,17 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+# Key bindings - bind navigation keys in all vi keymaps so escape sequences
+# don't get misinterpreted as ESC (which triggers vi command mode)
+bindkey "\e[H" beginning-of-line   # HOME
+bindkey "\e[F" end-of-line         # END
+bindkey "\e[3~" delete-char        # Delete
+bindkey -M viins "\e[H" beginning-of-line
+bindkey -M viins "\e[F" end-of-line
+bindkey -M viins "\e[3~" delete-char
+bindkey -M vicmd "\e[H" beginning-of-line
+bindkey -M vicmd "\e[F" end-of-line
+
 #
 ## /end zsh config
 
