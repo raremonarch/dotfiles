@@ -16,6 +16,7 @@
 .config/unity3d/
 .config/copyq
 .copilot/
+.cursor/
 .config/dconf
 .config/discord/
 .config/evolution
@@ -62,6 +63,7 @@
 .dropbox-dist/
 Dropbox/
 .dotnet
+.ghcp-appmod/
 .guard/
 .icons
 .lesshst
