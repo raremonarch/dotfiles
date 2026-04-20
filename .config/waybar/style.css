@@ -1,24 +1,17 @@
-/* Neon Flow Theme for Waybar — floating sections
- * Palette: github-dark-dimmed base + lime (#c7ff7f) / cyan (#80c8ff) gradient accents
- */
-
 * {
     font-family: "chivo", monospace;
-    font-size: 12px;
+    font-size: 11px;
     min-height: 0;
     padding: 0;
     margin: 0;
 }
 
-/* ── Bar (transparent background) ───────────────────────────────── */
-
 #waybar {
-    background: none;
-    background-color: rgba(0, 0, 0, 0);
-    color: #e6edf3;
+    background: transparent;
+    color: #ffffff;
 }
 
-/* ── Shared pill internals (no individual borders) ───────────────── */
+/* ── Shared module internals ─────────────────────────────────────── */
 
 #custom-hibernate,
 #custom-reboot,
@@ -28,136 +21,78 @@
 #battery,
 #wireplumber,
 #network {
+    color: #ffffff;
     background: #21262d;
-    padding: 2px 12px;
-    margin: 3px 0;
+    padding: 0px 12px;
+    margin: 1px 0;
     border-top: 1px solid #30363d;
     border-bottom: 1px solid #30363d;
     border-left: none;
     border-right: none;
 }
 
-/* ── Left section: power buttons ────────────────────────────────── */
-
-#custom-hibernate {
-    color: #80c8ff;
-    border-right: 1px solid #30363d;
-    border-radius: 0 8px 8px 0;
-    margin-right: 4px;
-}
-
-#custom-reboot {
-    color: #ff9f68;
-}
+/* ── Left: power buttons ─────────────────────────────────────────── */
 
 #custom-shutdown {
-    color: #ff7b72;
     border-left: 1px solid #30363d;
     border-radius: 8px 0 0 8px;
     margin-left: 8px;
 }
 
-#custom-hibernate:hover {
-    background: #101e26;
-    border-color: #80c8ff;
-    color: #80c8ff;
-}
-
-#custom-reboot:hover {
-    background: #251a10;
-    color: #ff9f68;
-}
-
-#custom-shutdown:hover {
-    background: #251010;
-    border-color: #ff7b72;
-    color: #ff7b72;
-}
-
-/* ── Center section: clock ───────────────────────────────────────── */
-
-#clock {
-    font-family: "bedstead", monospace;
-    font-size: 13px;
-    color: #80c8ff;
-    background: #21262d;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 2px 18px;
-    margin: 3px 8px;
-}
-
-/* ── Right section: system info ──────────────────────────────────── */
-
-#cpu {
-    color: #bc8cff;
-    border-left: 1px solid #30363d;
-    border-radius: 8px 0 0 8px;
-    margin-left: 4px;
-}
-
-#memory {
-    color: #ff6ec7;
-}
-
-#battery {
-    color: #7ee787;
-}
-
-#battery.charging {
-    color: #80c8ff;
-}
-
-#battery.warning:not(.charging) {
-    color: #f0e68c;
-}
-
-#battery.critical:not(.charging) {
-    color: #ff7b72;
-}
-
-#wireplumber {
-    color: #c7ff7f;
-}
-
-#wireplumber.muted {
-    color: #484f58;
-}
-
-#network {
-    color: #56d4dd;
+#custom-hibernate {
     border-right: 1px solid #30363d;
     border-radius: 0 8px 8px 0;
     margin-right: 4px;
 }
 
-#custom-updates {
-    color: #c7ff7f;
+#custom-hibernate:hover,
+#custom-reboot:hover,
+#custom-shutdown:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Center: clock and updates ───────────────────────────────────── */
+
+#clock {
+    font-family: "bedstead", monospace;
+    font-size: 12px;
+    color: #ffffff;
     background: #21262d;
     border: 1px solid #30363d;
     border-radius: 8px;
-    padding: 2px 12px;
-    margin: 3px 8px;
+    padding: 0px 18px;
+    margin: 2px 8px;
 }
 
-#network.wifi {
-    color: #7ee787;
+#custom-updates {
+    color: #ffffff;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 0px 12px;
+    margin: 2px 8px;
 }
 
-#network.ethernet {
-    color: #80c8ff;
+/* ── Right: system info ──────────────────────────────────────────── */
+
+#cpu {
+    border-left: 1px solid #30363d;
+    border-radius: 8px 0 0 8px;
+    margin-left: 4px;
 }
 
-#network.disconnected {
-    color: #ff7b72;
+#network {
+    border-right: 1px solid #30363d;
+    border-radius: 0 8px 8px 0;
+    margin-right: 4px;
 }
 
-/* ── Tray: its own small floating pill ───────────────────────────── */
+/* ── Tray ────────────────────────────────────────────────────────── */
 
 #tray {
     background: #21262d;
     border: 1px solid #30363d;
     border-radius: 8px;
-    padding: 2px 6px;
-    margin: 3px 8px 3px 4px;
+    padding: 0px 6px;
+    margin: 2px 8px 2px 4px;
 }

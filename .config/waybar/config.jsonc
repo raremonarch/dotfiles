@@ -1,8 +1,11 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 28,
+    "height": 16,
     "spacing": 4,
+    "margin-top": 4,
+    "margin-left": 5,
+    "margin-right": 5,
     "modules-left": [
         "custom/shutdown",
         "custom/reboot",
