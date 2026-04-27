@@ -123,7 +123,7 @@ cursor {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 16
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -268,10 +268,8 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // left 64
-        // right 64
-        // top 64
-        // bottom 64
+        left 32
+        right 32
     }
 }
 
@@ -607,10 +605,10 @@ binds {
     Mod+C { center-column; }
 
     // Fine width adjustment (Mod+Alt + H/L or Minus/Equal)
-    Mod+Alt+H     { set-column-width "-10%"; }
-    Mod+Alt+L     { set-column-width "+10%"; }
-    Mod+Alt+Minus { set-column-width "-10%"; }
-    Mod+Alt+Equal { set-column-width "+10%"; }
+    Mod+Alt+H     { set-column-width "-5%"; }
+    Mod+Alt+L     { set-column-width "+5%"; }
+    Mod+Alt+Minus { set-column-width "-5%"; }
+    Mod+Alt+Equal { set-column-width "+5%"; }
 
     // Fine height adjustment (Mod+Alt + J/K or Shift+Minus/Equal)
     Mod+Alt+J           { set-window-height "-10%"; }
