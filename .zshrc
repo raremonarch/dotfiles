@@ -22,12 +22,22 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
 
 # Completions startup
 autoload -U compinit && compinit
+zinit cdreplay -q
 
 # Completions styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+# Shell integrations
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 # History
 HISTSIZE=5000
@@ -42,16 +52,15 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# Key bindings - bind navigation keys in all vi keymaps so escape sequences
-# don't get misinterpreted as ESC (which triggers vi command mode)
+# Use emacs keymap (bash-like, no vi modal editing)
+bindkey -e
+
+# Key bindings
 bindkey "\e[H" beginning-of-line   # HOME
 bindkey "\e[F" end-of-line         # END
 bindkey "\e[3~" delete-char        # Delete
-bindkey -M viins "\e[H" beginning-of-line
-bindkey -M viins "\e[F" end-of-line
-bindkey -M viins "\e[3~" delete-char
-bindkey -M vicmd "\e[H" beginning-of-line
-bindkey -M vicmd "\e[F" end-of-line
+bindkey "^[[A" history-search-backward
+bindkey "^[[B" history-search-forward
 
 #
 ## /end zsh config
@@ -67,3 +76,8 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+
+# Created by `pipx` on 2026-04-09 01:04:11
+export PATH="$PATH:/home/david/.local/bin"
+
+fpath+=~/.zfunc; autoload -Uz compinit; compinit
