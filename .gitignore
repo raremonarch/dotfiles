@@ -25,6 +25,7 @@
 .config/gnome-boxes/
 .config/gnome-initial-setup-done
 .config/gnome-session
+.config/gh/hosts.yml
 .config/ghb/
 .config/gitmon/
 .config/goa-*
