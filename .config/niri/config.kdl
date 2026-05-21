@@ -414,6 +414,12 @@ window-rule {
     default-window-height { proportion 1.0; }
 }
 
+// Minecraft - open fullscreen
+window-rule {
+    match app-id=r#"^Minecraft"#
+    open-fullscreen true
+}
+
 // GNOME Calculator - fixed size
 window-rule {
     match app-id=r#"^org\.gnome\.Calculator$"#

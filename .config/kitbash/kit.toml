@@ -85,6 +85,7 @@ zoom = false
 steam = false
 moonlight = false
 sunshine = false
+minecraft = false
 
 # Privacy & networking
 nordvpn = false
