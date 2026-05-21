@@ -44,7 +44,9 @@
     },
     "wireplumber": {
         "format": "vol [ {volume}% ]",
-        "format-muted": "vol [ muted ]"
+        "format-muted": "vol [ muted ]",
+        "on-click": "~/.config/waybar/scripts/audio-select.sh",
+        "on-click-right": "~/.config/waybar/scripts/audio-input-select.sh"
     },
     "tray": {
         "spacing": 4
