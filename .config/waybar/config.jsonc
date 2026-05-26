@@ -27,10 +27,12 @@
         "format": "{:%a • %H:%M • %b-%d}"
     },
     "cpu": {
-        "format": "cpu [ {usage}% ]"
+        "format": "cpu [ {usage}% ]",
+        "on-click": "alacritty -e top -o %CPU"
     },
     "memory": {
-        "format": "mem [ {percentage}% ]"
+        "format": "mem [ {percentage}% ]",
+        "on-click": "alacritty -e top -o %MEM"
     },
     "battery": {
         "format": "bat [ {capacity}% ]",
