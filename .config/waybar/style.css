@@ -13,14 +13,9 @@
 
 /* ── Shared module internals ─────────────────────────────────────── */
 
-#custom-hibernate,
-#custom-reboot,
-#custom-shutdown,
+#custom-power,
 #cpu,
-#memory,
-#battery,
-#wireplumber,
-#network {
+#memory {
     color: #ffffff;
     background: #21262d;
     padding: 0px 12px;
@@ -31,23 +26,17 @@
     border-right: none;
 }
 
-/* ── Left: power buttons ─────────────────────────────────────────── */
+/* ── Left: power + cpu + memory (one joined pill) ────────────────── */
 
-#custom-shutdown {
+#custom-power {
+    font-family: "Adwaita Mono", "chivo", monospace;
+    font-size: 16px;
     border-left: 1px solid #30363d;
     border-radius: 8px 0 0 8px;
     margin-left: 8px;
 }
 
-#custom-hibernate {
-    border-right: 1px solid #30363d;
-    border-radius: 0 8px 8px 0;
-    margin-right: 4px;
-}
-
-#custom-hibernate:hover,
-#custom-reboot:hover,
-#custom-shutdown:hover {
+#custom-power:hover {
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -73,18 +62,41 @@
     margin: 2px 8px;
 }
 
-/* ── Right: system info ──────────────────────────────────────────── */
-
-#cpu {
-    border-left: 1px solid #30363d;
-    border-radius: 8px 0 0 8px;
-    margin-left: 4px;
-}
-
-#network {
+/* memory is the right end of the left pill; cpu sits flush in the middle */
+#memory {
     border-right: 1px solid #30363d;
     border-radius: 0 8px 8px 0;
     margin-right: 4px;
+}
+
+/* ── Right: window, volume, network, battery (standalone pills) ──── */
+
+#custom-window-name,
+#battery,
+#wireplumber,
+#network {
+    color: #ffffff;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 0px 12px;
+    margin: 2px 8px;
+}
+
+#custom-window-name {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.75);
+    margin-right: 4px;
+}
+
+/* Tighten the inner gaps within the right cluster (window | vol | net) */
+#wireplumber {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+#network {
+    margin-left: 4px;
 }
 
 /* ── Tray ────────────────────────────────────────────────────────── */

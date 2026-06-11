@@ -7,18 +7,17 @@
     "margin-left": 5,
     "margin-right": 5,
     "modules-left": [
-        "custom/shutdown",
-        "custom/reboot",
-        "custom/hibernate"
+        "custom/power",
+        "cpu",
+        "memory"
     ],
     "modules-center": [
         "clock",
         "custom/updates"
     ],
     "modules-right": [
-        "cpu",
-        "memory",
         "battery",
+        "custom/window-name",
         "wireplumber",
         "network",
         "tray"
@@ -76,22 +75,16 @@
         "on-click": "~/.config/waybar/scripts/update-packages.sh",
         "hide-empty-text": true
     },
-    "custom/hibernate": {
-        "format": "hibernate",
+    "custom/power": {
+        "format": "⏻",
         "tooltip": true,
-        "tooltip-format": "Hibernate system",
-        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Hibernate?' | grep -q '^yes$' && ~/.config/waybar/scripts/hibernate.sh"
+        "tooltip-format": "Power menu",
+        "on-click": "~/.config/waybar/scripts/power-menu.sh"
     },
-    "custom/reboot": {
-        "format": "reboot",
-        "tooltip": true,
-        "tooltip-format": "Reboot system",
-        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Reboot?' | grep -q '^yes$' && systemctl reboot"
-    },
-    "custom/shutdown": {
-        "format": "shutdown",
-        "tooltip": true,
-        "tooltip-format": "Shutdown system",
-        "on-click": "echo -e 'no\\nyes' | rofi -dmenu -p 'Shutdown?' | grep -q '^yes$' && systemctl poweroff"
+    "custom/window-name": {
+        "exec": "~/.config/waybar/scripts/niri-window.sh",
+        "return-type": "json",
+        "max-length": 60,
+        "tooltip": true
     }
 }
