@@ -25,48 +25,18 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
 # Completions startup
+fpath+=~/.zfunc
 autoload -U compinit && compinit
 zinit cdreplay -q
 
-# Completions styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-
 # Shell integrations
 eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
-
-# History
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-
-# Use emacs keymap (bash-like, no vi modal editing)
-bindkey -e
-
-# Key bindings
-bindkey "\e[H" beginning-of-line   # HOME
-bindkey "\e[F" end-of-line         # END
-bindkey "\e[3~" delete-char        # Delete
-bindkey "^[[A" history-search-backward
-bindkey "^[[B" history-search-forward
 
 #
 ## /end zsh config
 
 
-# User specific aliases and functions
+# User specific aliases and functions (portable bash modules, bashmod-managed)
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
         if [ -f "$rc" ]; then
@@ -76,8 +46,15 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Personal zsh-only config modules (order-independent; runs after compinit)
+if [ -d ~/.zshrc.d ]; then
+    for rc in ~/.zshrc.d/*.zsh; do
+        [ -f "$rc" ] && source "$rc"
+    done
+    unset rc
+fi
 
-# Created by `pipx` on 2026-04-09 01:04:11
-export PATH="$PATH:/home/david/.local/bin"
 
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
+# zoxide must be initialized at the very end (after compinit and any hook-adding
+# tools) or it warns about a possible configuration issue.
+eval "$(zoxide init --cmd cd zsh)"
