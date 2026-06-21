@@ -13,7 +13,7 @@ input {
             // For more information, see xkeyboard-config(7).
 
             // Make CapsLock act as an additional Super/Mod key
-            options "caps:super"
+            options "caps:super,compose:ralt"
 
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
