@@ -13,6 +13,17 @@ if [ ! -d "$ZINIT_HOME" ]; then
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 
+# Load user modules before zinit plugins so aliases/functions are visible
+# to zsh-syntax-highlighting when it initializes its command-type cache.
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
 # p10k prompt; customize: run `p10k configure` or edit ~/.p10k.zsh.
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 #typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
@@ -36,15 +47,6 @@ eval "$(fzf --zsh)"
 ## /end zsh config
 
 
-# User specific aliases and functions (portable bash modules, bashmod-managed)
-if [ -d ~/.bashrc.d ]; then
-    for rc in ~/.bashrc.d/*; do
-        if [ -f "$rc" ]; then
-            . "$rc"
-        fi
-    done
-fi
-unset rc
 
 # Personal zsh-only config modules (order-independent; runs after compinit)
 if [ -d ~/.zshrc.d ]; then
@@ -58,3 +60,6 @@ fi
 # zoxide must be initialized at the very end (after compinit and any hook-adding
 # tools) or it warns about a possible configuration issue.
 eval "$(zoxide init --cmd cd zsh)"
+
+# Created by `pipx` on 2026-04-09 01:04:11
+export PATH="$PATH:/home/david/.local/bin"
