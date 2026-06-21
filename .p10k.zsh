@@ -149,7 +149,9 @@
   # Don't show the number of commits next to the ahead/behind arrows.
   typeset -g POWERLEVEL9K_VCS_{COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=1
   # Remove space between '⇣' and '⇡' and all trailing spaces.
-  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${${${P9K_CONTENT/⇣* :⇡/⇣⇡}// }//:/ }'
+  # Also hides the segment when the detected repo root is ~ but we're not actually in ~
+  # (prevents dotfiles repo from bleeding into ~/code and other non-repo subdirs).
+  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='$(_git_p10k_vcs_content)'
 
   # Grey current time.
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=$grey
