@@ -13,6 +13,7 @@
 .config/audacity
 .config/autostart
 .config/Code
+.config/configstore/
 .config/unity3d/
 .config/copyq
 .copilot/
@@ -30,6 +31,7 @@
 .config/gitmon/
 .config/goa-*
 .config/google-chrome*
+.config/go/
 .config/ibus
 .config/kdiff3rc
 .config/libvirt/
@@ -93,6 +95,7 @@ Desktop
 development
 Documents
 Downloads
+go/
 Music
 Pictures
 Public
