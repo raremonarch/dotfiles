@@ -2,7 +2,7 @@
 
 ## Repository Overview
 
-This is a personal dotfiles repository containing configuration files for a Linux system (Fedora 42). The repository uses Git for version control and tracks window manager configurations, system settings, and shell configurations.
+This is a personal dotfiles repository containing configuration files for a Linux system (Arch Linux, rolling release). The repository uses Git for version control and tracks window manager configurations, system settings, and shell configurations.
 
 ## Window Managers in Use
 
