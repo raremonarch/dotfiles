@@ -27,11 +27,11 @@
     },
     "cpu": {
         "format": "cpu [ {usage}% ]",
-        "on-click": "alacritty -e top -o %CPU"
+        "on-click": "alacritty --title top -e top -o %CPU"
     },
     "memory": {
         "format": "mem [ {percentage}% ]",
-        "on-click": "alacritty -e top -o %MEM"
+        "on-click": "alacritty --title top -e top -o %MEM"
     },
     "battery": {
         "format": "bat [ {capacity}% ]",
