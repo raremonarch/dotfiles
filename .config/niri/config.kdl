@@ -148,7 +148,10 @@ layout {
     }
 
     // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
-    // preset-window-heights { }
+    preset-window-heights {
+        proportion 0.5
+        proportion 1.0
+    }
 
     // You can change the default width of the new windows.
     default-column-width { proportion 0.5; }
@@ -453,8 +456,6 @@ binds {
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
     // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
-
     // Clipboard manager
     Ctrl+Alt+Backslash hotkey-overlay-title="Clipboard History: copyq" { spawn-sh "copyq toggle"; }
 
@@ -475,10 +476,9 @@ binds {
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
-    Mod+O repeat=false { toggle-overview; }
     Mod+Space repeat=false { toggle-overview; }
 
-    Mod+Shift+C repeat=false { close-window; }
+    Mod+Q repeat=false { close-window; }
     Mod+Shift+R hotkey-overlay-title="Reload Configuration" { spawn-sh "niri msg action reload-config"; }
 
     // ===== FOCUS NAVIGATION (Mod only - fluid across windows/workspaces/monitors) =====
@@ -546,8 +546,8 @@ binds {
     Mod+Shift+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
     Mod+Shift+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
-    Mod+WheelScrollRight       { focus-column-right; }
-    Mod+WheelScrollLeft        { focus-column-left; }
+    Mod+WheelScrollRight       { focus-column-or-monitor-right; }
+    Mod+WheelScrollLeft        { focus-column-or-monitor-left; }
     Mod+Shift+WheelScrollRight { move-column-right; }
     Mod+Shift+WheelScrollLeft  { move-column-left; }
 
@@ -599,11 +599,6 @@ binds {
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
-    // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
-
     // ===== WINDOW SIZING (Mod+Alt for resize, Mod for quick actions) =====
     // Quick sizing
     Mod+F { maximize-column; }
@@ -622,8 +617,8 @@ binds {
     Mod+Alt+Shift+Minus { set-window-height "-10%"; }
     Mod+Alt+Shift+Equal { set-window-height "+10%"; }
 
-    // Reset height to default
-    Mod+Alt+R { reset-window-height; }
+    // Cycle through preset heights (1/3, 1/2, 2/3)
+    Mod+Alt+F { switch-preset-window-height; }
 
     // Move the focused window between the floating and the tiling layout.
     Mod+Shift+Space { toggle-window-floating; }
