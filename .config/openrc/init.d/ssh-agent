@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+
+description="SSH key agent"
+
+: "${XDG_RUNTIME_DIR:=/run/user/$(id -u)}"
+SSH_AGENT_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+pidfile="${XDG_RUNTIME_DIR}/ssh-agent.pid"
+
+start() {
+    ebegin "Starting SSH agent"
+    start-stop-daemon --start \
+        --background \
+        --make-pidfile \
+        --pidfile "${pidfile}" \
+        --exec /usr/bin/ssh-agent \
+        -- -D -a "${SSH_AGENT_SOCK}"
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping SSH agent"
+    start-stop-daemon --stop \
+        --pidfile "${pidfile}"
+    eend $?
+}
