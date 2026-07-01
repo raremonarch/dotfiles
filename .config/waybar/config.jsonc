@@ -19,7 +19,7 @@
         "battery",
         "custom/window-name",
         "wireplumber",
-        "network",
+        "custom/network",
         "tray"
     ],
     "clock": {
@@ -52,17 +52,10 @@
     "tray": {
         "spacing": 4
     },
-    "network": {
-        "interval": 2,
-        "format-wifi": "wifi [ {essid} {signalStrength}% ]",
-        "format-ethernet": "eth [ {ifname} ]",
-        "format-linked": "eth [ {ifname} (no ip) ]",
-        "format-disconnected": "net [ disconnected ]",
-        "format-alt": "net [ {ifname}: {ipaddr}/{cidr} ]",
-        "tooltip-format": "Network: {ifname}\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}",
-        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)\nIP: {ipaddr}/{cidr}\nFrequency: {frequency}MHz",
-        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\nSpeed: {bandwidthUpBits}/{bandwidthDownBits}",
-        "tooltip-format-disconnected": "Network disconnected",
+    "custom/network": {
+        "exec": "~/.config/waybar/scripts/network.sh",
+        "return-type": "json",
+        "interval": 5,
         "on-click-right": "nm-connection-editor"
     },
     "custom/updates": {
