@@ -46,6 +46,7 @@
 .config/nordvpn
 .config/opera/
 .config/obsidian/
+.config/opera/
 .config/org.gnome.*
 .config/pulse
 .config/qBittorrent/*
@@ -76,6 +77,7 @@
 Dropbox/
 .dotnet
 .ghcp-appmod/
+.gnupg/
 .guard/
 .icons
 .lesshst
