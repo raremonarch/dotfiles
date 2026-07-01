@@ -12,10 +12,15 @@
 .config/abrt
 .config/audacity
 .config/autostart
+.config/BraveSoftware/
+.config/chromium/
 .config/Code
 .config/configstore/
 .config/unity3d/
-.config/copyq
+.config/copyq/*.dat
+.config/copyq/*.ini
+.config/copyq/*.lock
+.config/copyq/*.pub
 .copilot/
 .cursor/
 .config/dconf
@@ -36,8 +41,10 @@
 .config/kdiff3rc
 .config/libvirt/
 .config/lxqt
+.config/microsoft-edge/
 .config/mozilla
 .config/nordvpn
+.config/opera/
 .config/obsidian/
 .config/org.gnome.*
 .config/pulse
@@ -47,6 +54,7 @@
 .config/rncbc.org/
 .config/Thunar
 .config/transmission/
+.config/vivaldi/
 .config/vlc/
 .config/user-dirs*
 .config/uv/
@@ -62,6 +70,7 @@
 .config/systemd/user/sockets.target.wants/
 .pulse-cookie
 .docker
+.dotfiles-git/
 .dropbox/
 .dropbox-dist/
 Dropbox/
@@ -83,6 +92,7 @@ Dropbox/
 .steam*
 .SynologyDrive
 .terraform.d/
+.tmp/
 .vim
 .viminfo
 .wget-hsts
@@ -94,6 +104,7 @@ code/
 Desktop
 development
 Documents
+downloads/
 Downloads
 go/
 Music
