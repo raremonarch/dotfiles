@@ -17,12 +17,11 @@
 #cpu,
 #memory {
     color: #ffffff;
-    background: linear-gradient(#21262d, #21262d) padding-box,
-                linear-gradient(45deg, #c7ff7f, #80c8ff) border-box;
+    background: #21262d;
     padding: 0px 12px;
     margin: 1px 0;
-    border-top: 1px solid transparent;
-    border-bottom: 1px solid transparent;
+    border-top: 1px solid #80c8ff;
+    border-bottom: 1px solid #80c8ff;
     border-left: none;
     border-right: none;
 }
@@ -32,7 +31,7 @@
 #custom-power {
     font-family: "Adwaita Mono", "chivo", monospace;
     font-size: 16px;
-    border-left: 1px solid transparent;
+    border-left: 1px solid #80c8ff;
     border-radius: 8px 0 0 8px;
     margin-left: 8px;
 }
@@ -47,9 +46,8 @@
     font-family: "bedstead", monospace;
     font-size: 12px;
     color: #ffffff;
-    background: linear-gradient(#21262d, #21262d) padding-box,
-                linear-gradient(45deg, #c7ff7f, #80c8ff) border-box;
-    border: 1px solid transparent;
+    background: #21262d;
+    border: 1px solid #80c8ff;
     border-radius: 8px;
     padding: 0px 18px;
     margin: 2px 8px;
@@ -57,9 +55,8 @@
 
 #custom-updates {
     color: #ffffff;
-    background: linear-gradient(#21262d, #21262d) padding-box,
-                linear-gradient(45deg, #c7ff7f, #80c8ff) border-box;
-    border: 1px solid transparent;
+    background: #21262d;
+    border: 1px solid #80c8ff;
     border-radius: 8px;
     padding: 0px 12px;
     margin: 2px 8px;
@@ -67,7 +64,7 @@
 
 /* memory is the right end of the left pill; cpu sits flush in the middle */
 #memory {
-    border-right: 1px solid transparent;
+    border-right: 1px solid #80c8ff;
     border-radius: 0 8px 8px 0;
     margin-right: 4px;
 }
@@ -79,9 +76,8 @@
 #wireplumber,
 #custom-network {
     color: #ffffff;
-    background: linear-gradient(#21262d, #21262d) padding-box,
-                linear-gradient(45deg, #c7ff7f, #80c8ff) border-box;
-    border: 1px solid transparent;
+    background: #21262d;
+    border: 1px solid #80c8ff;
     border-radius: 8px;
     padding: 0px 12px;
     margin: 2px 8px;
@@ -106,9 +102,8 @@
 /* ── Tray ────────────────────────────────────────────────────────── */
 
 #tray {
-    background: linear-gradient(#21262d, #21262d) padding-box,
-                linear-gradient(45deg, #c7ff7f, #80c8ff) border-box;
-    border: 1px solid transparent;
+    background: #21262d;
+    border: 1px solid #80c8ff;
     border-radius: 8px;
     padding: 0px 6px;
     margin: 2px 8px 2px 4px;
