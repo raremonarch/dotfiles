@@ -1,5 +1,5 @@
 * {
-    font-family: "chivo", monospace;
+    font-family: "Source Code Pro", monospace;
     font-size: 11px;
     min-height: 0;
     padding: 0;
@@ -29,7 +29,7 @@
 /* ── Left: power + cpu + memory (one joined pill) ────────────────── */
 
 #custom-power {
-    font-family: "Adwaita Mono", "chivo", monospace;
+    font-family: "Adwaita Mono", "Source Code Pro", monospace;
     font-size: 16px;
     border-left: 1px solid #80c8ff;
     border-radius: 8px 0 0 8px;
@@ -44,12 +44,12 @@
 
 #clock {
     font-family: "bedstead", monospace;
-    font-size: 12px;
+    font-size: 11px;
     color: #ffffff;
     background: #21262d;
     border: 1px solid #80c8ff;
     border-radius: 8px;
-    padding: 0px 18px;
+    padding: 2px 18px 0px 18px;
     margin: 2px 8px;
 }
 
