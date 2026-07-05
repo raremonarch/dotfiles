@@ -17,13 +17,9 @@
 #cpu,
 #memory {
     color: #ffffff;
-    background: #21262d;
-    padding: 0px 12px;
-    margin: 1px 0;
-    border-top: 1px solid #80c8ff;
-    border-bottom: 1px solid #80c8ff;
-    border-left: none;
-    border-right: none;
+    padding: 0px 12px 2px;
+    margin: 1px 0 4px;
+    border-bottom: 1px solid rgba(128, 200, 255, 0.45);
 }
 
 /* ── Left: power + cpu + memory (one joined pill) ────────────────── */
@@ -31,8 +27,6 @@
 #custom-power {
     font-family: "Adwaita Mono", "Source Code Pro", monospace;
     font-size: 16px;
-    border-left: 1px solid #80c8ff;
-    border-radius: 8px 0 0 8px;
     margin-left: 8px;
 }
 
@@ -43,29 +37,22 @@
 /* ── Center: clock and updates ───────────────────────────────────── */
 
 #clock {
-    font-family: "bedstead", monospace;
     font-size: 11px;
     color: #ffffff;
-    background: #21262d;
-    border: 1px solid #80c8ff;
-    border-radius: 8px;
-    padding: 2px 18px 0px 18px;
-    margin: 2px 8px;
+    border-bottom: 1px solid rgba(128, 200, 255, 0.45);
+    padding: 1px 18px 2px 18px;
+    margin: 1px 8px 4px;
 }
 
 #custom-updates {
     color: #ffffff;
-    background: #21262d;
-    border: 1px solid #80c8ff;
-    border-radius: 8px;
-    padding: 0px 12px;
-    margin: 2px 8px;
+    border-bottom: 1px solid rgba(128, 200, 255, 0.45);
+    padding: 0px 12px 2px;
+    margin: 1px 8px 4px;
 }
 
 /* memory is the right end of the left pill; cpu sits flush in the middle */
 #memory {
-    border-right: 1px solid #80c8ff;
-    border-radius: 0 8px 8px 0;
     margin-right: 4px;
 }
 
@@ -76,11 +63,9 @@
 #wireplumber,
 #custom-network {
     color: #ffffff;
-    background: #21262d;
-    border: 1px solid #80c8ff;
-    border-radius: 8px;
-    padding: 0px 12px;
-    margin: 2px 8px;
+    border-bottom: 1px solid rgba(128, 200, 255, 0.45);
+    padding: 0px 12px 2px;
+    margin: 1px 8px 4px;
 }
 
 #custom-window-name {
@@ -102,9 +87,7 @@
 /* ── Tray ────────────────────────────────────────────────────────── */
 
 #tray {
-    background: #21262d;
-    border: 1px solid #80c8ff;
-    border-radius: 8px;
-    padding: 0px 6px;
-    margin: 2px 8px 2px 4px;
+    border-bottom: 1px solid rgba(128, 200, 255, 0.45);
+    padding: 0px 6px 2px;
+    margin: 1px 8px 4px 4px;
 }
