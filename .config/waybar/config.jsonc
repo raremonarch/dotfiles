@@ -16,8 +16,8 @@
         "custom/updates"
     ],
     "modules-right": [
-        "battery",
         "custom/window-name",
+        "battery",
         "wireplumber",
         "custom/network",
         "tray"
