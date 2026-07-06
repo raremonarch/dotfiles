@@ -480,6 +480,7 @@ binds {
 
     Mod+Q repeat=false { close-window; }
     Mod+Shift+R hotkey-overlay-title="Reload Configuration" { spawn-sh "niri msg action reload-config"; }
+    Mod+Ctrl+R hotkey-overlay-title="Restart Waybar" { spawn-sh "pkill waybar; waybar &"; }
 
     // ===== FOCUS NAVIGATION (Mod only - fluid across windows/workspaces/monitors) =====
     // Horizontal: navigate columns with monitor spill-over
