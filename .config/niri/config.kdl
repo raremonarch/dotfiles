@@ -118,6 +118,7 @@ cursor {
     position x=1280 y=0
 }
 
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout

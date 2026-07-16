@@ -12,11 +12,12 @@ application/x-synology-drive-slides=synology-drive-open-file.desktop
 application/xml=code.desktop
 image/vnd.microsoft.icon=com.google.Chrome.desktop
 application/x-bittorrent=code.desktop
-video/mp4=vlc.desktop
+video/mp4=com.google.Chrome.desktop
 video/x-matroska=vlc.desktop
 application/x-x509-ca-cert=code.desktop
 x-scheme-handler/tel=google-chrome.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/claude=claude-desktop.desktop
 
 [Added Associations]
 application/x-shellscript=code.desktop;
@@ -25,7 +26,7 @@ application/xml=code.desktop;
 image/vnd.microsoft.icon=com.google.Chrome.desktop;
 application/x-bittorrent=code.desktop;
 video/x-matroska=mpv.desktop;com.google.Chrome.desktop;vlc.desktop;
-video/mp4=mpv.desktop;vlc.desktop;
+video/mp4=mpv.desktop;vlc.desktop;com.google.Chrome.desktop;
 application/x-x509-ca-cert=code.desktop;
 video/mpeg=vlc.desktop;
 video/webm=vlc.desktop;

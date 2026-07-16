@@ -1,3 +1,5 @@
 # Superpowers skill working files and generated docs
 .superpowers/
 docs/superpowers/
+
+**/.claude/settings.local.json
