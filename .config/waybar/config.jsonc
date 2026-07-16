@@ -23,6 +23,7 @@
         "tray"
     ],
     "clock": {
+        "interval": 10,
         "format": "{:%a • %H:%M • %b-%d}"
     },
     "cpu": {
