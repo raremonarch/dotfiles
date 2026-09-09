@@ -1,7 +1,7 @@
 [font]
-normal.family = "AudioLink Mono"
-bold.family = "AudioLink Mono"
-italic.family = "AudioLink Mono"
+normal.family = "Syne Mono"
+bold.family = "Syne Mono"
+italic.family = "Syne Mono"
 size = 11.0
 
 [general]
