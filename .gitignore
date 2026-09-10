@@ -53,6 +53,7 @@
 .config/qBittorrent/*
 .config/QtProject.conf
 .config/remmina
+.config/rest-client/
 .config/rncbc.org/
 .config/teams-for-linux/
 .config/novelist-devkit/
@@ -64,6 +65,7 @@
 .config/user-dirs*
 .config/uv/
 .config/vscode-sqltools/*
+.config/waybar/scripts/mango-workspaces.sh
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 .config/Yubico/
@@ -74,6 +76,7 @@
 .config/systemd/user/pipewire.service.wants/
 .config/systemd/user/sockets.target.wants/
 .pulse-cookie
+.dbus/
 .docker
 .dotfiles-git/
 .dropbox/
@@ -120,6 +123,7 @@ go/
 Music
 Pictures
 Public
+repos/
 SynologyDrive
 temp/
 Templates
