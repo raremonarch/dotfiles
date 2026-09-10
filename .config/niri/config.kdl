@@ -457,6 +457,12 @@ window-rule {
     opacity 1.0
 }
 
+// GIMP: full opacity
+window-rule {
+    match app-id=r#"(?i)^gimp"#
+    opacity 1.0
+}
+
 // Global opacity: focused windows slightly transparent, unfocused more so
 window-rule {
     match is-focused=true
@@ -465,6 +471,7 @@ window-rule {
     exclude app-id=r#"^com\.gabm\.satty$"#
     exclude app-id=r#"^google-chrome$"#
     exclude app-id=r#"^imv(-dir)?$"#
+    exclude app-id=r#"(?i)^gimp"#
     opacity 0.9
 }
 window-rule {
@@ -474,6 +481,7 @@ window-rule {
     exclude app-id=r#"^com\.gabm\.satty$"#
     exclude app-id=r#"^google-chrome$"#
     exclude app-id=r#"^imv(-dir)?$"#
+    exclude app-id=r#"(?i)^gimp"#
     opacity 0.8
 }
 
