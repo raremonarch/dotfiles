@@ -28,6 +28,7 @@ application/x-extension-xht=firefox.desktop
 image/png=imv-dir.desktop
 image/jpeg=imv-dir.desktop
 application/pdf=firefox.desktop
+x-scheme-handler/msteams=teams-for-linux.desktop
 
 [Added Associations]
 application/x-shellscript=code.desktop;
@@ -55,3 +56,4 @@ application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 image/png=imv-dir.desktop;imv.desktop;
 application/pdf=firefox.desktop;
+x-scheme-handler/msteams=teams-for-linux.desktop;
