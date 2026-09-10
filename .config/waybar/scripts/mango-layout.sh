@@ -1,11 +1,14 @@
 #!/bin/bash
-# Outputs the focused monitor's layout name as waybar JSON.
+# Outputs the given monitor's layout name as waybar JSON.
+# Usage: mango-layout.sh <monitor-name>
 # Fires on layout changes and monitor focus switches.
 
+MONITOR="$1"
+
 fmt() {
-    jq -rc '
+    jq -rc --arg mon "$MONITOR" '
         .monitors
-        | map(select(.active))
+        | map(select(.name == $mon))
         | first
         | .layout_symbol
         | {

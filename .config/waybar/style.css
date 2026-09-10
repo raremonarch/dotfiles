@@ -15,6 +15,7 @@
 /* ── Shared module styles ────────────────────────────────────────── */
 
 #custom-power,
+#custom-workspaces,
 #cpu,
 #memory,
 #clock,
@@ -33,6 +34,7 @@
 /* ── Left: power + cpu + memory (joined pill) ────────────────────── */
 
 #custom-power,
+#custom-workspaces,
 #cpu,
 #memory {
     margin: 1px 0 0;
