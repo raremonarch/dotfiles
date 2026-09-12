@@ -6,17 +6,23 @@ This is a personal dotfiles repository containing configuration files for a Linu
 
 ## Window Managers in Use
 
-This system uses multiple Wayland compositors:
+David actually runs two of these day to day:
 
-- **Niri** - Primary tiling compositor with scrollable workspaces
-- **Hyprland** - Dynamic tiling compositor with animations
-- **Sway** - i3-compatible tiling compositor
+- **Niri** - Primary, daily-driver tiling compositor with scrollable workspaces
+- **Mango** - dwm-like wlroots compositor (mangowm/mango) currently being trialed, selected at the login screen (lemurs) instead of Niri
+
+Hyprland and Sway configs also exist in this repo but are **not actively run** as window managers — don't assume either is the active compositor. Several Hyprland-ecosystem tools (`hypridle`, `hyprlock`, `hyprctl`, `hyprpaper`) are used as standalone utilities regardless of which compositor is actually running, which is why Hyprland config/tooling shows up even though the Hyprland compositor itself isn't in use.
 
 ### Key Configuration Locations
 
 - Niri: [.config/niri/config.kdl](.config/niri/config.kdl)
-- Hyprland: [.config/hypr/hyprland.conf](.config/hypr/hyprland.conf)
-- Sway: [.config/sway/config](.config/sway/config)
+- Mango: [.config/mango/config.conf](.config/mango/config.conf), autostart in [.config/mango/autostart.sh](.config/mango/autostart.sh)
+- Hyprland (not actively run): [.config/hypr/hyprland.conf](.config/hypr/hyprland.conf)
+- Sway (not actively run): [.config/sway/config](.config/sway/config)
+
+### Init System Note
+
+This system does not run systemd as PID 1 (login is via **lemurs**, a non-PAM/non-systemd greeter). Services that would normally be socket-activated or systemd-managed (PipeWire, WirePlumber, ssh-agent, hypridle) are instead started directly from each compositor's autostart (`exec-once` in Hyprland/Niri, `autostart.sh` for Mango). `systemctl --user` is not available — to restart a user-level daemon like hypridle, kill the process and relaunch it directly (e.g. `pkill -x hypridle && hypridle &`).
 
 ## Important Context and Patterns
 
@@ -61,10 +67,11 @@ This system uses multiple Wayland compositors:
 
 ### Idle and Lock Management
 
-- **hypridle** is configured to work across all three window managers (Hyprland, Niri, Sway)
+- **hypridle** detects and supports Hyprland, Niri, Sway, or Mango at runtime, even though only Niri and Mango are actually used day to day (see Window Managers in Use above)
 - Config location: [.config/hypr/hypridle.conf](.config/hypr/hypridle.conf)
-- Uses compositor-agnostic commands that auto-detect the running WM
-- Enabled as a systemd user service: `systemctl --user status hypridle`
+- Uses compositor-agnostic commands that detect the *running* compositor via `pgrep -x <name>` (not `command -v <binary>` — with all WMs installed side by side, checking for an installed binary picks the wrong branch whenever that binary belongs to a WM that isn't actually running)
+- DPMS (monitor on/off) command per compositor: Hyprland → `hyprctl dispatch dpms`, Niri → `niri msg action power-on/off-monitors`, Sway → `swaymsg "output * dpms on/off"`, Mango → `wlopm --on/--off "*"` (Mango has no built-in IPC for this; `wlopm` is a small standalone tool using the `zwlr_output_power_manager_v1` protocol, which Mango implements)
+- Started directly from each compositor's autostart, not systemd (see Init System Note above) — restart with `pkill -x hypridle && hypridle &`
 - Timeouts: Lock after 5 minutes idle, monitor off after 10 minutes
 - **Known behavior**: When running in Niri (not Hyprland), hypridle logs warnings about missing `hyprland-lock-notify-v1` protocol and `org.freedesktop.ScreenSaver` interface conflicts. These are non-fatal - the core idle detection and timeouts still work correctly.
 - Uses `loginctl lock-session` which triggers hyprlock regardless of compositor
@@ -103,7 +110,7 @@ Most tasks involve config-only changes captured by git. Changes typically requir
 ## Notes for Future Sessions
 
 - Always check App IDs before creating window rules
-- Niri uses KDL format, Hyprland/Sway use different config syntaxes
+- Niri uses KDL format, Hyprland/Sway/Mango use different config syntaxes
 - Focus-follows-mouse is enabled in Niri
-- The system has three window managers configured, so check which one is being used
+- Four WM configs exist in this repo, but only Niri (daily driver) and Mango (being trialed) are actually run — check which one is active (e.g. `pgrep -x niri` / `pgrep -x mango`) rather than assuming from installed configs or binaries
 - Todo items should be removed when complete, not accumulated
