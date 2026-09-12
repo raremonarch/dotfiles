@@ -57,6 +57,7 @@
 .config/rncbc.org/
 .config/teams-for-linux/
 .config/novelist-devkit/
+novelist-devkit-tmp/
 .config/teams-for-linux/
 .config/Thunar
 .config/transmission/
@@ -85,6 +86,7 @@ Dropbox/
 .dotnet
 .electron-gyp/
 .ghcp-appmod/
+.gitconfig
 .gnupg/
 .guard/
 .icons
@@ -132,6 +134,7 @@ wallpaper.jpg
 .ubuntu24.04--2.draft.txt
 .zcompdump
 .zsh_history
+.zshrc.d/
 
 .config/GIMP/
 .config/create-next-app-nodejs/
