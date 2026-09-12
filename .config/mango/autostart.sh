@@ -16,6 +16,11 @@ pipewire &
 pipewire-pulse &
 wireplumber &
 
+# SSH agent, bound to a fixed socket so rofi/waypipe launchers can find it
+# (lemurs bypasses the systemd/PAM integration that would normally auto-launch and unlock one;
+# run `ssh-add ~/.ssh/ed25519` once per login to unlock it)
+ssh-agent -a "$XDG_RUNTIME_DIR/ssh-agent.sock" -D &
+
 # XWayland support for X11-only applications (e.g. Synology Drive)
 xwayland-satellite &
 
