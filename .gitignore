@@ -69,6 +69,7 @@ novelist-devkit-tmp/
 .config/waybar/scripts/mango-workspaces.sh
 .config/xarchiver
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+.config/xpra/
 .config/Yubico/
 .config/zoom.conf
 .config/zoomus.conf

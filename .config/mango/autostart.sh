@@ -35,3 +35,7 @@ remmina -i &
 synology-drive autostart &
 discord --start-minimized &
 teams-for-linux --minimized --ozone-platform=wayland &
+
+# Follow-me: persistent xpra attach to bigbox (single-instance, waits for
+# Xwayland; hypridle drops/reclaims it based on presence)
+bigbox-autoattach &
