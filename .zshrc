@@ -47,7 +47,6 @@ eval "$(fzf --zsh)"
 ## /end zsh config
 
 
-
 # Personal zsh-only config modules (order-independent; runs after compinit)
 if [ -d ~/.zshrc.d ]; then
     for rc in ~/.zshrc.d/*.zsh; do
