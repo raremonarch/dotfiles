@@ -11,6 +11,9 @@ wlsunset -T 6500 -t 4000 -l 35.7796 -L -78.6382 &
 # Clipboard manager daemon
 copyq &
 
+# Mount hermes-code over sshfs (reconnect option keeps it alive across drops)
+~/.config/scripts/mount-hermes-code.sh &
+
 # Audio stack (started here because lemurs bypasses the systemd user session that would socket-activate PipeWire)
 pipewire &
 pipewire-pulse &
@@ -31,7 +34,6 @@ hypridle &
 mako &
 
 # System tray / autostart apps (started here because lemurs bypasses xdg-desktop-autostart.target)
-remmina -i &
 synology-drive autostart &
 discord --start-minimized &
 teams-for-linux --minimized --ozone-platform=wayland &

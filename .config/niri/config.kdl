@@ -297,6 +297,9 @@ spawn-at-startup "wlsunset" "-T" "6500" "-t" "4000" "-l" "35.7796" "-L" "-78.638
 // Clipboard manager daemon
 spawn-at-startup "copyq"
 
+// Mount hermes-code over sshfs (reconnect option keeps it alive across drops)
+spawn-sh-at-startup "~/.config/scripts/mount-hermes-code.sh"
+
 // Audio stack (started here because lemurs bypasses the systemd user session that would socket-activate PipeWire)
 spawn-at-startup "pipewire"
 spawn-at-startup "pipewire-pulse"
@@ -317,7 +320,6 @@ spawn-at-startup "hypridle"
 spawn-at-startup "mako"
 
 // System tray / autostart apps (started here because lemurs bypasses xdg-desktop-autostart.target)
-spawn-at-startup "remmina" "-i"
 spawn-at-startup "synology-drive" "autostart"
 spawn-at-startup "discord" "--start-minimized"
 spawn-at-startup "teams-for-linux" "--minimized"
