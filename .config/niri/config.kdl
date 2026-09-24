@@ -303,7 +303,8 @@ spawn-sh-at-startup "~/.config/scripts/mount-hermes-code.sh"
 // Audio stack (started here because lemurs bypasses the systemd user session that would socket-activate PipeWire)
 spawn-at-startup "pipewire"
 spawn-at-startup "pipewire-pulse"
-spawn-at-startup "wireplumber"
+// wireplumber exits if pipewire's socket isn't up yet, so wait for it (max 5s)
+spawn-sh-at-startup "for i in $(seq 50); do [ -S \"$XDG_RUNTIME_DIR/pipewire-0\" ] && break; sleep 0.1; done; exec wireplumber"
 
 // SSH agent, bound to a fixed socket so rofi/waypipe launchers can find it
 // (started here because lemurs bypasses the systemd/PAM integration that would normally
