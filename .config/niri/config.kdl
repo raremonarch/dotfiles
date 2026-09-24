@@ -323,9 +323,9 @@ spawn-at-startup "mako"
 spawn-at-startup "synology-drive" "autostart"
 spawn-at-startup "discord" "--start-minimized"
 spawn-at-startup "teams-for-linux" "--minimized"
-// Follow-me: keep a persistent xpra attach to bigbox (single-instance,
+// Follow-me: keep a persistent xpra attach to starchild (single-instance,
 // waits for Xwayland). hypridle drops/reclaims it based on presence.
-spawn-at-startup "bigbox-autoattach"
+spawn-at-startup "starchild-autoattach"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
