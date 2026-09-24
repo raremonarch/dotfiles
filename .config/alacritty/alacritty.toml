@@ -6,7 +6,7 @@ size = 11.0
 
 [general]
 import = [
-    "~/.config/alacritty/catppuccin-macchiato.toml"
+    "~/.config/alacritty/tokyonight.toml"
 ]
 
 

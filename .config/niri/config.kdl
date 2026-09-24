@@ -362,7 +362,8 @@ animations {
     // slowdown 3.0
 }
 
-blur {
+// [temp-clean] blur disabled — remove the /- prefix to restore
+/-blur {
     passes 3       // 3
     offset 3.0     // 3.0
     noise 0.02     // 0.02
@@ -406,13 +407,15 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-window-rule {
+// [temp-clean] rounded corners disabled — remove the /- prefix to restore
+/-window-rule {
     geometry-corner-radius 3
     clip-to-geometry true
 }
 
 // Shadow on floating windows only
-window-rule {
+// [temp-clean] disabled — remove the /- prefix to restore
+/-window-rule {
     match is-floating=true
     shadow { on; }
 }
@@ -423,10 +426,12 @@ window-rule {
     default-column-width { proportion 1.0; }
 }
 
-// Firefox - full width
+// Firefox - full width, clean render (no transparency/blur/rounded corners)
 window-rule {
     match app-id=r#"firefox$"#
     default-column-width { proportion 1.0; }
+    // [temp-clean] geometry-corner-radius 0
+    // [temp-clean] clip-to-geometry false
 }
 
 // Google Chrome - full width
@@ -440,8 +445,9 @@ window-rule {
     match app-id=r#"^Alacritty$"#
     default-column-width { proportion 0.5; }
     default-window-height { proportion 0.5; }
-    opacity 0.9
-    background-effect {
+    // [temp-clean] opacity 0.9
+    // [temp-clean] background-effect blur disabled — remove the /- prefix to restore
+    /-background-effect {
         blur true
     }
 }
@@ -453,44 +459,51 @@ window-rule {
 }
 
 // Teams-for-Linux opacity
-window-rule {
+// [temp-clean] disabled — remove the /- prefixes to restore
+/-window-rule {
     match app-id=r#"^teams-for-linux$"# is-focused=true
     opacity 0.95
 }
-window-rule {
+/-window-rule {
     match app-id=r#"^teams-for-linux$"# is-focused=false
     opacity 0.9
 }
 
 // imv: full opacity (image viewer)
-window-rule {
+// [temp-clean] disabled — remove the /- prefix to restore
+/-window-rule {
     match app-id=r#"^imv(-dir)?$"#
     opacity 1.0
 }
 
 // GIMP: full opacity
-window-rule {
+// [temp-clean] disabled — remove the /- prefix to restore
+/-window-rule {
     match app-id=r#"(?i)^gimp"#
     opacity 1.0
 }
 
 // Global opacity: focused windows slightly transparent, unfocused more so
-window-rule {
+// [temp-clean] disabled — remove the /- prefix to restore
+/-window-rule {
     match is-focused=true
     exclude app-id=r#"^Alacritty$"#
     exclude app-id=r#"^teams-for-linux$"#
     exclude app-id=r#"^com\.gabm\.satty$"#
     exclude app-id=r#"^google-chrome$"#
+    exclude app-id=r#"firefox$"#
     exclude app-id=r#"^imv(-dir)?$"#
     exclude app-id=r#"(?i)^gimp"#
     opacity 0.9
 }
-window-rule {
+// [temp-clean] disabled — remove the /- prefix to restore
+/-window-rule {
     match is-focused=false
     exclude app-id=r#"^Alacritty$"#
     exclude app-id=r#"^teams-for-linux$"#
     exclude app-id=r#"^com\.gabm\.satty$"#
     exclude app-id=r#"^google-chrome$"#
+    exclude app-id=r#"firefox$"#
     exclude app-id=r#"^imv(-dir)?$"#
     exclude app-id=r#"(?i)^gimp"#
     opacity 0.8
@@ -536,6 +549,7 @@ window-rule {
 }
 
 binds {
+    Mod+A { spawn "/home/david/.local/bin/fm-apps"; }
     // ===== KEYBINDING PHILOSOPHY =====
     // Mod          = Focus (fluid navigation across windows/workspaces/monitors)
     // Mod+Shift    = Move (fluid movement across windows/workspaces/monitors)
@@ -763,3 +777,5 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
+
+spawn-at-startup "/home/david/.local/bin/fm-attach"
