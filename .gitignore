@@ -102,6 +102,7 @@ Dropbox/
 .pyenv/
 .config/rclone/
 .rest-client/
+.screenshots/
 .smbcred*
 .ssh
 .steam*

@@ -289,7 +289,7 @@ layout {
 spawn-at-startup "waybar"
 
 // Wallpaper background daemon
-spawn-sh-at-startup "pkill swaybg; swaybg -i /home/david/SynologyDrive/system/wallpapers/anime/wp12526605.jpg -m fill"
+spawn-sh-at-startup "pkill swaybg; swaybg -i /home/david/SynologyDrive/system/wallpapers/anime/the-urban-anime-girl-xk.jpg -m fill"
 
 // Night light / color temperature adjustment
 spawn-at-startup "wlsunset" "-T" "6500" "-t" "4000" "-l" "35.7796" "-L" "-78.6382"
