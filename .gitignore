@@ -46,6 +46,7 @@
 .config/mozilla
 .config/nordvpn
 .config/opera/
+.config/obs-studio/
 .config/obsidian/
 .config/opera/
 .config/org.gnome.*
